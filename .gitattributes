@@ -1,1 +1,2 @@
+* text=auto eol=lf
 examples/sqlite3.ll filter=lfs diff=lfs merge=lfs -text

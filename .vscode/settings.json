@@ -1,0 +1,28 @@
+{
+    "clangd.path": "/home/vagrant/SVF/llvm-16.0.0.obj/bin/clangd", // 修改clangd路径
+      "clangd.onConfigChanged": "restart", // compile_commands.json有变动时自动更新索引
+      "clangd.arguments": [
+        "--compile-commands-dir=/home/vagrant/SVF/Debug-build", 
+        "--completion-style=detailed", //不对重载的函数进行合并
+        "--header-insertion=iwyu",
+        "--background-index", // 后台建索引
+        "--query-driver=/home/vagrant/SVF/llvm-16.0.0.obj/bin/clang",//GCC地址
+        "-j=4", // 最多允许15个worker同时运行，一个worker占一个cpu, 注意如果有n个窗口 那就是n*8
+        "--pch-storage=memory", // precompiled headers 存储在内存中
+        "--clang-tidy",
+        "--all-scopes-completion",      // 全代码库补全
+        "--header-insertion-decorators", // 新版本才有
+        "--log=error"
+      ],
+      "editor.suggest.snippetsPreventQuickSuggestions": false, // 允许控制活动代码块内补全代码
+    //   "clangd.fallbackFlags": [
+    //     "-std=c++17",
+    //     "-stdlib=libstdc++"
+    //   ],
+    "clang-format.executable": "/usr/local/bin/clang-format",
+    "[proto3]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+
+    "bazel.buildifierExecutable": "/home/ericyqliu/buildifier-linux-amd64",
+  }

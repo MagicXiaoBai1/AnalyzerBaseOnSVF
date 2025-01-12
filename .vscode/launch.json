@@ -1,0 +1,41 @@
+// {
+//     // Use IntelliSense to learn about possible attributes.
+//     // Hover to view descriptions of existing attributes.
+//     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+//     "version": "0.2.0",
+//     "configurations": [
+
+//     ]
+// }
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug svf-ex",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Debug-build/bin/svf-ex",  // 你的可执行文件路径
+            "args": ["${workspaceFolder}/examples/example.ll"],                                                // 命令行参数
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "build svf-ex",        // 可选：运行前执行的任务
+            "miDebuggerPath": "/usr/bin/gdb" // GDB 路径
+        }
+    ]
+}

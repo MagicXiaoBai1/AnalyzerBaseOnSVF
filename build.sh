@@ -254,6 +254,8 @@ cmake -D CMAKE_BUILD_TYPE:STRING="${BUILD_TYPE}"   \
     -DSVF_ENABLE_ASSERTIONS:BOOL=true              \
     -DSVF_SANITIZE="${SVF_SANITIZER}"              \
     -DBUILD_SHARED_LIBS=off                        \
+    -DCMAKE_C_COMPILER=clang                       \
+    -DCMAKE_CXX_COMPILER=clang++                   \
     -S "${SVFHOME}" -B "${BUILD_DIR}"
 cmake --build "${BUILD_DIR}" -j ${jobs}
 

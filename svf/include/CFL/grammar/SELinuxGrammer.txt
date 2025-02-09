@@ -1,0 +1,15 @@
+Start:
+   V
+Terminal:
+   r w b n t a 
+Productions:
+   S -> S Q | S W | epsilon;
+   Q -> T S;
+   W -> w B;
+   B -> a B | F;
+   F -> F R | epsilon;
+   R -> R R | r X;
+   X -> T Y;
+   Y -> w B;
+   T -> T t | epsilon;
+

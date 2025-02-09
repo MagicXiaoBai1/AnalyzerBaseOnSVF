@@ -81,11 +81,14 @@ void CFLBase::buildCFLGraph()
     double start = stat->getClk(true);
 
     AliasCFLGraphBuilder cflGraphBuilder = AliasCFLGraphBuilder();
+    SELinuxCFLGraphBuilder seLinuxCFLGraphBuilder = SELinuxCFLGraphBuilder();
     if (Options::CFLGraph().empty()) // built from svfir
     {
         PointerAnalysis::initialize();
         ConstraintGraph *consCG = new ConstraintGraph(svfir);
-        if (Options::PEGTransfer())
+        if (Options::SELinux() && !Options::SELinuxEdgesFile().empty()) {
+            graph = seLinuxCFLGraphBuilder.buildGraph(Options::SELinuxEdgesFile(), grammarBase->getStartKind(), grammarBase);
+        } else if (Options::PEGTransfer())
             graph = cflGraphBuilder.buildBiPEGgraph(consCG, grammarBase->getStartKind(), grammarBase, svfir);
         else
             graph = cflGraphBuilder.buildBigraph(consCG, grammarBase->getStartKind(), grammarBase);
@@ -95,7 +98,11 @@ void CFLBase::buildCFLGraph()
         graph = cflGraphBuilder.build(Options::CFLGraph(), grammarBase);
     // Check CFL Graph and Grammar are accordance with grammar
     CFLGramGraphChecker cflChecker = CFLGramGraphChecker();
-    cflChecker.check(grammarBase, &cflGraphBuilder, graph);
+    if (Options::SELinux() && !Options::SELinuxEdgesFile().empty()) {
+        cflChecker.check(grammarBase, &seLinuxCFLGraphBuilder, graph);
+    } else {
+        cflChecker.check(grammarBase, &cflGraphBuilder, graph);
+    }
 
     // Get time of build graph
     double end = stat->getClk(true);

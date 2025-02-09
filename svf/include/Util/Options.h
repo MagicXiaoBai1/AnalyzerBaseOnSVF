@@ -230,6 +230,8 @@ public:
     // CFL option
     static const Option<std::string> GrammarFilename;
     static const Option<std::string> CFLGraph;
+    static const Option<std::string> SELinuxEdgesFile;
+    static const Option<bool> SELinux;
     static const Option<bool> PrintCFL;
     static const Option<bool> FlexSymMap;
     static const Option<bool>  PEGTransfer;

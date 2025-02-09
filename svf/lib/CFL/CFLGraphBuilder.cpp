@@ -478,6 +478,11 @@ void AliasCFLGraphBuilder::addBiGepCFLEdge(CFLGraph *cflGraph,  ConstraintNode* 
     return;
 }
 
+CFLGraph* SELinuxCFLGraphBuilder::buildGraph(const std::string& edgesFile, Kind startKind, GrammarBase *grammar)
+{
+   return buildFromText(edgesFile, grammar);
+}
+
 CFLGraph* VFCFLGraphBuilder::buildBigraph(SVFG *graph, Kind startKind, GrammarBase *grammar)
 {
     cflGraph = new CFLGraph(startKind);

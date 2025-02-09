@@ -138,6 +138,15 @@ private:
     void addBiGepCFLEdge(CFLGraph *cflGraph,  ConstraintNode* src, ConstraintNode* dst, CFGrammar::Attribute attri);
 };
 
+
+/// SELinuxCFLGraphBuilder: a CFLGraphBuilder specialized for handling SELinux
+class SELinuxCFLGraphBuilder : public CFLGraphBuilder
+{
+public:
+    /// Builds a bidirectional CFL graph by copying nodes and edges from a const graph that inherits from SVFG
+    CFLGraph* buildGraph(const std::string& edgesFile, Kind startKind, GrammarBase *grammar);
+};
+
 /// VFCFLGraphBuilder: a CFLGraphBuilder specialized for handling value-flow
 class VFCFLGraphBuilder : public CFLGraphBuilder
 {

@@ -723,6 +723,18 @@ const Option<std::string> Options::CFLGraph(
     ""
 );
 
+const Option<bool> Options::SELinux(
+    "selinux",
+    "Use SELinux CFL grammar",
+    false
+);
+
+const Option<std::string> Options::SELinuxEdgesFile(
+    "selinux-edges",
+    "<SELinux edges file>",
+    ""
+);
+
 const Option<bool> Options::PrintCFL(
     "print-cfl",
     "Print ir, grammar and cflgraph for debug.",

@@ -132,10 +132,55 @@ static const ei_pair ei_pairs[]=
     {"gcry_md_close", SaberCheckerAPI::CK_FCLOSE},
     {"gcry_cipher_close", SaberCheckerAPI::CK_FCLOSE},
 
+
+    // read like function
+    {"fread", SaberCheckerAPI::CK_READ},
+    {"fgets", SaberCheckerAPI::CK_READ},
+    {"fgetc", SaberCheckerAPI::CK_READ},
+    {"read", SaberCheckerAPI::CK_READ},
+    {"pread", SaberCheckerAPI::CK_READ},
+    {"readv", SaberCheckerAPI::CK_READ},
+    {"preadv", SaberCheckerAPI::CK_READ},
+    {"recv", SaberCheckerAPI::CK_READ},
+    {"recvfrom", SaberCheckerAPI::CK_READ},
+    {"recvmsg", SaberCheckerAPI::CK_READ},
+
+    // write like function
+    {"fwrite", SaberCheckerAPI::CK_WRITE},
+    {"fputs", SaberCheckerAPI::CK_WRITE},
+    {"fputc", SaberCheckerAPI::CK_WRITE},
+    {"write", SaberCheckerAPI::CK_WRITE},
+    {"pwrite", SaberCheckerAPI::CK_WRITE},
+    {"writev", SaberCheckerAPI::CK_WRITE},
+    {"pwritev", SaberCheckerAPI::CK_WRITE},
+    {"send", SaberCheckerAPI::CK_WRITE},
+    {"sendto", SaberCheckerAPI::CK_WRITE},
+    {"sendmsg", SaberCheckerAPI::CK_WRITE},
+
     //This must be the last entry.
     {0, SaberCheckerAPI::CK_DUMMY}
 
 };
+
+static const std::map<std::string, int> outArgPosMap = {
+    {"read", 1},      // void *buf 是第2个参数
+    {"pread", 1},     // void *buf 是第2个参数
+    {"readv", 1},     // const struct iovec *iov 是第2个参数
+    {"preadv", 1},    // const struct iovec *iov 是第2个参数
+    {"fread", 0},     // void *ptr 是第1个参数
+    {"recv", 1},      // void *buf 是第2个参数
+    {"recvfrom", 1},  // void *buf 是第2个参数
+    {"recvmsg", 1},   // struct msghdr *msg 是第2个参数
+    {"getc", -1},     // 返回值是输出
+    {"fgetc", -1},    // 返回值是输出
+    {"gets", 0},      // char *s 是第1个参数
+    {"fgets", 0},     // char *s 是第1个参
+    {"scanf", -2},    // 可变参数，需要特殊处理
+    {"fscanf", -2},   // 可变参数，需要特殊处理
+    {"sscanf", -2}    // 可变参数，需要特殊处理
+};
+
+
 
 
 /*!

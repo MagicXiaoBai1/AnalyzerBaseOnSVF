@@ -30,6 +30,7 @@
 #include "SVF-LLVM/SVFIRBuilder.h"
 #include "SABER/LeakChecker.h"
 #include "SABER/FileChecker.h"
+#include "SABER/TaintChecker.h"
 #include "SABER/DoubleFreeChecker.h"
 #include "Util/CommandLine.h"
 #include "Util/Options.h"
@@ -58,8 +59,9 @@ int main(int argc, char ** argv)
 
 
     std::unique_ptr<LeakChecker> saber;
-
-    if(Options::MemoryLeakCheck())
+    if(Options::TaintCheck())
+        saber = std::make_unique<TaintChecker>();
+    else if(Options::MemoryLeakCheck())
         saber = std::make_unique<LeakChecker>();
     else if(Options::FileCheck())
         saber = std::make_unique<FileChecker>();

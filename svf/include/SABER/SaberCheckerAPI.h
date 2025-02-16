@@ -51,7 +51,9 @@ public:
         CK_ALLOC,		/// memory allocation
         CK_FREE,      /// memory deallocation
         CK_FOPEN,		/// File open
-        CK_FCLOSE		/// File close
+        CK_FCLOSE,		/// File close
+        CK_READ,       /// read like function
+        CK_WRITE       /// write like function
     };
 
     typedef Map<std::string, CHECKER_TYPE> TDAPIMap;
@@ -142,6 +144,27 @@ public:
         return isFClose(cs->getCalledFunction());
     }
     //@}
+
+    inline bool isReadLikeFun(const SVFFunction* fun) const
+    {
+        return getType(fun) == CK_READ;
+    }
+
+    inline bool isReadLikeFun(const CallICFGNode* cs) const
+    {
+        return isReadLikeFun(cs->getCalledFunction());
+    }
+
+
+    inline bool isWriteLikeFun(const SVFFunction* fun) const
+    {
+        return getType(fun) == CK_WRITE;
+    }
+
+    inline bool isWriteLikeFun(const CallICFGNode* cs) const
+    {
+        return isWriteLikeFun(cs->getCalledFunction());
+    }
 
 };
 

@@ -254,6 +254,8 @@ public:
     static const Option<bool> BufferOverflowCheck;
     /// memory leak check, Default: false
     static const Option<bool> MemoryLeakCheck;
+    /// taint check, Default: false
+    static const Option<bool> TaintCheck;
     /// file open close checker, Default: false
     static const Option<bool> FileCheck;
     /// double free checker, Default: false

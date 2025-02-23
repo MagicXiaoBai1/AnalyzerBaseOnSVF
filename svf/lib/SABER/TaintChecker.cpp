@@ -5,12 +5,66 @@ using namespace SVFUtil;
 
 void TaintChecker::initSrcs() 
 {
-    // 初始化源点
+    SVFIR* pag = getPAG();
+    for(SVFIR::CSToArgsListMap::iterator it = pag->getCallSiteArgsMap().begin(),
+            eit = pag->getCallSiteArgsMap().end(); it!=eit; ++it)
+    {
+
+        PTACallGraph::FunctionSet callees;
+        getCallgraph()->getCallees(it->first,callees);
+        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
+        {
+            const SVFFunction* fun = *cit;
+            if (isSourceLikeFun(fun))
+            {
+                SVFIR::SVFVarList &arglist = it->second;
+                assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
+                /// we only choose pointer parameters among all the actual parameters
+                for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
+                        aeit = arglist.end(); ait != aeit; ++ait)
+                {
+                    const PAGNode *pagNode = *ait;
+                    if (pagNode->isPointer())
+                    {
+                        const SVFGNode *src = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        addToSources(src);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void TaintChecker::initSnks() 
 {
-    // 初始化汇点
+    SVFIR* pag = getPAG();
+    for(SVFIR::CSToArgsListMap::iterator it = pag->getCallSiteArgsMap().begin(),
+            eit = pag->getCallSiteArgsMap().end(); it!=eit; ++it)
+    {
+
+        PTACallGraph::FunctionSet callees;
+        getCallgraph()->getCallees(it->first,callees);
+        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
+        {
+            const SVFFunction* fun = *cit;
+            if (isSinkLikeFun(fun))
+            {
+                SVFIR::SVFVarList &arglist = it->second;
+                assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
+                /// we only choose pointer parameters among all the actual parameters
+                for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
+                        aeit = arglist.end(); ait != aeit; ++ait)
+                {
+                    const PAGNode *pagNode = *ait;
+                    if (pagNode->isPointer())
+                    {
+                        const SVFGNode *snk = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        addToSinks(snk);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void TaintChecker::analyze(SVFModule* module)
@@ -18,6 +72,9 @@ void TaintChecker::analyze(SVFModule* module)
         initialize(module);
 
         ContextCond::setMaxCxtLen(Options::CxtLimit());
+
+        // con
+
         for (SVFGNodeSetIter iter = sourcesBegin(), eiter = sourcesEnd();
                 iter != eiter; ++iter)
         {
@@ -26,39 +83,11 @@ void TaintChecker::analyze(SVFModule* module)
             DBOUT(DGENERAL, outs() << "Analysing slice:" << (*iter)->getId() << ")\n");
             ContextCond cxt;
             DPIm item((*iter)->getId(),cxt);
-            forwardTraverse(item);
+            backwardTraverse(item);
+            // 需要修改 progSlice的实现
 
-            /// do not consider there is bug when reaching a global SVFGNode
-            /// if we touch a global, then we assume the client uses this memory until the program exits.
-            if (getCurSlice()->isReachGlobal())
-            {
-                DBOUT(DSaber, outs() << "Forward analysis reaches globals for slice:" << (*iter)->getId() << ")\n");
-            }
-            else
-            {
-                DBOUT(DSaber, outs() << "Forward process for slice:" << (*iter)->getId() << " (size = " << getCurSlice()->getForwardSliceSize() << ")\n");
-
-                for (SVFGNodeSetIter sit = getCurSlice()->sinksBegin(), esit =
-                            getCurSlice()->sinksEnd(); sit != esit; ++sit)
-                {
-                    ContextCond cxt;
-                    DPIm item((*sit)->getId(),cxt);
-                    backwardTraverse(item);
-                }
-
-                DBOUT(DSaber, outs() << "Backward process for slice:" << (*iter)->getId() << " (size = " << getCurSlice()->getBackwardSliceSize() << ")\n");
-
-                if(Options::DumpSlice())
-                    annotateSlice(getCurSlice());
-
-                if(getCurSlice()->AllPathReachableSolve())
-                    getCurSlice()->setAllReachable();
-
-                DBOUT(DSaber, outs() << "Guard computation for slice:" << (*iter)->getId() << ")\n");
-            }
-
-            reportBug(getCurSlice());
+            
         }
-        finalize();
+
 
 }

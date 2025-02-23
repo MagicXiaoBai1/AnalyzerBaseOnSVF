@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int (*func)(int, int);
 
@@ -8,7 +9,10 @@ int add(int a, int b) {
 }
 
 int sub(int a, int b) {
-    return a - b;
+    char buffer[1024];
+    fread(buffer, 1, 1024, stdin);
+    return (int)buffer[0];
+    // return a - b;
 }
 
 
@@ -18,6 +22,12 @@ void transform(char *buffer, size_t bytes_read) {
     }
     memcpy(buffer, "222", bytes_read);
 }
+
+
+char* get_buffer() {
+    return (char*)malloc(1024);
+}
+
 
 
 
@@ -47,6 +57,25 @@ int main() {
 
     char buffer[1024];
     size_t bytes_read;
+    char a = buffer[1];
+    fwrite(&a, sizeof(char), 1, output_file);
+
+    char* buffer3 = get_buffer();
+    fwrite(buffer3, sizeof(char)*3, 1, output_file);
+
+    char** buffer4 = (char**)malloc(1024);
+
+    char* buffer5 = get_buffer();
+    
+    buffer4[0] = buffer5;
+
+    
+    fwrite(getenv(buffer4[0]), sizeof(int), 1, output_file);
+
+    fwrite(buffer4[0], sizeof(char)*1024, 1, output_file);
+
+
+    fwrite(buffer4, sizeof(char)*1024, 1, output_file);
 
     while ((bytes_read = fread(buffer, 1, sizeof(buffer), input_file)) > 0) {
         char buffer2[1024];

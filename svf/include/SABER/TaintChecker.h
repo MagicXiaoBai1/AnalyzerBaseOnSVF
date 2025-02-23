@@ -42,7 +42,9 @@ class TaintChecker : public LeakChecker
 
 public:
 
-    TaintChecker();
+    TaintChecker() : LeakChecker()
+    {
+    }
 
     virtual ~TaintChecker()
     {
@@ -76,7 +78,10 @@ public:
 
 private:
     // OpenChecker _open_checker;
-
+    // map readsite actual parameter to its underlying memory object
+    std::unordered_map<SVFGNode*, SVFGNode*> read_actual_param_to_obj;
+    // map writesite actual parameter to its underlying memory object
+    std::unordered_map<SVFGNode*, SVFGNode*> write_actual_param_to_obj;
 };
 
 

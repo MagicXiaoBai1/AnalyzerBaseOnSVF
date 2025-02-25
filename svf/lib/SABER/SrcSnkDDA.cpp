@@ -40,18 +40,15 @@ using namespace SVFUtil;
 /// Initialize analysis
 void SrcSnkDDA::initialize(SVFModule* module)
 {
+
+    
     SVFIR* pag = PAG::getPAG();
 
     AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
     memSSA.setSaberCondAllocator(getSaberCondAllocator());
-    if(Options::SABERFULLSVFG())
-        svfg =  memSSA.buildFullSVFG(ander);
-    else
-        svfg =  memSSA.buildPTROnlySVFG(ander);
+    svfg =  memSSA.buildFullSVFG((BVDataPTAImpl*)ander);
     setGraph(memSSA.getSVFG());
     callgraph = ander->getCallGraph();
-    //AndersenWaveDiff::releaseAndersenWaveDiff();
-    /// allocate control-flow graph branch conditions
     getSaberCondAllocator()->allocate(getPAG()->getModule());
 
     initSrcs();
@@ -198,13 +195,14 @@ void SrcSnkDDA::FWProcessOutgoingEdge(const DPIm& item, SVFGEdge* edge)
 
     const SVFGNode* dstNode = edge->getDstNode();
     DPIm newItem(dstNode->getId(),item.getContexts());
+    newItem.setParentNodeID(edge->getSrcID());
 
-    /// handle globals here
-    if(isGlobalSVFGNode(dstNode) || getCurSlice()->isReachGlobal())
-    {
-        getCurSlice()->setReachGlobal();
-        return;
-    }
+    // /// handle globals here
+    // if(isGlobalSVFGNode(dstNode) || getCurSlice()->isReachGlobal())
+    // {
+    //     getCurSlice()->setReachGlobal();
+    //     return;
+    // }
 
 
     /// perform context sensitive reachability
@@ -254,7 +252,7 @@ void SrcSnkDDA::FWProcessOutgoingEdge(const DPIm& item, SVFGEdge* edge)
 /*!
  * Propagate information backward without matching context, as forward analysis already did it
  */
-void SrcSnkDDA::BWProcessIncomingEdge(const DPIm&, SVFGEdge* edge)
+void SrcSnkDDA::BWProcessIncomingEdge(const DPIm& item, SVFGEdge* edge)
 {
     DBOUT(DSaber,outs() << "backward propagate from (" << edge->getDstID() << " --> " << edge->getSrcID() << ")\n");
     const SVFGNode* srcNode = edge->getSrcNode();
@@ -265,6 +263,7 @@ void SrcSnkDDA::BWProcessIncomingEdge(const DPIm&, SVFGEdge* edge)
 
     ContextCond cxt;
     DPIm newItem(srcNode->getId(), cxt);
+    newItem.setParentNodeID(item.getCurNodeID());
     pushIntoWorklist(newItem);
 }
 

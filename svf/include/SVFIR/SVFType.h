@@ -477,6 +477,7 @@ template <> struct Hash<NodePair>
 #    define SVF_DEBUG_WITH_TYPE(TYPE, X)                                       \
         do                                                                     \
         {                                                                      \
+            X;                                                                 \
         } while (false)
 #endif
 

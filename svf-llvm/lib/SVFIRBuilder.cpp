@@ -988,8 +988,8 @@ void SVFIRBuilder::visitCallSite(CallBase* cs)
     if(isIntrinsicInst(cs))
         return;
 
-    DBOUT(DPAGBuild,
-          outs() << "process callsite " << svfcall->valueOnlyToString() << "\n");
+    // DBOUT(DPAGBuild,
+    //       outs() << "process callsite " << svfcall->valueOnlyToString() << "\n");
 
 
     CallICFGNode* callBlockNode = llvmModuleSet()->getCallICFGNode(cs);

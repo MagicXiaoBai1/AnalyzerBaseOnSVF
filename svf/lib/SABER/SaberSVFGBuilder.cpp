@@ -38,6 +38,8 @@
 using namespace SVF;
 using namespace SVFUtil;
 
+// 这里和 wpa 中构建 svfg的方式不同
+// 为什么要采用这样的设计
 void SaberSVFGBuilder::buildSVFG()
 {
 
@@ -48,12 +50,12 @@ void SaberSVFGBuilder::buildSVFG()
 
     collectGlobals(pta);
 
-    DBOUT(DGENERAL, outs() << pasMsg("\tRemove Dereference Direct SVFG Edge\n"));
+    // DBOUT(DGENERAL, outs() << pasMsg("\tRemove Dereference Direct SVFG Edge\n"));
 
-    rmDerefDirSVFGEdges(pta);
+    // rmDerefDirSVFGEdges(pta);
 
-    assert(saberCondAllocator && "saber condition allocator not set yet!");
-    rmIncomingEdgeForSUStore(pta);
+    // assert(saberCondAllocator && "saber condition allocator not set yet!");
+    // rmIncomingEdgeForSUStore(pta);
 
     DBOUT(DGENERAL, outs() << pasMsg("\tAdd Sink SVFG Nodes\n"));
 

@@ -409,7 +409,7 @@ public:
     {
         if(diffWave==nullptr)
         {
-            diffWave = new AndersenWaveDiff(_pag, AndersenWaveDiff_WPA, false);
+            diffWave = new AndersenWaveDiff(_pag);
             diffWave->analyze();
             return diffWave;
         }

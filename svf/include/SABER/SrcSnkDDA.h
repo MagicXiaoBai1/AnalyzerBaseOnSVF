@@ -38,6 +38,7 @@
 #define SRCSNKANALYSIS_H_
 
 #include "Graphs/SVFGOPT.h"
+#include "MSSA/MemSSA.h"
 #include "SABER/ProgSlice.h"
 #include "SABER/SaberSVFGBuilder.h"
 #include "Util/GraphReachSolver.h"

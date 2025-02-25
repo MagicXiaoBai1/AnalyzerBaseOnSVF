@@ -212,10 +212,11 @@ protected:
     const SVFType* type;   ///< Type of this SVFValue
     std::string name;       ///< Short name of value for printing & debugging
     std::string sourceLoc;  ///< Source code information of this value
+    SVFValKind valKind;
     /// Constructor without name
     SVFValue(const SVFType* ty, SVFValKind k)
         : kind(k), ptrInUncalledFun(false),
-          constDataOrAggData(SVFConstData == k), type(ty), sourceLoc("NoLoc")
+          constDataOrAggData(SVFConstData == k), type(ty), sourceLoc("NoLoc"), valKind(k)
     {
     }
 

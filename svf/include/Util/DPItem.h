@@ -45,6 +45,7 @@ class DPItem
 {
 protected:
     NodeID cur;
+    NodeID parent{0};
     static u64_t maximumBudget;
 
 public:
@@ -53,11 +54,11 @@ public:
     {
     }
     /// Copy constructor
-    DPItem(const DPItem& dps) : cur(dps.cur)
+    DPItem(const DPItem& dps) : cur(dps.cur), parent(dps.parent)
     {
     }
     /// Move constructor
-    DPItem(DPItem&& dps) noexcept : cur(dps.cur)
+    DPItem(DPItem&& dps) noexcept : cur(dps.cur), parent(dps.parent)
     {
 
     }
@@ -67,6 +68,7 @@ public:
         if (this != &rhs)
         {
             cur = rhs.cur;
+            parent = rhs.parent;
         }
         return *this;
     }
@@ -81,6 +83,14 @@ public:
     inline void setCurNodeID(NodeID c)
     {
         cur = c;
+    }
+    inline void setParentNodeID(NodeID p)
+    {
+        parent = p;
+    }
+    inline NodeID getParentNodeID() const
+    {
+        return parent;
     }
     /// set max step budge per query
     static inline void setMaxBudget(u32_t max)
@@ -103,6 +113,7 @@ public:
         if(*this!=rhs)
         {
             cur = rhs.cur;
+            parent = rhs.parent;
         }
         return *this;
     }
@@ -491,6 +502,7 @@ public:
     CxtDPItem(const CxtDPItem& dps) :
         DPItem(dps.getCurNodeID()), context(dps.context)
     {
+        parent = dps.parent;
     }
     /// Move constructor
     CxtDPItem(CxtDPItem &&dps) noexcept: DPItem(dps), context(std::move(dps.context))

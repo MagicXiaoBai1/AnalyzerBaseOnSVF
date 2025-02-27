@@ -1,15 +1,12 @@
 Start:
-   V
+   S
 Terminal:
-   r w b n t a 
+   a r w t epsilon
 Productions:
-   S -> S Q | S W | epsilon;
-   Q -> T S;
-   W -> w B;
-   B -> a B | F;
-   F -> F R | epsilon;
-   R -> R R | r X;
-   X -> T Y;
-   Y -> w B;
-   T -> T t | epsilon;
+   S -> Q F;
+   F -> F F | attr | R Q | epsilon;
+   Q -> T W;
+   R -> R R | r;
+   W -> W W | w;
+   T -> t T | epsilon;
 

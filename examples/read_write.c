@@ -60,11 +60,11 @@ int main() {
     // printf("c: %d\n", c);
 
     FILE *output_file = fopen("output.txt", "w");
-    // if (output_file == NULL) {
-    //     printf("Error opening output file\n");
-    //     fclose(input_file);
-    //     return 1;
-    // }
+    if (output_file == NULL) {
+        printf("Error opening output file\n");
+        fclose(input_file);
+        return 1;
+    }
 
     // char buffer[1024];
     size_t bytes_read;

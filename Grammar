@@ -1,0 +1,21 @@
+Start Kind:
+	S(5) 
+
+Epsilon Production:
+	F(7) -> epsilon(4) 
+	T(11) -> epsilon(4) 
+
+Single Production:
+	F(7) -> attr(9) 
+	R(10) -> r(1) 
+	W(12) -> w(2) 
+
+Binary Production:
+	F(7) -> F(7) F(7) 
+	F(7) -> R(10) Q(6) 
+	Q(6) -> T(11) W(12) 
+	R(10) -> R(10) R(10) 
+	S(5) -> Q(6) F(7) 
+	T(11) -> t(3) T(11) 
+	W(12) -> W(12) W(12) 
+

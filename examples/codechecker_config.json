@@ -1,0 +1,12 @@
+{
+    "analyzer": {
+      "checkers": {
+        "alpha.security.taint.TaintPropagation": true
+      },
+      "config": {
+        "alpha.security.taint.TaintPropagation": true,
+        "analyzer-max-loop": 10,
+        "unroll-loops": true
+      }
+    }
+  }

@@ -26,3 +26,6 @@ cmake-build-debug/
 compile_commands.json
 IR.dot
 CFLGraph.dot
+
+
+svfg_final.dot

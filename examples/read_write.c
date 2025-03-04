@@ -42,6 +42,13 @@ char* get_buffer2() {
 }
 
 
+// get_buffer   cs1
+// get_buffer  cs2
+
+
+// malloc   
+// malloc   
+
 int main() {
     // char prefix[] = "input";
     // char suffix[] = ".txt";

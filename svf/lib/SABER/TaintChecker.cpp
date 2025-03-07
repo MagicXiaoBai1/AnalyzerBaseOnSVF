@@ -1,4 +1,5 @@
 #include "SABER/TaintChecker.h"
+#include <chrono>
 
 using namespace SVF;
 using namespace SVFUtil;
@@ -86,9 +87,15 @@ void TaintChecker::initSnks()
 
 void TaintChecker::analyze(SVFModule* module)
 {      
+        std::cout << "analyze" << std::endl;
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
         initialize(module);
-
+        std::chrono::steady_clock::time_point end1 = std::chrono::steady_clock::now();
+        std::cout << "initialize time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end1 - begin).count() << "[ms]" << std::endl;
         ContextCond::setMaxCxtLen(Options::CxtLimit());
+
+        std::cout << "initialize done" << std::endl;
+
 
 
         for (SVFGNodeSetIter iter = sourcesBegin(), eiter = sourcesEnd();
@@ -102,6 +109,10 @@ void TaintChecker::analyze(SVFModule* module)
             backwardTraverse(item);     
         }
 
+        std::chrono::steady_clock::time_point end2 = std::chrono::steady_clock::now();
+        std::cout << "backwardTraverse time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end2 - end1).count() << "[ms]" << std::endl;
+        std::cout << "backwardTraverse done" << std::endl;
+
         // flood sources
         for (auto it = ReadSiteToSVFDefNodeMap.begin(), eit = ReadSiteToSVFDefNodeMap.end(); it != eit; ++it) {
             for (auto src : it->second) {
@@ -112,6 +123,10 @@ void TaintChecker::analyze(SVFModule* module)
                 forwardTraverse(item);
             }
         }
+        std::chrono::steady_clock::time_point end3 = std::chrono::steady_clock::now();
+        std::cout << "forwardTraverse time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end3 - end2).count() << "[ms]" << std::endl;
+        std::cout << "forwardTraverse done" << std::endl;
+        std::abort();
 
         for(const auto& [src, sinks] : srcToSinkMap) {
             for(const auto& sink : sinks) {

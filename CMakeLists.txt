@@ -138,6 +138,7 @@ include_directories(SYSTEM ${Z3_INCLUDES})
 # Add the actual SVF and SVF-LLVM targets
 add_subdirectory(svf)
 add_subdirectory(svf-llvm)
+add_subdirectory(examples)
 
 # Whether RTTI/Exceptions are enabled currently depends on whether the LLVM instance used to build
 # SVF had them enabled; since the LLVM instance is found in the "svf-llvm" subdirectory, it sets the

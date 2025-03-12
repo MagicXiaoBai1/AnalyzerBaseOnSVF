@@ -1,0 +1,27 @@
+digraph G {
+  rankdir=TB;
+  node [style="filled", ];
+  96 [label="In3", fillcolor="#6495ED", shape=box, ];
+  97 [label="Out(buffer2[0])", fillcolor="#90EE90", shape=box, ];
+  98 [label="Out(buffer2[1..7])", fillcolor="#90EE90", shape=box, ];
+  99 [label="OutRet", fillcolor="#90EE90", shape=box, ];
+  100 [label="In(\"222\"[bits 0 to 31])", fillcolor="#6495ED", shape=box, ];
+  91 [label="Decl dest", fillcolor="#FFEFD5", shape=box, ];
+  92 [label="In1", fillcolor="#6495ED", shape=box, ];
+  93 [label="Decl src", fillcolor="#FFEFD5", shape=box, ];
+  94 [label="In2", fillcolor="#6495ED", shape=box, ];
+  95 [label="Decl n", fillcolor="#FFEFD5", shape=box, ];
+  
+  
+  edge [dir=back, ];
+  95 -> 96 [color="#000000", style="dotted", ];
+  100 -> 97 [color="#0000FF", ];
+  100 -> 98 [color="#0000FF", ];
+  92 -> 99 [color="#0000FF", ];
+  92 -> 91 [color="#000000", style="dotted", ];
+  91 -> 92 [color="#000000", style="dotted", ];
+  94 -> 93 [color="#000000", style="dotted", ];
+  93 -> 94 [color="#000000", style="dotted", ];
+  96 -> 95 [color="#000000", style="dotted", ];
+  
+  }

@@ -1,0 +1,26 @@
+digraph G {
+  rankdir=TB;
+  node [style="filled", ];
+  73 [label="Decl tmp", fillcolor="#FFEFD5", shape=box, ];
+  75 [label="In1", fillcolor="#FFCA6E", shape=box, ];
+  76 [label="Out(__fc_heap_status)", fillcolor="#FFCA6E", shape=box, ];
+  77 [label="OutRet", fillcolor="#FFCA6E", shape=box, ];
+  78 [label="return tmp;", fillcolor="#CCCCCC", shape=box, ];
+  79 [label="OutRet", fillcolor="#90EE90", shape=box, ];
+  80 [label="In(__fc_heap_status)", fillcolor="#6495ED", shape=box, ];
+  
+  subgraph cluster_Call26 { label="Call26 : tmp = (char *)malloc((size_t)1024);";
+                            fillcolor="#B38B4D"; style="filled"; 77;76;75;
+     };
+  
+  edge [dir=back, ];
+  75 -> 76 [color="#0000FF", ];
+  80 -> 76 [color="#0000FF", ];
+  73 -> 77 [color="#000000", style="dotted", ];
+  75 -> 77 [color="#0000FF", ];
+  80 -> 77 [color="#0000FF", ];
+  73 -> 78 [color="#0000FF", ];
+  77 -> 78 [color="#0000FF", ];
+  78 -> 79 [color="#0000FF", ];
+  
+  }

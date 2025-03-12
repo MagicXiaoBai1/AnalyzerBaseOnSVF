@@ -1,0 +1,3 @@
+[submodule "examples/coreutils"]
+	path = examples/coreutils
+	url = https://github.com/coreutils/coreutils.git

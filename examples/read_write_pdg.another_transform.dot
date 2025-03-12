@@ -1,0 +1,75 @@
+digraph G {
+  rankdir=TB;
+  node [style="filled", ];
+  2 [label="Decl buffer", fillcolor="#FFEFD5", shape=box, ];
+  3 [label="In1", fillcolor="#6495ED", shape=box, ];
+  4 [label="Decl bytes_read", fillcolor="#FFEFD5", shape=box, ];
+  5 [label="In2", fillcolor="#6495ED", shape=box, ];
+  6 [label="Decl i", fillcolor="#FFEFD5", shape=box, ];
+  7 [label="{}", fillcolor="#CCCCCC", shape=doublecircle, ];
+  8 [label="size_t i = (size_t)0;", fillcolor="#CCCCCC", shape=box, ];
+  9 [label="while", fillcolor="#CCCCCC", shape=doublecircle, ];
+  10 [label="i < bytes_read", fillcolor="#CCCCCC", shape=diamond, ];
+  11 [label="{}", fillcolor="#CCCCCC", shape=doublecircle, ];
+  12 [label="*(buffer + i) = (char)((int)*(buffer + i) + 2);",
+      fillcolor="#CCCCCC", shape=box, ];
+  13 [label="i ++;", fillcolor="#CCCCCC", shape=box, ];
+  14 [label="break;", fillcolor="#CCCCCC", shape=doublecircle, ];
+  15 [label="return buffer;", fillcolor="#CCCCCC", shape=box, ];
+  16 [label="OutRet", fillcolor="#90EE90", shape=box, ];
+  17 [label="In(__malloc_get_buffer_l37_1[0..1023])", fillcolor="#6495ED",
+      shape=box, ];
+  
+  
+  edge [dir=back, ];
+  3 -> 2 [color="#000000", style="dotted", ];
+  2 -> 3 [color="#000000", style="dotted", ];
+  5 -> 4 [color="#000000", style="dotted", ];
+  4 -> 5 [color="#000000", style="dotted", ];
+  6 -> 8 [color="#000000", style="dotted", ];
+  7 -> 8 [color="#000000", arrowtail=odot, ];
+  7 -> 9 [color="#000000", arrowtail=odot, ];
+  9 -> 9 [color="#000000", arrowtail=odot, ];
+  10 -> 9 [color="#000000", arrowtail=odot, ];
+  14 -> 9 [color="#000000", arrowtail=odot, ];
+  4 -> 10 [color="#0000FF", ];
+  5 -> 10 [color="#0000FF", ];
+  6 -> 10 [color="#0000FF", ];
+  7 -> 10 [color="#000000", arrowtail=odot, ];
+  8 -> 10 [color="#0000FF", ];
+  9 -> 10 [color="#000000", arrowtail=odot, ];
+  10 -> 10 [color="#000000", arrowtail=odot, ];
+  13 -> 10 [color="#0000FF", ];
+  14 -> 10 [color="#000000", arrowtail=odot, ];
+  7 -> 11 [color="#000000", arrowtail=odot, ];
+  9 -> 11 [color="#000000", arrowtail=odot, ];
+  10 -> 11 [color="#000000", arrowtail=odot, ];
+  14 -> 11 [color="#000000", arrowtail=odot, ];
+  2 -> 12 [color="#0000FF", style="dotted", ];
+  3 -> 12 [color="#0000FF", style="dotted", ];
+  6 -> 12 [color="#0000FF", style="dotted", ];
+  7 -> 12 [color="#000000", arrowtail=odot, ];
+  8 -> 12 [color="#0000FF", style="dotted", ];
+  9 -> 12 [color="#000000", arrowtail=odot, ];
+  10 -> 12 [color="#000000", arrowtail=odot, ];
+  11 -> 12 [color="#000000", arrowtail=odot, ];
+  12 -> 12 [color="#0000FF", ];
+  13 -> 12 [color="#0000FF", style="dotted", ];
+  14 -> 12 [color="#000000", arrowtail=odot, ];
+  17 -> 12 [color="#0000FF", ];
+  6 -> 13 [color="#0000FF", style="dotted", ];
+  7 -> 13 [color="#000000", arrowtail=odot, ];
+  8 -> 13 [color="#0000FF", ];
+  9 -> 13 [color="#000000", arrowtail=odot, ];
+  10 -> 13 [color="#000000", arrowtail=odot, ];
+  13 -> 13 [color="#0000FF", ];
+  14 -> 13 [color="#000000", arrowtail=odot, ];
+  7 -> 14 [color="#000000", arrowtail=odot, ];
+  9 -> 14 [color="#000000", arrowtail=odot, ];
+  10 -> 14 [color="#000000", arrowtail=odot, ];
+  14 -> 14 [color="#000000", arrowtail=odot, ];
+  2 -> 15 [color="#0000FF", ];
+  3 -> 15 [color="#0000FF", ];
+  15 -> 16 [color="#0000FF", ];
+  
+  }

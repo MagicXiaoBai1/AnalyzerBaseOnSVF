@@ -1,0 +1,43 @@
+digraph G {
+  rankdir=TB;
+  node [style="filled", ];
+  35 [label="Decl ptr", fillcolor="#FFEFD5", shape=box, ];
+  36 [label="In1", fillcolor="#6495ED", shape=box, ];
+  37 [label="Decl size", fillcolor="#FFEFD5", shape=box, ];
+  38 [label="In2", fillcolor="#6495ED", shape=box, ];
+  39 [label="Decl nmemb", fillcolor="#FFEFD5", shape=box, ];
+  40 [label="In3", fillcolor="#6495ED", shape=box, ];
+  41 [label="Decl stream", fillcolor="#FFEFD5", shape=box, ];
+  42 [label="In4", fillcolor="#6495ED", shape=box, ];
+  43 [label="Out(__fc_fopen[0..15])", fillcolor="#90EE90", shape=box, ];
+  44 [label="Out(__malloc_get_buffer_l37[0..1023])", fillcolor="#90EE90",
+      shape=box, ];
+  45 [label="Out(__malloc_main_l135[0..1023])", fillcolor="#90EE90",
+      shape=box, ];
+  46 [label="OutRet", fillcolor="#90EE90", shape=box, ];
+  47 [label="In(__fc_fopen[0..15])", fillcolor="#6495ED", shape=box, ];
+  
+  
+  edge [dir=back, ];
+  36 -> 35 [color="#000000", style="dotted", ];
+  35 -> 36 [color="#000000", style="dotted", ];
+  38 -> 37 [color="#000000", style="dotted", ];
+  37 -> 38 [color="#000000", style="dotted", ];
+  40 -> 39 [color="#000000", style="dotted", ];
+  39 -> 40 [color="#000000", style="dotted", ];
+  42 -> 41 [color="#000000", style="dotted", ];
+  41 -> 42 [color="#000000", style="dotted", ];
+  38 -> 43 [color="#0000FF", ];
+  40 -> 43 [color="#0000FF", ];
+  47 -> 43 [color="#0000FF", ];
+  38 -> 44 [color="#0000FF", ];
+  40 -> 44 [color="#0000FF", ];
+  47 -> 44 [color="#0000FF", ];
+  38 -> 45 [color="#0000FF", ];
+  40 -> 45 [color="#0000FF", ];
+  47 -> 45 [color="#0000FF", ];
+  38 -> 46 [color="#0000FF", ];
+  43 -> 46 [color="#0000FF", ];
+  47 -> 46 [color="#0000FF", ];
+  
+  }

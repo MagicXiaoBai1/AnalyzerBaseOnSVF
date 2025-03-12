@@ -1,0 +1,23 @@
+digraph G {
+  rankdir=TB;
+  node [style="filled", ];
+  109 [label="Decl format", fillcolor="#FFEFD5", shape=box, ];
+  110 [label="In1", fillcolor="#6495ED", shape=box, ];
+  111 [label="Out(S___fc_stdout[0].__fc_FILE_data)", fillcolor="#90EE90",
+       shape=box, ];
+  112 [label="OutRet", fillcolor="#90EE90", shape=box, ];
+  113 [label="In(S___fc_stdout[0])", fillcolor="#6495ED", shape=box, ];
+  114 [label="In(\"Error opening output file\\n\"[bits 0 to 215])",
+       fillcolor="#6495ED", shape=box, ];
+  
+  
+  edge [dir=back, ];
+  110 -> 109 [color="#000000", style="dotted", ];
+  109 -> 110 [color="#000000", style="dotted", ];
+  113 -> 111 [color="#0000FF", ];
+  114 -> 111 [color="#0000FF", ];
+  111 -> 112 [color="#0000FF", ];
+  113 -> 112 [color="#0000FF", ];
+  114 -> 112 [color="#0000FF", ];
+  
+  }

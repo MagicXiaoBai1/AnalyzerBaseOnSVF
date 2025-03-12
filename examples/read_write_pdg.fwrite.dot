@@ -1,0 +1,52 @@
+digraph G {
+  rankdir=TB;
+  node [style="filled", ];
+  64 [label="In(__malloc_get_buffer2_l42[0..1023])", fillcolor="#6495ED",
+      shape=box, ];
+  65 [label="In(__malloc_get_buffer_l37_2[0..1023])", fillcolor="#6495ED",
+      shape=box, ];
+  49 [label="Decl ptr", fillcolor="#FFEFD5", shape=box, ];
+  50 [label="In1", fillcolor="#6495ED", shape=box, ];
+  51 [label="Decl size", fillcolor="#FFEFD5", shape=box, ];
+  52 [label="In2", fillcolor="#6495ED", shape=box, ];
+  53 [label="Decl nmemb", fillcolor="#FFEFD5", shape=box, ];
+  54 [label="In3", fillcolor="#6495ED", shape=box, ];
+  55 [label="Decl stream", fillcolor="#FFEFD5", shape=box, ];
+  56 [label="In4", fillcolor="#6495ED", shape=box, ];
+  57 [label="Out(__fc_fopen[0..15])", fillcolor="#90EE90", shape=box, ];
+  58 [label="OutRet", fillcolor="#90EE90", shape=box, ];
+  59 [label="In(buffer2[0..1023])", fillcolor="#6495ED", shape=box, ];
+  60 [label="In(c)", fillcolor="#6495ED", shape=box, ];
+  61 [label="In(__malloc_get_buffer_l37_0[0..1023])", fillcolor="#6495ED",
+      shape=box, ];
+  62 [label="In(__malloc_get_buffer_l37_1[0..1023])", fillcolor="#6495ED",
+      shape=box, ];
+  63 [label="In(__malloc_main_l135[0..1023])", fillcolor="#6495ED",
+      shape=box, ];
+  
+  
+  edge [dir=back, ];
+  50 -> 49 [color="#000000", style="dotted", ];
+  49 -> 50 [color="#000000", style="dotted", ];
+  52 -> 51 [color="#000000", style="dotted", ];
+  51 -> 52 [color="#000000", style="dotted", ];
+  54 -> 53 [color="#000000", style="dotted", ];
+  53 -> 54 [color="#000000", style="dotted", ];
+  56 -> 55 [color="#000000", style="dotted", ];
+  55 -> 56 [color="#000000", style="dotted", ];
+  59 -> 57 [color="#0000FF", ];
+  60 -> 57 [color="#0000FF", ];
+  61 -> 57 [color="#0000FF", ];
+  62 -> 57 [color="#0000FF", ];
+  63 -> 57 [color="#0000FF", ];
+  64 -> 57 [color="#0000FF", ];
+  65 -> 57 [color="#0000FF", ];
+  59 -> 58 [color="#0000FF", ];
+  60 -> 58 [color="#0000FF", ];
+  61 -> 58 [color="#0000FF", ];
+  62 -> 58 [color="#0000FF", ];
+  63 -> 58 [color="#0000FF", ];
+  64 -> 58 [color="#0000FF", ];
+  65 -> 58 [color="#0000FF", ];
+  
+  }

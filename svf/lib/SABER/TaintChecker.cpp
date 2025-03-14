@@ -1,4 +1,5 @@
 #include "SABER/TaintChecker.h"
+#include "Util/SVFUtil.h"
 #include <chrono>
 
 using namespace SVF;
@@ -10,9 +11,6 @@ void TaintChecker::initSrcs()
     for(SVFIR::CSToArgsListMap::iterator it = pag->getCallSiteArgsMap().begin(),
             eit = pag->getCallSiteArgsMap().end(); it!=eit; ++it)
     {
-
-
-
         PTACallGraph::FunctionSet callees;
         getCallgraph()->getCallees(it->first,callees);
         for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
@@ -33,9 +31,14 @@ void TaintChecker::initSrcs()
                 {
                     const PAGNode *pagNode = *ait;
                     // pagNode->dump();
-                    if (pagNode->isPointer() && pos == 0)
+                    if (isInterestedSrcParam(fun, pos))
                     {
-                        const SVFGNode *src = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        const ActualParmVFGNode *src = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        const auto* actual_param = src->getParam();
+                        if (actual_param->getValue()->holdConstant()) {
+                            std::cout << "source actual_param is constant" << std::endl;
+                            continue;
+                        }
                         SVFAcutalParamNodeToReadSiteMap[src] = it->first;
                         addToSources(src);
                         std::cout << "source: " << src->getId() << std::endl;
@@ -70,9 +73,14 @@ void TaintChecker::initSnks()
                         aeit = arglist.end(); ait != aeit; ++ait)
                 {
                     const PAGNode *pagNode = *ait;
-                    if (pagNode->isPointer()&& pos == 0)
+                    if (isInterestedSinkParam(fun, pos))
                     {
-                        const SVFGNode *snk = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        const ActualParmVFGNode *snk = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        const auto* actual_param = snk->getParam();
+                        if (actual_param->getValue()->holdConstant()) {
+                            std::cout << "sink actual_param is constant" << std::endl;
+                            continue;
+                        }
                         SVFAcutalParamNodeToWriteSiteMap[snk] = it->first;
                         addToSinks(snk);
                         std::cout << "sink: " << snk->getId() << std::endl;
@@ -113,9 +121,13 @@ void TaintChecker::analyze(SVFModule* module)
         std::cout << "backwardTraverse time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end2 - end1).count() << "[ms]" << std::endl;
         std::cout << "backwardTraverse done" << std::endl;
 
+       
+        
         // flood sources
         for (auto it = ReadSiteToSVFDefNodeMap.begin(), eit = ReadSiteToSVFDefNodeMap.end(); it != eit; ++it) {
+            std::cout << "it->first: " << it->first->toString() << std::endl;
             for (auto src : it->second) {
+                std::cout << "src: " << src->toString() << std::endl;
                 setCurSlice(src);
                 setCurReadSite(it->first);
                 ContextCond flood_cxt;
@@ -126,7 +138,7 @@ void TaintChecker::analyze(SVFModule* module)
         std::chrono::steady_clock::time_point end3 = std::chrono::steady_clock::now();
         std::cout << "forwardTraverse time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end3 - end2).count() << "[ms]" << std::endl;
         std::cout << "forwardTraverse done" << std::endl;
-        std::abort();
+        // std::abort();
 
         for(const auto& [src, sinks] : srcToSinkMap) {
             for(const auto& sink : sinks) {

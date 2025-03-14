@@ -55,6 +55,14 @@ int main(int argc, char ** argv)
         LLVMModuleSet::preProcessBCs(moduleNameVec);
     }
 
+
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("当前工作目录: %s\n", cwd);
+    } else {
+        perror("getcwd() ");
+    }
+
     SVFModule* svfModule = LLVMModuleSet::buildSVFModule(moduleNameVec);
     SVFIRBuilder builder(svfModule);
     SVFIR* pag = builder.build();

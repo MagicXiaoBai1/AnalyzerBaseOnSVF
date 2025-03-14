@@ -150,7 +150,7 @@ public:
 
     static const Option<std::string> WriteSVFG;
     static const Option<std::string> ReadSVFG;
-
+    static const Option<std::string> ReadTaintConfig;
     // LockAnalysis.cpp
     static const Option<bool> IntraLock;
     static const Option<bool> PrintLockSpan;

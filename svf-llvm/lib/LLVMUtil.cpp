@@ -743,6 +743,27 @@ std::string SVFValue::toString() const
 }
 
 
+bool SVFValue::holdConstant() const
+{
+    if (const SVF::SVFFunction* fun = SVFUtil::dyn_cast<SVFFunction>(this))
+    {
+        return false;
+    }
+    else if (const SVFBasicBlock* bb = SVFUtil::dyn_cast<SVFBasicBlock>(this))
+    {
+        return false;
+    }
+    else
+    {
+        auto llvmVal = LLVMModuleSet::getLLVMModuleSet()->getLLVMValue(this);
+        if (llvmVal)
+            return llvm::isa<llvm::Constant>(llvmVal);
+        return false;
+    }
+    
+}
+
+
 const std::string SVFBaseNode::valueOnlyToString() const
 {
     std::string str;

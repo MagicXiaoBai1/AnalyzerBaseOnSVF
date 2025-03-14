@@ -445,6 +445,12 @@ const Option<std::string> Options::ReadSVFG(
     ""
 );
 
+const Option<std::string> Options::ReadTaintConfig(
+    "read-taint-config",
+    "Read taint config from a file",
+    ""
+);
+
 
 const Option<bool> Options::IntraLock(
     "intra-lock-td-edge",

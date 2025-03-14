@@ -241,6 +241,8 @@ public:
         return kind;
     }
 
+    bool holdConstant() const;
+
     inline const std::string &getName() const
     {
         return name;

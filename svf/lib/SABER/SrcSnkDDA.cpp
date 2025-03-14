@@ -43,12 +43,20 @@ void SrcSnkDDA::initialize(SVFModule* module)
 
     
     SVFIR* pag = PAG::getPAG();
-
-    AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
+    BVDataPTAImpl* pta = nullptr;
+    // AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
+    if(Options::PASelected(PointerAnalysis::FSSPARSE_WPA)) {
+        FlowSensitive* fs_pta = new FlowSensitive(pag);
+        fs_pta->analyze();
+        pta = fs_pta;
+    } else {
+        AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
+        pta = ander;
+    }
     memSSA.setSaberCondAllocator(getSaberCondAllocator());
-    svfg =  memSSA.buildFullSVFG((BVDataPTAImpl*)ander);
+    svfg =  memSSA.buildFullSVFG((BVDataPTAImpl*)pta);
     setGraph(memSSA.getSVFG());
-    callgraph = ander->getCallGraph();
+    callgraph = pta->getCallGraph();
     getSaberCondAllocator()->allocate(getPAG()->getModule());
 
     initSrcs();
@@ -256,7 +264,7 @@ void SrcSnkDDA::BWProcessIncomingEdge(const DPIm& item, SVFGEdge* edge)
 {
     DBOUT(DSaber,outs() << "backward propagate from (" << edge->getDstID() << " --> " << edge->getSrcID() << ")\n");
     const SVFGNode* srcNode = edge->getSrcNode();
-    if(backwardVisited(srcNode))
+    if(backwardVisited(srcNode)) // 共用visitedSet
         return;
     else
         addBackwardVisited(srcNode);

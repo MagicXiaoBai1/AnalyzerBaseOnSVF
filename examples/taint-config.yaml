@@ -1,24 +1,21 @@
-# The entries that specify arguments use 0-based indexing when specifying
-# input arguments, and -1 is used to denote the return value.
-
-Filters:
-  # Filter functions
-  # Taint is sanitized when tainted variables are pass arguments to filters.
-
-  # Filter function
-  #   void cleanse_first_arg(int* arg)
-  #
-  # Result example:
-  #   int x; // x is tainted
-  #   cleanse_first_arg(&x); // x is not tainted after the call
-  - Name: cleanse_first_arg
-    Args: [0]
-
-Propagations:
+Sources:
   - Name: fread
     DstArgs: [0]
+  - Name: fgets
+    DstArgs: [0]
+  - Name: fscanf
+    DstArgs: [0]
+  - Name: fread
+    DstArgs: [0]
+  - Name: safe_read
+    DstArgs: [1]
+
 
 
 Sinks:
   - Name: fwrite
-    Args: [0]
+    DstArgs: [0]
+  - Name: full_write
+    DstArgs: [1]
+  - Name: fwrite_unlocked
+    DstArgs: [0]

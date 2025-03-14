@@ -2,12 +2,18 @@
 #define TAINTCHECKER_H_
 
 
+
+
+
+#include "DDA/ContextDDA.h"
 #include "Graphs/SVFG.h"
 #include "SABER/LeakChecker.h"
 #include "Util/GeneralType.h"
 #include "Util/Options.h"
 #include "SABER/SaberCheckerAPI.h"
 #include "Util/WorkList.h"
+#include "yaml-cpp/yaml.h"
+
 namespace SVF
 {
 
@@ -54,11 +60,65 @@ private:
     Map<const SVFGNode*, const CallICFGNode*> SVFAcutalParamNodeToReadSiteMap;
 
     const CallICFGNode* curReadSite{nullptr};
+    
+    Map<std::string, std::vector<int>> source_map;
+    Map<std::string, std::vector<int>> sink_map;
 
 public:
 
     TaintChecker() : LeakChecker()
     {
+        if(Options::ReadTaintConfig().empty()) {
+            std::cerr << "Taint config file is empty" << std::endl;
+            return;
+        }
+        readTaintConfig(Options::ReadTaintConfig());
+    }
+
+    void readTaintConfig(const std::string& filename) {
+        YAML::Node config = YAML::LoadFile(filename);
+        if(!config["Sources"] || !config["Sinks"]) {
+            std::cerr << "Taint config file is invalid" << std::endl;
+            return;
+        }
+        for(const auto& source : config["Sources"]) {
+            std::cout << "source: " << source["Name"].as<std::string>() << std::endl;
+        }
+        for(const auto& sink : config["Sinks"]) {
+            std::cout << "sink: " << sink["Name"].as<std::string>() << std::endl;
+        }
+        for(const auto& source : config["Sources"]) {
+            auto source_name = source["Name"].as<std::string>();
+            auto args = source["DstArgs"].as<std::vector<int>>();
+            std::cout << "source_name: " << source_name << std::endl;
+            std::cout << "args: ";
+            for(const auto& arg : args) {
+                std::cout << arg << " ";
+            }
+            std::cout << std::endl;
+            source_map[source_name] = args;
+        }
+        for(const auto& sink : config["Sinks"]) {
+            auto sink_name = sink["Name"].as<std::string>();
+            auto args = sink["DstArgs"].as<std::vector<int>>();
+            std::cout << "sink_name: " << sink_name << std::endl;
+            std::cout << "args: ";
+            for(const auto& arg : args) {
+                std::cout << arg << " ";
+            }
+            std::cout << std::endl;
+            sink_map[sink_name] = args;
+        }
+    }
+
+    bool isInterestedSrcParam(const SVFFunction* fun, int param_idx) {
+        return source_map.find(fun->getName()) != source_map.end() && 
+               std::find(source_map[fun->getName()].begin(), source_map[fun->getName()].end(), param_idx) != source_map[fun->getName()].end();
+    }
+
+    bool isInterestedSinkParam(const SVFFunction* fun, int param_idx) {
+        return sink_map.find(fun->getName()) != sink_map.end() && 
+               std::find(sink_map[fun->getName()].begin(), sink_map[fun->getName()].end(), param_idx) != sink_map[fun->getName()].end();
     }
 
     virtual ~TaintChecker()
@@ -85,13 +145,15 @@ public:
 
     inline bool isSourceLikeFun(const SVFFunction* fun) override
     {
-        return SaberCheckerAPI::getCheckerAPI()->isReadLikeFun(fun);
+        // return SaberCheckerAPI::getCheckerAPI()->isReadLikeFun(fun);
+        return source_map.find(fun->getName()) != source_map.end();
     }
 
 
     inline bool isSinkLikeFun(const SVFFunction* fun) override
     {
-        return SaberCheckerAPI::getCheckerAPI()->isWriteLikeFun(fun);
+        // return SaberCheckerAPI::getCheckerAPI()->isWriteLikeFun(fun);
+        return sink_map.find(fun->getName()) != sink_map.end();
     }
 
 
@@ -123,14 +185,21 @@ public:
             for (; EI != EE; ++EI)
             {
                 child_no++;
-                BWProcessIncomingEdge(item,*(EI.getCurrent()) );
+                BWProcessIncomingEdge(item,*(EI.getCurrent()) );  // 共用visitedSet
             }
             if (child_no == 0) {
-                std::cout << "v: " << v->toString() << std::endl;
                 const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
-                const auto cs = SVFAcutalParamNodeToReadSiteMap[ getCurSlice()->getSource()];
-                assert(cs != nullptr && "no read site found");
-                ReadSiteToSVFDefNodeMap[cs].insert(node);          
+                if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
+                    if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
+                        continue;
+                    }
+                    std::cout << "v: " << v->toString() << std::endl;
+                    std::cout << "addr_node: " << addr_node->toString() << std::endl; 
+                    const auto cs = SVFAcutalParamNodeToReadSiteMap[ getCurSlice()->getSource()];
+                    assert(cs != nullptr && "no read site found");
+                    ReadSiteToSVFDefNodeMap[cs].insert(node);    
+                          
+                }
             }
         }
     }
@@ -207,10 +276,13 @@ public:
                         tmp_worklist.push(newItem);
                     }
                     if (child_no == 0) {
-                        std::cout << "push into worklist: " << inner_item.getCurNodeID() << std::endl;
                         // 不能是 const
                         if(const auto* node = getSVFG()->getSVFGNode(inner_item.getCurNodeID())) {
                             if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) {
+                                if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
+                                    continue;
+                                }
+                                std::cout << "push into worklist: " << inner_item.getCurNodeID() << std::endl;
                                 SVFBaseNode::GNodeK kind = addr_node->getValue()->getNodeKind();
                                 if(kind == SVFBaseNode::GNodeK::DummyValNode || kind == SVFBaseNode::GNodeK::DummyObjNode ||
                                  kind == SVFBaseNode::GNodeK::ConstantFPValNode || kind == SVFBaseNode::GNodeK::ConstantIntValNode ||

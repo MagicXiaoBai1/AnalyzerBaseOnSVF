@@ -30,7 +30,7 @@
 #include "Util/CommandLine.h"
 #include "Util/Options.h"
 #include "WPA/Andersen.h"
-
+#include "yaml-cpp/yaml.h"
 #include "AE/Core/RelExeState.h"
 #include "AE/Core/RelationSolver.h"
 #include "AE/Svfexe/AbstractInterpretation.h"
@@ -50,6 +50,24 @@ static Option<bool> AETEST(
     "abstract execution basic function test",
     false
 );
+
+
+
+const Option<std::string> ResourceVarConfig(
+    "resource-var-config",
+    "resource var config",
+    ""
+);
+
+const Option<std::string> ResourceVarPrint(
+    "resource-var-print",
+    "resource var print",
+    ""
+);
+
+
+
+
 
 class SymblicAbstractionTest
 {
@@ -840,6 +858,33 @@ public:
 };
 
 
+    std::vector<std::pair<std::string, std::pair<std::string, int>>> readResourceVarConfig(const std::string& filename) {
+        YAML::Node config = YAML::LoadFile(filename);
+        std::vector<std::pair<std::string, std::pair<std::string, int>>> result;
+        // Check if the config is a valid YAML file
+        if (!config.IsSequence() && !config.IsMap()) {
+            std::cerr << "Resource var config file is not a valid YAML sequence or map" << std::endl;
+            return {};
+        }
+        // Process the config as a sequence (list)
+        if (config.IsSequence()) {
+            for (const auto& item : config) {
+                if (item["name"] && item["line"] && item["file"]) {
+                    std::string name = item["name"].as<std::string>();
+                    int line = item["line"].as<int>();
+                    std::string file = item["file"].as<std::string>();
+                    
+                    outs() << "Resource variable: " << name 
+                           << " at line " << line 
+                           << " in file " << file << "\n";
+                    result.push_back(std::make_pair(name, std::make_pair(file, line)));
+                }
+            }
+        }
+        return result;
+    }
+
+
 int main(int argc, char** argv)
 {
     int arg_num = 0;
@@ -886,6 +931,74 @@ int main(int argc, char** argv)
     if (Options::BufferOverflowCheck())
         ae.addDetector(std::make_unique<BufOverflowDetector>());
     ae.runOnModule(pag->getICFG());
+    // ae.printAllAbsStates();
+
+
+    if( !ResourceVarConfig().empty()) {
+        auto resourceVarConfig = readResourceVarConfig(ResourceVarConfig());
+        Set<std::string> varNames;
+        for(const auto& [name, file_line] : resourceVarConfig) {
+            AbstractInterpretation::getVarValue().clear();
+            std::cout << "Resource variable: " << name 
+                      << " at line " << file_line.second 
+                      << " in file " << file_line.first << std::endl;
+            AbstractInterpretation::getVarNames().clear();
+            varNames.clear();
+            varNames.insert(name);
+            ae.printOneLineAbsState(file_line.first, file_line.second, varNames);
+
+            YAML::Node outputNode;
+            // For each variable in the resource var config
+            for (const auto& [varName, varValue] : AbstractInterpretation::getVarValue()) {
+                // Update the existing resource var config file with the value
+                YAML::Node resourceConfig = YAML::LoadFile(ResourceVarConfig());
+                bool updated = false;
+                
+                // Look for matching entry to update
+                for (YAML::Node entry : resourceConfig) {
+                    if (entry["name"].as<std::string>() == varName &&
+                        entry["file"].as<std::string>() == file_line.first &&
+                        entry["line"].as<int>() == file_line.second) {
+                        // Found matching entry, update with value
+                        entry["value"] = varValue;
+                        updated = true;
+                        break;
+                    }
+                }
+                
+                // If entry wasn't found, create a new one for output
+                if (!updated) {
+                    YAML::Node varNode;
+                    varNode["name"] = varName;
+                    varNode["value"] = varValue;
+                    varNode["file"] = file_line.first;
+                    varNode["line"] = file_line.second;
+                    outputNode.push_back(varNode);
+                } else {
+                    // Write updated config back to original file
+                    std::ofstream configFile(ResourceVarConfig());
+                    if (configFile.is_open()) {
+                        configFile << YAML::Dump(resourceConfig);
+                        configFile.close();
+                        std::cout << "Updated value in " << ResourceVarConfig() << std::endl;
+                    }
+                }
+            }
+            
+            // Write to file
+            std::ofstream outFile(ResourceVarConfig(), std::ios::app);
+            if (!outFile.is_open()) {
+                std::cerr << "Failed to open file for writing: " << ResourceVarConfig() << std::endl;
+            } else {
+                outFile << std::endl;
+                outFile << YAML::Dump(outputNode);
+                outFile.close();
+            }
+            
+            std::cout << "Variable information written to " << ResourceVarConfig() << std::endl;
+                
+        }
+    }
 
     LLVMModuleSet::releaseLLVMModuleSet();
 

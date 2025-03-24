@@ -1,0 +1,19 @@
+
+
+- name: full_path
+  value: /tmp/test.txt
+  file: test_ae.c
+  line: 35
+- name: another_path
+  value: abc
+  file: test_ae.c
+  line: 36
+
+
+
+
+
+- name: input_filename
+  value: abc
+  file: read_write.c
+  line: 84

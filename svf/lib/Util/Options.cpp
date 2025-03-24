@@ -100,6 +100,8 @@ const Option<std::string> Options::UserInputQuery(
     "all"
 );
 
+
+
 const Option<bool> Options::InsenRecur(
     "in-recur",
     "Mark context insensitive SVFG edges due to function recursions",
@@ -188,6 +190,8 @@ const Option<std::string> Options::SelfCycle(
     "How to handle self cycle edges: all, context, none",
     ""
 );
+
+
 
 
 // Sparse value-flow graph (VFG.cpp)
@@ -819,6 +823,9 @@ const Option<bool> Options::RunUncallFuncs(
     "run-uncall-fun","Skip Gep Unknown Index",false);
 const Option<bool> Options::ICFGMergeAdjacentNodes(
     "icfg-merge-adjnodes","ICFG Simplification - Merge Adjacent Nodes in the Same Basic Block.",false);
+
+
+
 
 
 const Option<u32_t> Options::AEPrecision(

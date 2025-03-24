@@ -462,6 +462,11 @@ void SVFG::connectFromGlobalToProgEntry()
  */
 SVFGEdge* SVFG::addIntraIndirectVFEdge(NodeID srcId, NodeID dstId, const NodeBS& cpts)
 {
+    // for (NodeBS::iterator it = cpts.begin(), eit = cpts.end(); it != eit; ++it)
+    // {
+    //     SVFUtil::outs() << *it << " ";
+    // }
+    SVFUtil::outs() << "\n";
     SVFGNode* srcNode = getSVFGNode(srcId);
     SVFGNode* dstNode = getSVFGNode(dstId);
     checkIntraEdgeParents(srcNode, dstNode);

@@ -1,21 +1,37 @@
+Opens:
+  - Name: fopen
+    SrcArg: 0
+    DstArg: -1
+  - Name: open
+    SrcArg: 0
+    DstArg: -1
+
 Sources:
   - Name: fread
+    SrcArg: 3
     DstArgs: [0]
   - Name: fgets
+    SrcArg: 2
     DstArgs: [0]
   - Name: fscanf
-    DstArgs: [0]
-  - Name: fread
+    SrcArg: 1
     DstArgs: [0]
   - Name: safe_read
+    SrcArg: 0
     DstArgs: [1]
+  - Name: foo
+    SrcArg: 0
+    DstArgs: [0]
 
 
 
 Sinks:
   - Name: fwrite
+    SrcArg: 3
     DstArgs: [0]
   - Name: full_write
+    SrcArg: 0
     DstArgs: [1]
   - Name: fwrite_unlocked
+    SrcArg: 3
     DstArgs: [0]

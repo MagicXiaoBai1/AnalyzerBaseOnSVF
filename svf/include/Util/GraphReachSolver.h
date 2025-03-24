@@ -169,6 +169,10 @@ protected:
     {
         return worklist.find(item);
     }
+    inline void clearWorklist()
+    {
+        worklist.clear();
+    }
     //@}
 
 private:

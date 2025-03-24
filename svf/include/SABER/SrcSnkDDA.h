@@ -74,6 +74,8 @@ private:
     SVFGNodeToDPItemsMap nodeToDPItemsMap;	///<  record forward visited dpitems
     SVFGNodeSet visitedSet;	///<  record backward visited nodes
 
+    // SVFGNodeSet visitedSet2;	///<  record foward visited nodes
+
 protected:
     SaberSVFGBuilder memSSA;
     SVFG* svfg;
@@ -293,6 +295,7 @@ protected:
     {
         return visitedSet.find(node)!=visitedSet.end();
     }
+
     inline void addBackwardVisited(const SVFGNode* node)
     {
         visitedSet.insert(node);
@@ -301,6 +304,14 @@ protected:
     {
         nodeToDPItemsMap.clear();
         visitedSet.clear();
+    }
+    inline void clearVisitedSet()
+    {
+        visitedSet.clear();
+    }
+    inline void clearNodeToDPItemsMap()
+    {
+        nodeToDPItemsMap.clear();
     }
     //@}
 

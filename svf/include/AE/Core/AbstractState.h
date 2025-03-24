@@ -183,6 +183,11 @@ public:
         }
         return inv;
     }
+    
+    const AddrToAbsValMap& getAddrToAbsVal() const 
+    {
+        return _addrToAbsVal;
+    }
 
 protected:
     VarToAbsValMap _varToAbsVal; ///< Map a variable (symbol) to its abstract value
@@ -313,6 +318,7 @@ public:
     }
 
 
+    void printAbstractState2();
     void printAbstractState() const;
 
     std::string toString() const

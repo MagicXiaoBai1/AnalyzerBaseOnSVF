@@ -1,0 +1,12 @@
+- name: full_path
+  line: 35
+  file: test_ae.c
+  value: /tmp/test.txt
+- name: another_path
+  line: 36
+  file: test_ae.c
+  value: abc
+- name: blackhole
+  line: 19
+  file: test_ae.c
+

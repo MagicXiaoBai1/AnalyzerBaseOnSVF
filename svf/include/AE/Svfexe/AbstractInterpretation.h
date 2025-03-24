@@ -131,6 +131,113 @@ public:
 
     Set<const CallICFGNode*> checkpoints; // for CI check
 
+
+
+    void printAllAbsStates() const {
+
+        for(const auto& [node, state] : abstractTrace) {
+            std::cout << "--------------------------------" << std::endl;
+            std::cout << "node: " << node->toString() << std::endl;
+            state.printAbstractState();
+        }
+    }
+
+
+    bool checkLineNumber(const std::string& str, int i) const {
+    // 查找 "ln": 的位置
+        size_t ln_pos = str.find("\"ln\":");
+        if (ln_pos == std::string::npos) return false;
+        
+        // 找到数字开始的位置（跳过空格）
+        ln_pos += 5;  // "ln": 的长度
+        while (ln_pos < str.length() && str[ln_pos] == ' ') ln_pos++;
+        
+        // 找到数字结束的位置（逗号或其他非数字字符）
+        size_t end_pos = ln_pos;
+        while (end_pos < str.length() && isdigit(str[end_pos])) end_pos++;
+        
+        // 提取数字并比较
+        std::string num_str = str.substr(ln_pos, end_pos - ln_pos);
+        int ln = std::stoi(num_str);
+        
+        return ln == i;
+    }
+    
+    bool checkFileName(const std::string& str, const std::string& filename) const {
+        // 查找 "fl": 的位置
+        size_t fl_pos = str.find("\"fl\":");
+        if (fl_pos == std::string::npos) return false;
+        
+        // 找到文件名开始的位置（跳过空格和引号）
+        fl_pos += 5;  // "fl": 的长度
+        while (fl_pos < str.length() && (str[fl_pos] == ' ' || str[fl_pos] == '\"')) fl_pos++;
+        
+        // 找到文件名结束的位置（引号）
+        size_t end_pos = fl_pos;
+        while (end_pos < str.length() && str[end_pos] != '\"') end_pos++;
+        
+        // 提取文件名并比较
+        std::string file_str = str.substr(fl_pos, end_pos - fl_pos);
+        
+        return file_str == filename;
+    }
+
+    static Map<std::string, std::string>& getVarValue() {
+        static Map<std::string, std::string> varValues;
+        return varValues;
+    }
+
+
+    static Set<std::string>& getVarNames()  {
+        static Set<std::string> varnames;
+        return varnames;
+    }
+
+    static void addVarName(const std::string& name) {
+        getVarNames().insert(name);
+    }
+
+    void printOneLineAbsState(const std::string& filename, int line, Set<std::string>& varNames) const {
+        for (const auto& pair : abstractTrace) {
+            const ICFGNode* n = pair.first;
+            // Skip nodes that are not call sites
+            if (!SVFUtil::isa<CallICFGNode>(n)) {
+                continue;
+            }
+            const CallICFGNode* callNode = SVFUtil::dyn_cast<CallICFGNode>(n);
+            if (!callNode) {
+                continue;
+            }
+            if (checkFileName(callNode->getSourceLoc(), filename) && checkLineNumber(callNode->getSourceLoc(), line)) {  // targetLine是你想查找的行号
+                std::cout << "--------------------------------" << std::endl;
+                std::cout << "callsite node: " << n->toString() << std::endl;
+                for (const auto& varName : varNames) {
+                    std::cout << "varName: " << varName << std::endl;
+                    addVarName(varName);
+                }
+                // 开始打印参数值
+                const AbstractState& as = pair.second;
+                as.printAbstractState();
+                for (const auto& [varName, varValue] : getVarValue()) {
+                    std::cout << "varName: " << varName << ", varValue: " << varValue << std::endl;
+                }
+            }
+        }
+    }
+
+
+
+
+    // void printAbsValue(u32_t varId) const {
+    //     for(const auto& [node, state] : abstractTrace) {
+    //         if(state.hasVar(varId)) {
+    //             std::cout << "Node: " << node->toString() << std::endl;
+    //             std::cout << "Var " << varId << ": " << state[varId] << std::endl;
+    //         }
+    //     }
+    // }
+
+
 private:
     /// Global ICFGNode is handled at the entry of the program,
     virtual void handleGlobalNode();

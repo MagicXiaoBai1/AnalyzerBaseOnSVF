@@ -28,6 +28,8 @@
  */
 
 #include "AE/Core/AbstractState.h"
+#include "AE/Svfexe/AbstractInterpretation.h"
+#include "Util/GeneralType.h"
 #include "Util/SVFUtil.h"
 #include "Util/Options.h"
 
@@ -380,6 +382,150 @@ void AbstractState::storeValue(NodeID varId, AbstractValue val)
     }
 }
 
+
+
+
+
+void printValuesFromAddr(const AbstractState& as, u32_t baseAddr) {
+    static Map<std::string, u32_t> VarBaseAddr;
+    
+    // 获取SVFIR
+    SVFIR* svfir = SVFIR::getPAG();
+    NodeID nodeId = AbstractState::getInternalID(baseAddr);
+
+    
+    
+    // 获取内存对象
+    if (const MemObj* memObj = svfir->getObject(nodeId)) {
+        std::string varName = memObj->getValue()->getName();
+        if(memObj->isFunction()) {
+            std::cout << "is function" << std::endl;
+            return;
+        }
+
+        if(varName == "path1" || varName == "path2") {
+            std::cout << "varName: " << varName << std::endl;
+        }
+        // memObj->getBaseOffset(); 
+        if (AbstractInterpretation::getVarNames().find(varName) == AbstractInterpretation::getVarNames().end()) {
+            // 这就是我们要找的从0开始的变量
+            return;
+        }
+        SVFUtil::outs() << "Values from address 0x" << std::hex << baseAddr << ":\n";
+        std::cout << "memObj: " << memObj->toString() << std::endl;
+        
+
+        // 获取对象大小
+        size_t objSize = memObj->getByteSizeOfObj();
+        std::cout << "objSize: " << objSize << std::endl;
+        std::string str;
+        
+        // 按照实际的内存布局遍历
+        for (size_t offset = 0; offset < objSize; offset++) {
+            std::cout <<std::endl;
+            // std::cout << "offset: " << offset << std::endl;
+
+            // auto& another_as = const_cast<AbstractState&>(as);            
+            // AddressValue nextAddr = another_as.getGepObjAddrs(baseAddr, IntervalValue(static_cast<s64_t>(offset)));
+            // std::cout << "nextAddr: " << nextAddr.toString() << std::endl;
+            NodeID gepNodeId = svfir->getGepObjVar(nodeId, offset);
+            // if (as.inVarToAddrsTable(gepNodeId)) {
+            if (as.inAddrToValTable(gepNodeId) && as.inVarToAddrsTable(gepNodeId)) {
+                // 这里两个map用的不一样
+                const AbstractValue& val = as.getAddrToAbsVal().at(gepNodeId);
+                if (val.isInterval()) {
+                    char c = (char)val.getInterval().lb().getIntNumeral();
+                    // If the character is a null terminator, stop printing
+                    if (c == '\0') {
+                        break;
+                    }
+                    str += c;
+                }
+            }
+        }
+
+        if (VarBaseAddr.find(varName) == VarBaseAddr.end()) {
+            std::cout << "varName: " << varName << std::endl;
+            VarBaseAddr[varName] = baseAddr;
+            AbstractInterpretation::getVarValue()[varName] = str;
+        } else if(VarBaseAddr[varName] > baseAddr) {
+            VarBaseAddr[varName] = baseAddr;
+            AbstractInterpretation::getVarValue()[varName] = str;
+        }
+
+        std::cout << str << std::endl;
+    }
+ 
+  
+   
+
+}
+
+
+
+
+void AbstractState::printAbstractState2() 
+{
+    SVFUtil::outs() << "-----------Var and Value-----------\n";
+    u32_t fieldWidth = 20;
+    SVFUtil::outs().flags(std::ios::left);
+    std::vector<std::pair<u32_t, AbstractValue>> varToAbsValVec(_varToAbsVal.begin(), _varToAbsVal.end());
+    std::sort(varToAbsValVec.begin(), varToAbsValVec.end(), [](const auto &a, const auto &b)
+    {
+        return a.first < b.first;
+    });
+    for (const auto &item: varToAbsValVec)
+    {
+        SVFUtil::outs() << "-----------Start Variable Name-----------\n";
+        if (SVFIR::getPAG()->hasGNode(item.first)) {
+            const PAGNode* node = SVFIR::getPAG()->getGNode(item.first);
+            if (const ValVar* valVar = SVFUtil::dyn_cast<ValVar>(node)) {
+                // dummpynode
+                // DummyObjNode
+                std::cout << "valVar: " << valVar->toString() << std::endl;
+                if (valVar->hasValue()) {
+                    SVFUtil::outs() << "Name: " << valVar->getValue()->getName() << "\n";
+                }
+            }
+        }
+
+        SVFUtil::outs() << "-----------Variable Name-----------\n";
+
+        SVFUtil::outs() << std::left << std::setw(fieldWidth) << ("Var" + std::to_string(item.first));
+        if (item.second.isInterval())
+        {
+            // SVFUtil::outs() << " Value: " << item.second.getInterval().toString() << "\n";
+        }
+        else if (item.second.isAddr())
+        {
+            SVFUtil::outs() << " Value: {";
+            u32_t i = 0;
+            for (const auto& addr: item.second.getAddrs())
+            {
+                ++i;
+                if (i < item.second.getAddrs().size())
+                {
+                    SVFUtil::outs() << "0x" << std::hex << addr << ", ";
+                }
+                else
+                {
+                    printValuesFromAddr(*this, addr);
+                    // SVFUtil::outs() << "0x" << std::hex << addr;
+                }
+
+            }
+            SVFUtil::outs() << "}\n";
+        }
+        else
+        {
+            SVFUtil::outs() << " Value: ⊥\n";
+        }
+    }
+}
+
+
+
+
 void AbstractState::printAbstractState() const
 {
     SVFUtil::outs() << "-----------Var and Value-----------\n";
@@ -392,6 +538,22 @@ void AbstractState::printAbstractState() const
     });
     for (const auto &item: varToAbsValVec)
     {
+        // SVFUtil::outs() << "-----------Start Variable Name-----------\n";
+        // if (SVFIR::getPAG()->hasGNode(item.first)) {
+        //     const PAGNode* node = SVFIR::getPAG()->getGNode(item.first);
+        //     if (const ValVar* valVar = SVFUtil::dyn_cast<ValVar>(node)) {
+        //         // dummpynode
+        //         // DummyObjNode
+        //         std::cout << "valVar: " << valVar->toString() << std::endl;
+        //         // if(valVar->getValue()->getName() == "full_path") {
+        //         if (valVar->hasValue()) {
+        //             SVFUtil::outs() << "Name: " << valVar->getValue()->getName() << "\n";
+        //         }
+        //     }
+        // }
+
+        // SVFUtil::outs() << "-----------Variable Name-----------\n";
+
         SVFUtil::outs() << std::left << std::setw(fieldWidth) << ("Var" + std::to_string(item.first));
         if (item.second.isInterval())
         {
@@ -410,8 +572,12 @@ void AbstractState::printAbstractState() const
                 }
                 else
                 {
+                    // if(i == 1) {
+                        printValuesFromAddr(*this, addr);
+                    // }
                     SVFUtil::outs() << "0x" << std::hex << addr;
                 }
+
             }
             SVFUtil::outs() << "}\n";
         }

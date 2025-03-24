@@ -281,6 +281,9 @@ void TaintChecker::initSrcResourceValVar() {
                     const VFGNode* def_node = getNode(getNodeIDFromItem(item));
                     std::cout << "def_node: " << def_node->toString() << std::endl;
                     resourceValVarToMemobjName[resourceActualParam] = def_node->getValue()->getValue()->getName();
+                    if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(def_node)) {
+                        resourceValVarToMemobj[resourceActualParam] = addr_node->getPAGDstNode();
+                    }
                 }
             }
             clearVisitedMap();
@@ -384,6 +387,12 @@ void TaintChecker::initSinkResourceValVar() {
                     const VFGNode* def_node = getNode(getNodeIDFromItem(item));
                     std::cout << "def_node: " << def_node->toString() << std::endl;
                     resourceValVarToMemobjName[resourceActualParam] = def_node->getValue()->getValue()->getName();
+                    // if(AddrVFGNode* addrof_node = SVF::dyn_cast<AddrVFGNode*>(def_node)) {
+                        // resourceValVarToMemobj[resourceActualParam] = addrof_node->getPAGNode();
+                    // }
+                    if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(def_node)) {
+                        resourceValVarToMemobj[resourceActualParam] = addr_node->getPAGDstNode();
+                    }
                 }
             }
             clearVisitedMap();
@@ -393,7 +402,7 @@ void TaintChecker::initSinkResourceValVar() {
 
 
 
-void printResourceValVarToYaml(const std::string& valname, const std::string& filename, int line,  const std::string& site,  bool isglobconst = false) {
+void printResourceValVarToYaml(const std::string& valname, const std::string& filename, int line,  const std::string& site, const std::string& maybe_const_memobj = "", bool isglobconst = false) {
     std::ofstream yamlFile("resource_val_var.yaml", std::ios::app);
     if (!yamlFile.is_open()) {
         std::cerr << "Error: Could not open resource_val_var.yaml for writing" << std::endl;
@@ -403,6 +412,21 @@ void printResourceValVarToYaml(const std::string& valname, const std::string& fi
     yamlFile << "  - name: " << valname << "\n";
     yamlFile << "    file: " << filename << "\n";
     yamlFile << "    line: " << line << "\n";
+
+    std::string clean_memobj = maybe_const_memobj;
+    if(!maybe_const_memobj.empty()) {
+        clean_memobj.erase(std::remove(clean_memobj.begin(), clean_memobj.end(), '{'), clean_memobj.end());
+        clean_memobj.erase(std::remove(clean_memobj.begin(), clean_memobj.end(), '}'), clean_memobj.end());
+        clean_memobj.erase(std::remove(clean_memobj.begin(), clean_memobj.end(), '\"'), clean_memobj.end());
+        clean_memobj.erase(std::remove(clean_memobj.begin(), clean_memobj.end(), '\n'), clean_memobj.end());
+        clean_memobj.erase(std::remove(clean_memobj.begin(), clean_memobj.end(), '\r'), clean_memobj.end());
+        clean_memobj = "\"" + clean_memobj + "\"";
+        yamlFile << "    value: " << clean_memobj << "\n";
+    }
+
+
+
+
     // Remove curly braces from site string
     std::string cleanSite = site;
     cleanSite.erase(std::remove(cleanSite.begin(), cleanSite.end(), '{'), cleanSite.end());
@@ -505,8 +529,13 @@ void TaintChecker::analyze(SVFModule* module)
                             std::cout << "  Location: " << value->getSourceLoc() << std::endl;
                             std::cout << "  Line number: " << extractLineNumber(value->getSourceLoc()) << std::endl;
                             std::cout << "  File name: " << extractFileName(value->getSourceLoc()) << std::endl;
+                            std::string maybe_const_memobj = "";
+                            if(resourceValVarToMemobj.find(resourceValVar) != resourceValVarToMemobj.end() && 
+                                resourceValVarToMemobj[resourceValVar]->getValue()->holdConstant()) {
+                                maybe_const_memobj = resourceValVarToMemobj[resourceValVar]->toString();
+                            }
                             printResourceValVarToYaml(resourceValVarToMemobjName[resourceValVar], extractFileName(value->getSourceLoc()), 
-                            extractLineNumber(value->getSourceLoc()), site);
+                            extractLineNumber(value->getSourceLoc()), site, maybe_const_memobj);
                         }
                     }
                 }
@@ -526,8 +555,13 @@ void TaintChecker::analyze(SVFModule* module)
                             std::cout << "  Location: " << value->getSourceLoc() << std::endl;
                             std::cout << "  Line number: " << extractLineNumber(value->getSourceLoc()) << std::endl;
                             std::cout << "  File name: " << extractFileName(value->getSourceLoc()) << std::endl;
+                            std::string maybe_const_memobj = "";
+                            if(resourceValVarToMemobj.find(resourceValVar) != resourceValVarToMemobj.end() && 
+                                resourceValVarToMemobj[resourceValVar]->getValue()->holdConstant()) {
+                                maybe_const_memobj = resourceValVarToMemobj[resourceValVar]->toString();
+                            }
                             printResourceValVarToYaml(resourceValVarToMemobjName[resourceValVar], extractFileName(value->getSourceLoc()), 
-                            extractLineNumber(value->getSourceLoc()), site);
+                            extractLineNumber(value->getSourceLoc()), site, maybe_const_memobj);
                         }
                     }
                 }

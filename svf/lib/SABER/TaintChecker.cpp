@@ -7,6 +7,86 @@
 using namespace SVF;
 using namespace SVFUtil;
 
+
+void TaintChecker::initOpens() {
+    // 获取程序的PAG（指针分析图）
+    SVFIR* pag = getPAG();
+    // 遍历所有调用点及其参数列表
+    for(SVFIR::CSToArgsListMap::iterator it = pag->getCallSiteArgsMap().begin(),
+            eit = pag->getCallSiteArgsMap().end(); it!=eit; ++it)
+    {
+        // 获取该调用点可能调用的所有函数（支持间接调用）
+        PTACallGraph::FunctionSet callees;
+        getCallgraph()->getCallees(it->first,callees);
+        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
+        {
+            const SVFFunction* fun = *cit;
+            // 判断该函数是否为“open”类函数（即资源获取/打开函数）
+            if (isOpenLikeFun(fun))
+            {
+                // 获取该调用点的实参列表
+                SVFIR::SVFVarList &arglist = it->second;
+                assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
+
+                // 处理open类函数的返回值（如open返回的句柄）
+                if(IsIntrestedOpenParam(fun, -1)) {
+                    std::cout<<"taint open param of "<< fun->getName() <<" is return value" << std::endl;
+                    // 获取调用点的返回值节点
+                    const CallICFGNode* cs = it->first;
+                    const PAGNode* ret_node = cs->getRetICFGNode()->getActualRet();
+                    std::cout << "ret_node: " << ret_node->toString() << std::endl;
+                    
+                    // 获取返回值在SVFG中的定义节点
+                    const VFGNode* actual_ret = getSVFG()->getDefVFGNode(ret_node);
+                    std::cout << "actual_ret: " << actual_ret->toString() << std::endl;
+                    // 建立返回值节点到open调用点的映射
+                    SVFAcutalParamNodeToOpenSiteMap[actual_ret] = it->first;
+                    // const ActualRetVFGNode* actual_ret = getSVFG()->getActualRetVFGNode(ret_node);
+                }
+
+
+
+                // 遍历所有实参，处理感兴趣的参数
+                int pos = 0;
+                for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
+                        aeit = arglist.end(); ait != aeit; ++ait)
+                {
+                    const PAGNode *pagNode = *ait;
+                    // pagNode->dump();
+
+                    // 如果该参数是我们关注的open参数（如句柄参数），则加入source集合
+                    if (IsIntrestedOpenParam(fun, pos))
+                    { 
+                        const ActualParmVFGNode *src = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        const auto* actual_param = src->getParam();
+                        if (actual_param->getValue()->holdConstant()) {
+                            std::cout << "source actual_param is constant" << std::endl;
+                        } else {
+                            // 记录参数节点到调用点的映射，并加入sources集合
+                            SVFAcutalParamNodeToReadSiteMap[src] = it->first;
+                            addToSources(src);
+                            std::cout << "open: " << src->toString() << std::endl;
+                        }
+                    }
+
+                    // 找到读取资源对应的实参数节点
+                    if(IsIntrestedOpenResource(fun, pos)) {
+                        const ActualParmVFGNode *obj = getSVFG()->getActualParmVFGNode(pagNode, it->first);
+                        const auto* actual_param = obj->getParam();
+                        OpenSiteToResourceActualParamNodeMap[it->first] = obj;
+                        if (actual_param->getValue()->holdConstant()) {
+                            std::cout << "source actual_param is constant" << std::endl;
+                            std::cout << "open resource actual param: " << obj->toString() << std::endl;
+                        }
+                    }
+                            
+                    pos++;
+                }
+            }
+        }
+    }
+}
+
 void TaintChecker::initSrcs() 
 {
     SVFIR* pag = getPAG();
@@ -115,86 +195,6 @@ void TaintChecker::initSnks()
         }
     }
 }
-
-
-void TaintChecker::initOpens() {
-    SVFIR* pag = getPAG();
-    for(SVFIR::CSToArgsListMap::iterator it = pag->getCallSiteArgsMap().begin(),
-            eit = pag->getCallSiteArgsMap().end(); it!=eit; ++it)
-    {
-        PTACallGraph::FunctionSet callees;
-        getCallgraph()->getCallees(it->first,callees);
-        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
-        {
-            const SVFFunction* fun = *cit;
-            if (isOpenLikeFun(fun))
-            {
-                SVFIR::SVFVarList &arglist = it->second;
-                assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
-
-            
-                // 处理返回值
-                if(IsIntrestedOpenParam(fun, -1)) {
-                    std::cout<<"taint open param of "<< fun->getName() <<" is return value" << std::endl;
-                    const CallICFGNode* cs = it->first;
-                    const PAGNode* ret_node = cs->getRetICFGNode()->getActualRet();
-                    std::cout << "ret_node: " << ret_node->toString() << std::endl;
-                    
-                    const VFGNode* actual_ret = getSVFG()->getDefVFGNode(ret_node);
-                    std::cout << "actual_ret: " << actual_ret->toString() << std::endl;
-                    SVFAcutalParamNodeToOpenSiteMap[actual_ret] = it->first;
-                    // const ActualRetVFGNode* actual_ret = getSVFG()->getActualRetVFGNode(ret_node);
-                }
-
-
-
-                /// we only choose pointer parameters among all the actual parameters
-                int pos = 0;
-                for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
-                        aeit = arglist.end(); ait != aeit; ++ait)
-                {
-                    const PAGNode *pagNode = *ait;
-                    // pagNode->dump();
-
-                    
-                    if (IsIntrestedOpenParam(fun, pos))
-                    { 
-                        const ActualParmVFGNode *src = getSVFG()->getActualParmVFGNode(pagNode, it->first);
-                        const auto* actual_param = src->getParam();
-                        if (actual_param->getValue()->holdConstant()) {
-                            std::cout << "source actual_param is constant" << std::endl;
-                        } else {
-                            SVFAcutalParamNodeToReadSiteMap[src] = it->first;
-                            addToSources(src);
-                            std::cout << "open: " << src->toString() << std::endl;
-                        }
-                    }
-
-
-
-                    
-
-                    // 找到读取资源对应的实参数节点
-                    if(IsIntrestedOpenResource(fun, pos)) {
-                        const ActualParmVFGNode *obj = getSVFG()->getActualParmVFGNode(pagNode, it->first);
-                        const auto* actual_param = obj->getParam();
-                        OpenSiteToResourceActualParamNodeMap[it->first] = obj;
-                        if (actual_param->getValue()->holdConstant()) {
-                            std::cout << "source actual_param is constant" << std::endl;
-                            std::cout << "open resource actual param: " << obj->toString() << std::endl;
-                        }
-                    }
-                            
-                    pos++;
-                }
-            }
-        }
-    }
-}
-
-
-
-
 
 void TaintChecker::initSrcResourceValVar() {
     // 从读调用点 到资源变量对应的实参
@@ -401,6 +401,180 @@ void TaintChecker::initSinkResourceValVar() {
 }
 
 
+// -------------------------------------------------------------
+void TaintChecker::backwardTraverse(DPIm& it)
+{   
+    // 当前的读点
+    const auto cs = SVFAcutalParamNodeToReadSiteMap[ getCurSlice()->getSource()];
+    clearWorklist();
+    pushIntoWorklist(it);
+
+    while (!isWorklistEmpty())
+    {
+        DPIm item = popFromWorklist();
+        BWProcessCurNode(item);
+
+        GNODE* v = getNode(getNodeIDFromItem(item));
+        inv_child_iterator EI = InvGTraits::child_begin(v);
+        inv_child_iterator EE = InvGTraits::child_end(v);
+        int child_no = 0;
+        for (; EI != EE; ++EI)
+        {
+            child_no++;
+
+            // 处理间接边
+            if((*(EI.getCurrent()))->isIndirectVFGEdge()) {
+                if(const auto* indirEdge = SVFUtil::dyn_cast<IndirectSVFGEdge>(*(EI.getCurrent()))) {
+                    ReadSiteToIndirectObjMap[cs] |= indirEdge->getPointsTo();
+                }
+                continue;
+            }
+
+            BWProcessIncomingEdge(item,*(EI.getCurrent()) );  // 共用visitedSet
+        }
+        if (child_no == 0) {
+            const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
+            if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
+                if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
+                    continue;
+                }
+                std::cout << "v: " << v->toString() << std::endl;
+                std::cout << "addr_node: " << addr_node->toString() << std::endl; 
+
+                assert(cs != nullptr && "no read site found");
+                ReadSiteToSVFVarDefNodeMap[cs].insert(node);    
+                ReadSiteToIndirectObjMap[cs].set(addr_node->getPAGSrcNodeID());
+            }
+        }
+    }
+}
+
+void TaintChecker::bt(const StoreSVFGNode* store_node) {
+    for(const auto& obj : ReadSiteToIndirectObjMap[curReadSite]) {
+        std::cout << "obj: " << obj << std::endl;
+    }
+    std::cout<<std::endl;
+    FIFOWorkList<DPIm> tmp_worklist;
+    NodeBS objs;
+    Set<const SVFGNode*> vardefs;
+    tmp_worklist.push(DPIm(store_node->getId(), ContextCond()));
+    addBackwardVisited(store_node);
+
+    while (!tmp_worklist.empty())
+    {
+        DPIm item = tmp_worklist.pop();
+        BWProcessCurNode(item);
+
+        GNODE* v = getNode(getNodeIDFromItem(item));
+        inv_child_iterator EI = InvGTraits::child_begin(v);
+        inv_child_iterator EE = InvGTraits::child_end(v);
+        int child_no = 0;
+        for (; EI != EE; ++EI)
+        {
+            child_no++;
+
+            // 处理间接边
+            if((*(EI.getCurrent()))->isIndirectVFGEdge()) {
+                if(const auto* indirEdge = SVFUtil::dyn_cast<IndirectSVFGEdge>(*(EI.getCurrent()))) {
+                    objs |= indirEdge->getPointsTo();
+                }
+                continue;
+            }
+
+            const SVFGEdge* edge = *(EI.getCurrent());
+            const SVFGNode* srcNode = edge->getSrcNode();
+            
+            // if(forwardVisited(srcNode)) {
+
+            // }
+            // todo 反向遍历的时候应该注意设计 检查forwardVisited
+            
+
+            if(backwardVisited(srcNode)) // 共用visitedSet
+                continue;
+            else
+                addBackwardVisited(srcNode);
+
+            ContextCond cxt;
+            DPIm newItem(srcNode->getId(), cxt);
+            newItem.setParentNodeID(item.getCurNodeID());
+            tmp_worklist.push(newItem);           
+        }
+
+        if (child_no == 0) {
+            const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
+            if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
+                if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
+                    continue;
+                }
+                std::cout << "v: " << v->toString() << std::endl;
+                std::cout << "addr_node: " << addr_node->toString() << std::endl; 
+                objs.set(addr_node->getPAGSrcNodeID());
+                vardefs.insert(node);
+            }
+        }
+    }
+
+    // 将反向遍历得到的变量和内存对象加入到正向遍历的worklist中
+    // 找到对象对应的svfg节点
+    for(const auto& obj : objs) {
+        std::cout << "obj: " << obj << std::endl;
+        if(getPAG()->isConstantObj(obj)) {
+            continue;
+        }
+        const auto* pag_node = getPAG()->getBaseObject(obj);
+        (void)pag_node;
+        // const auto* svfg_node = getSVFG()->getDefVFGNode(pag_node);
+        // if(vardefs.find(svfg_node) != vardefs.end()) {
+        //     std::cout << "svfg_node: " << svfg_node->toString() << std::endl;
+        // }
+    }        
+}
+
+void TaintChecker::forwardTraverse(DPIm& it)
+{
+    NodeSet backward_push_into_worklist;
+    everinworklist.clear();
+    everinworklist.insert(it.getCurNodeID());
+    clearWorklist();
+    pushIntoWorklist(it);
+
+    while (!isWorklistEmpty())
+    {
+        DPIm item = popFromWorklist();
+        std::cout << "forwardTraverse item: " << item.getCurNodeID() << std::endl;
+        // check path reaches sink actual param 
+        if(getSVFG()->getSVFGNode(item.getCurNodeID())) {
+            const auto node = getSVFG()->getSVFGNode(item.getCurNodeID());
+            if(SVFAcutalParamNodeToWriteSiteMap.find(node) != SVFAcutalParamNodeToWriteSiteMap.end()) {
+                const auto ws = SVFAcutalParamNodeToWriteSiteMap[node];
+                if(curReadSite) {
+                    srcToSinkMap[curReadSite].insert(ws);
+                    std::cout << "srcToSinkMap: " << curReadSite->toString() << " --> " << ws->toString() << std::endl;
+                }
+            }
+        }
+
+
+        FWProcessCurNode(item);
+
+        GNODE* v = getNode(getNodeIDFromItem(item));
+        child_iterator EI = GTraits::child_begin(v);
+        child_iterator EE = GTraits::child_end(v);
+        for (; EI != EE; ++EI)
+        {
+            FWProcessOutgoingEdge(item,*(EI.getCurrent()) );
+        }
+
+        const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
+        if(const auto* store_node = SVFUtil::dyn_cast<StoreSVFGNode>(node)) {
+            std::cout << "store_node: " << store_node->getId() << std::endl;
+            bt(store_node);
+        }
+    }
+}
+
+
 
 void printResourceValVarToYaml(const std::string& valname, const std::string& filename, int line,  const std::string& site, const std::string& maybe_const_memobj = "", bool isglobconst = false) {
     std::ofstream yamlFile("resource_val_var.yaml", std::ios::app);
@@ -445,28 +619,31 @@ void printResourceValVarToYaml(const std::string& valname, const std::string& fi
     yamlFile.close();
 }
 
-
 void TaintChecker::analyze(SVFModule* module)
 {      
+        // Step 1: Initialization and timing
         std::cout << "analyze" << std::endl;
         std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        // Initialize the analysis context, call graph, SVFG, etc.
         initialize(module);
         std::chrono::steady_clock::time_point end1 = std::chrono::steady_clock::now();
         std::cout << "initialize time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end1 - begin).count() << "[ms]" << std::endl;
+        // Set the maximum context length for context-sensitive analysis
         ContextCond::setMaxCxtLen(Options::CxtLimit());
 
         std::cout << "initialize done" << std::endl;
 
-        // 初始化打开调用点 其操作资源和返回的句柄
+        // Step 2: Identify open sites (resource acquisition points)
+        // This populates OpenSiteToResourceActualParamNodeMap and SVFAcutalParamNodeToOpenSiteMap
         initOpens();
 
-
-        // 反向查找读写调用点对应的打开调用点
+        // Step 3: For each read/write site, backtrace to find the corresponding open site
+        // This links resource usage (read/write) to their acquisition (open)
         initSrcResourceValVar();
         initSinkResourceValVar();
 
-
-        // Helper function to extract line number from source location string
+        // Step 4: Define helper lambdas for extracting line/file info from source location strings
+        // These are used for reporting resource variable locations in the source code
         auto extractLineNumber = [](const std::string& sourceLoc) -> int {
             // Source location format: { ln: 123 }
             size_t lnPos = sourceLoc.find("\"ln\":");
@@ -513,7 +690,8 @@ void TaintChecker::analyze(SVFModule* module)
             return sourceLoc.substr(flPos, fileEnd - flPos);
         };
         
-        // 打印读写点操作的资源变量
+        // Step 5: Print out the mapping from read/write sites to resource value variables
+        // This is for debugging and for outputting YAML reports
         std::cout << "--------------------------------" << std::endl;
         std::cout << "srcToResourceValVars: " << std::endl;
         for(const auto& [readSite, resourceValVars] : srcToResourceValVars) {
@@ -521,7 +699,7 @@ void TaintChecker::analyze(SVFModule* module)
             auto site = readSite->toString();
             for(const auto& resourceValVar : resourceValVars) {
                 std::cout << "resourceValVar: " << resourceValVar->toString() << std::endl;
-                // Output line number and source code information for the resource variable
+                // For each resource variable, print its name, location, and value if available
                 if (const SVFValue* value = resourceValVar->getValue()) {
                     if (!value->getSourceLoc().empty()) {
                         if(resourceValVarToMemobjName.find(resourceValVar) != resourceValVarToMemobjName.end()) {
@@ -534,6 +712,7 @@ void TaintChecker::analyze(SVFModule* module)
                                 resourceValVarToMemobj[resourceValVar]->getValue()->holdConstant()) {
                                 maybe_const_memobj = resourceValVarToMemobj[resourceValVar]->toString();
                             }
+                            // Output to YAML for further processing
                             printResourceValVarToYaml(resourceValVarToMemobjName[resourceValVar], extractFileName(value->getSourceLoc()), 
                             extractLineNumber(value->getSourceLoc()), site, maybe_const_memobj);
                         }
@@ -566,15 +745,14 @@ void TaintChecker::analyze(SVFModule* module)
                     }
                 }
             }
-            
         }
-        
-        
-        
-        // ae 求出资源变量 名对应的值
 
+        // Step 6: (TODO) Use abstract interpretation (AE) to compute the value range of resource name variables
+        // This is a placeholder for future value analysis
 
-
+        // Step 7: For each source node (taint source), perform backward traversal (taint slice)
+        // This computes the backward slice from each source to find all relevant data dependencies
+        // 算 ReadSiteToSVFVarDefNodeMap
         for (SVFGNodeSetIter iter = sourcesBegin(), eiter = sourcesEnd();
                 iter != eiter; ++iter)
         {
@@ -590,9 +768,8 @@ void TaintChecker::analyze(SVFModule* module)
         std::cout << "backwardTraverse time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end2 - end1).count() << "[ms]" << std::endl;
         std::cout << "backwardTraverse done" << std::endl;
 
-       
-        
-        // flood sources
+        // Step 8: For each resource variable definition node at a read site, flood forward to propagate taint
+        // This finds all reachable nodes from the resource variable definition, simulating taint propagation
         for (auto it = ReadSiteToSVFVarDefNodeMap.begin(), eit = ReadSiteToSVFVarDefNodeMap.end(); it != eit; ++it) {
             std::cout << "it->first: " << it->first->toString() << std::endl;
             for (auto src : it->second) {
@@ -609,15 +786,15 @@ void TaintChecker::analyze(SVFModule* module)
         std::cout << "forwardTraverse done" << std::endl;
         // std::abort();
 
+        // Step 9: Print out the mapping from sources to sinks (taint flows)
+        // This summarizes the taint analysis results
         for(const auto& [src, sinks] : srcToSinkMap) {
             for(const auto& sink : sinks) {
                 std::cout << "src: " << src->getSourceLoc() << " sink: " << sink->getSourceLoc() << std::endl;
             }
         }
 
-        
-
+        // End of analysis
 }
-
 
 

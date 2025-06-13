@@ -1,0 +1,51 @@
+import("//build/ohos.gni")
+
+  ohos_shared_library("sdemoservice") {
+    sources = [
+      "//sdemoservice/src/i_sdemo_service.cpp",
+      "//sdemoservice/src/sdemo_service_stub.cpp",
+      "//sdemoservice/src/sdemo_service.cpp"
+    ]
+    include_dirs = [
+      "//sdemoservice/include",
+      "//sdemoservice/interface",
+      "//commonlibrary/c_utils/base/include",
+      "//base/startup/init/interfaces/innerkits/include/syspara"
+    ]
+  
+    external_deps = [
+      "hilog:libhilog",
+      "ipc:ipc_core",
+      "safwk:system_ability_fwk",
+      "samgr:samgr_proxy",
+      "c_utils:utils",
+    ]
+  
+    part_name = "sdemoservice_part"
+    subsystem_name = "sdemoservice"
+  }
+  
+  ohos_executable("sdemoclient") {
+    sources = [
+      "//sdemoservice/src/i_sdemo_service.cpp",
+      "//sdemoservice/src/sdemo_service_proxy.cpp",
+      "//sdemoservice/src/sdemo_client.cpp"
+    ]
+  
+    include_dirs = [
+      "//sdemoservice/include",
+      "//sdemoservice/interface",
+      "//commonlibrary/c_utils/base/include"
+    ]
+  
+    external_deps = [
+      "hilog:libhilog",
+      "ipc:ipc_core",
+      "samgr:samgr_proxy",
+      "c_utils:utils",
+    ]
+  
+    part_name = "sdemoservice_part"
+    subsystem_name = "sdemoservice"
+  }
+  

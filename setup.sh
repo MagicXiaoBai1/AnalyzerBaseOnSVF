@@ -65,7 +65,9 @@ fi
 Build="${PTAOBJTY}-build"
 
 # Add LLVM & Z3 to $PATH and $LD_LIBRARY_PATH (prepend so that selected instances will be used first)
-export PATH=$LLVM_DIR/bin:$Z3_DIR/bin:$PATH
+# export PATH=$LLVM_DIR/bin:$Z3_DIR/bin:$PATH
+
+
 export LD_LIBRARY_PATH=$LLVM_DIR/lib:$Z3_DIR/bin:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=$LLVM_DIR/lib:$Z3_DIR/bin:$DYLD_LIBRARY_PATH
 

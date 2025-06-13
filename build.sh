@@ -24,6 +24,13 @@ UbuntuZ3="https://github.com/Z3Prover/z3/releases/download/z3-4.8.8/z3-4.8.8-x64
 UbuntuZ3Arm="https://github.com/SVF-tools/SVF-npm/raw/prebuilt-libs/z3-4.8.7-aarch64-ubuntu.zip"
 SourceZ3="https://github.com/Z3Prover/z3/archive/refs/tags/z3-4.8.8.zip"
 
+# UbuntuArmLLVM="https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVMVer}/clang+llvm-${LLVMVer}-aarch64-linux-gnu.tar.xz"
+# UbuntuLLVM="https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVMVer}/clang+llvm-${LLVMVer}-x86_64-linux-gnu-ubuntu-22.04.tar.xz"
+# SourceLLVM="https://github.com/llvm/llvm-project/archive/refs/tags/llvmorg-${LLVMVer}.zip"
+# UbuntuZ3="https://github.com/Z3Prover/z3/releases/download/z3-4.8.8/z3-4.8.8-x64-ubuntu-16.04.zip"
+# UbuntuZ3Arm="https://github.com/SVF-tools/SVF-npm/raw/prebuilt-libs/z3-4.8.7-aarch64-ubuntu.zip"
+# SourceZ3="https://github.com/Z3Prover/z3/archive/refs/tags/z3-4.8.8.zip"
+
 # Keep LLVM version suffix for version checking and better debugging
 # keep the version consistent with LLVM_DIR in setup.sh and llvm_version in Dockerfile
 LLVMHome="llvm-${MajorLLVMVer}.0.0.obj"
@@ -192,7 +199,7 @@ if [[ ! -d "$LLVM_DIR" ]]; then
             check_xz
             echo "Unzipping llvm package..."
             mkdir -p "./$LLVMHome" && tar -xf llvm.tar.xz -C "./$LLVMHome" --strip-components 1
-            rm llvm.tar.xz
+            # rm llvm.tar.xz
         fi
     fi
     export LLVM_DIR="$SVFHOME/$LLVMHome"
@@ -223,7 +230,7 @@ if [[ ! -d "$Z3_DIR" ]]; then
             check_unzip
             echo "Unzipping z3 package..."
             unzip -q "z3.zip" && mv ./z3-* ./$Z3Home
-            rm z3.zip
+            #rm z3.zip
         fi
     fi
 
@@ -250,6 +257,13 @@ BUILD_DIR="./${BUILD_TYPE}-build"
 rm -rf "${BUILD_DIR}"
 mkdir "${BUILD_DIR}"
 # If you need shared libs, turn BUILD_SHARED_LIBS on
+echo cmake -D CMAKE_BUILD_TYPE:STRING="${BUILD_TYPE}"   \
+    -DSVF_ENABLE_ASSERTIONS:BOOL=true              \
+    -DSVF_SANITIZE="${SVF_SANITIZER}"              \
+    -DBUILD_SHARED_LIBS=off                        \
+    -DCMAKE_C_COMPILER=clang                       \
+    -DCMAKE_CXX_COMPILER=clang++                   \
+    -S "${SVFHOME}" -B "${BUILD_DIR}"
 cmake -D CMAKE_BUILD_TYPE:STRING="${BUILD_TYPE}"   \
     -DSVF_ENABLE_ASSERTIONS:BOOL=true              \
     -DSVF_SANITIZE="${SVF_SANITIZER}"              \
@@ -257,8 +271,10 @@ cmake -D CMAKE_BUILD_TYPE:STRING="${BUILD_TYPE}"   \
     -DCMAKE_C_COMPILER=clang                       \
     -DCMAKE_CXX_COMPILER=clang++                   \
     -S "${SVFHOME}" -B "${BUILD_DIR}"
-cmake --build "${BUILD_DIR}" -j ${jobs}
 
+
+echo cmake --build "${BUILD_DIR}" -j ${jobs}
+cmake --build "${BUILD_DIR}" -j ${jobs}
 ########
 # Set up environment variables of SVF
 ########

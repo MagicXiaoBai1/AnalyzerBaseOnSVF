@@ -1,73 +1,18 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build svf-ex",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "${workspaceFolder}/Debug-build",
-                "--target",
-                "svf-ex",
-                "-j",
-                "4"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": ["relative", "${workspaceFolder}"],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            }
-        },
-        {
-            "label": "clean",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                "${workspaceFolder}/Debug-build",
-                "--target",
-                "clean"
-            ],
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            }
-        },
-        {
-            "label": "build example ir",
-            "type": "shell",
-            "command": "${workspaceFolder}/compile.sh",
-            "args": [
-                "${workspaceFolder}/examples/example.c"
-            ],
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": ["relative", "${workspaceFolder}"],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            }
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake Configure",
+      "type": "shell",
+      "command": "cmake -D CMAKE_BUILD_TYPE=Debug -DSVF_ENABLE_ASSERTIONS=ON -DSVF_SANITIZE= -DBUILD_SHARED_LIBS=off -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -S ${workspaceFolder} -B ./Debug-build",
+      "group": "build"
+    },
+    {
+      "label": "CMake Build",
+      "type": "shell",
+      "command": "cmake --build ./Debug-build -j 8",
+      "group": "build",
+      "dependsOn": ["CMake Configure"]
+    }
+  ]
 }

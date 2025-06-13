@@ -1,0 +1,13 @@
+{
+    "process":"sdemoservice_sa",
+        "systemability":[
+            {
+                "name":18888,
+                "libpath":"libsdemoservice.z.so",
+                "run-on-create":false,
+                "auto-restart":true,
+                "distributed":false,
+                "dump-level":1
+            }
+        ]
+  }

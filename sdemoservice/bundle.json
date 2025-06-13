@@ -1,0 +1,45 @@
+{
+    "name": "@ohos/sdemoservice_part",
+    "description": "system ability framework test",
+    "homePage": "https://gitee.com/",
+    "version": "4.1",
+    "license": "Apache License 2.0",
+    "repository": "",
+    "publishAs": "code-segment",
+    "segment": {
+        "destPath": "sdemoservice"
+    },
+    "dirs": {},
+    "scripts": {},
+    "component": {
+        "name": "sdemoservice_part",
+        "subsystem": "sdemoservice",
+        "adapted_system_type": [
+            "standard"
+        ],
+        "rom": "2048KB",
+        "ram": "~4096KB",
+        "deps": {
+            "components": [
+                "hilog",
+                "ipc",
+                "samgr",
+                "c_utils",
+                "safwk"
+            ],
+            "third_party": [ "libxml2" ]
+        },
+        "build": {
+            "sub_component": [
+                "//sdemoservice:sdemoservice",
+                "//sdemoservice/sa_profile:sdemoservice_sa_profile",
+                "//sdemoservice:sdemoclient",
+                "//sdemoservice/etc:sdemo_service_init"
+            ],
+            "inner_kits": [
+            ],
+            "test": [
+            ]
+        }
+    }
+}

@@ -1,41 +1,57 @@
-// {
-//     // Use IntelliSense to learn about possible attributes.
-//     // Hover to view descriptions of existing attributes.
-//     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-//     "version": "0.2.0",
-//     "configurations": [
-
-//     ]
-// }
-
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug svf-ex",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/Debug-build/bin/svf-ex",  // 你的可执行文件路径
-            "args": ["${workspaceFolder}/examples/example.ll"],                                                // 命令行参数
-            "stopAtEntry": true,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "build svf-ex",        // 可选：运行前执行的任务
-            "miDebuggerPath": "/usr/bin/gdb" // GDB 路径
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "build and Debug SVF Saber",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/saber",
+      "args": [
+        "-taint=true",
+        "-read-taint-config",
+        "taint-config.yaml",
+        "read_write.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/examples",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "CMake Build" // 添加这一行
+    },
+    {
+      "name": "Debug SVF Saber with Taint Analysis",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/saber",
+      "args": [
+        "-taint=true",
+        "-read-taint-config",
+        "taint-config.yaml",
+        "read_write.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/examples",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    },
+    {
+      "name": "Debug Taint Analysis in sdemo",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/saber",
+      "args": [
+        "-taint=true",
+        "-read-taint-config",
+        "taint-config.yaml",
+        "sdemoservice_linked.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/sdemoservice/ll",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    }
+  ]
 }

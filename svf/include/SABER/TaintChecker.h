@@ -209,7 +209,6 @@ public:
                open_resource_pos_map[fun->getName()] == param_idx;
     }
 
-
     bool IsIntrestedReadResource(const SVFFunction* fun, int param_idx) {
         return isSourceLikeFun(fun) &&  read_resource_pos_map.find(fun->getName()) != read_resource_pos_map.end() && 
                read_resource_pos_map[fun->getName()] == param_idx;
@@ -219,13 +218,11 @@ public:
         return isSinkLikeFun(fun) &&  write_resource_pos_map.find(fun->getName()) != write_resource_pos_map.end() && 
                write_resource_pos_map[fun->getName()] == param_idx;
     }
-
-    
+ 
     bool IsIntrestedOpenParam(const SVFFunction* fun, int param_idx) {
         return isOpenLikeFun(fun) &&  open_map.find(fun->getName()) != open_map.end() && 
                open_map[fun->getName()] == param_idx;
     }
-
 
     bool isInterestedSrcParam(const SVFFunction* fun, int param_idx) {
         return isSourceLikeFun(fun) && 
@@ -297,181 +294,10 @@ public:
     }
 
 
-    void backwardTraverse(DPIm& it) override
-    {   
-        // 当前的读点
-        const auto cs = SVFAcutalParamNodeToReadSiteMap[ getCurSlice()->getSource()];
-        clearWorklist();
-        pushIntoWorklist(it);
-
-        while (!isWorklistEmpty())
-        {
-            DPIm item = popFromWorklist();
-            BWProcessCurNode(item);
-
-            GNODE* v = getNode(getNodeIDFromItem(item));
-            inv_child_iterator EI = InvGTraits::child_begin(v);
-            inv_child_iterator EE = InvGTraits::child_end(v);
-            int child_no = 0;
-            for (; EI != EE; ++EI)
-            {
-                child_no++;
-
-                // 处理间接边
-                if((*(EI.getCurrent()))->isIndirectVFGEdge()) {
-                    if(const auto* indirEdge = SVFUtil::dyn_cast<IndirectSVFGEdge>(*(EI.getCurrent()))) {
-                        ReadSiteToIndirectObjMap[cs] |= indirEdge->getPointsTo();
-                    }
-                    continue;
-                }
-
-                BWProcessIncomingEdge(item,*(EI.getCurrent()) );  // 共用visitedSet
-            }
-            if (child_no == 0) {
-                const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
-                if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
-                    if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
-                        continue;
-                    }
-                    std::cout << "v: " << v->toString() << std::endl;
-                    std::cout << "addr_node: " << addr_node->toString() << std::endl; 
-
-                    assert(cs != nullptr && "no read site found");
-                    ReadSiteToSVFVarDefNodeMap[cs].insert(node);    
-                    ReadSiteToIndirectObjMap[cs].set(addr_node->getPAGSrcNodeID());
-                }
-            }
-        }
-    }
-
+    void backwardTraverse(DPIm& it) override;
     // backward traverse while forward traverse
-    void bt(const StoreSVFGNode* store_node) {
-        for(const auto& obj : ReadSiteToIndirectObjMap[curReadSite]) {
-            std::cout << "obj: " << obj << std::endl;
-        }
-        std::cout<<std::endl;
-        FIFOWorkList<DPIm> tmp_worklist;
-        NodeBS objs;
-        Set<const SVFGNode*> vardefs;
-        tmp_worklist.push(DPIm(store_node->getId(), ContextCond()));
-        addBackwardVisited(store_node);
-
-        while (!tmp_worklist.empty())
-        {
-            DPIm item = tmp_worklist.pop();
-            BWProcessCurNode(item);
-
-            GNODE* v = getNode(getNodeIDFromItem(item));
-            inv_child_iterator EI = InvGTraits::child_begin(v);
-            inv_child_iterator EE = InvGTraits::child_end(v);
-            int child_no = 0;
-            for (; EI != EE; ++EI)
-            {
-                child_no++;
-
-                // 处理间接边
-                if((*(EI.getCurrent()))->isIndirectVFGEdge()) {
-                    if(const auto* indirEdge = SVFUtil::dyn_cast<IndirectSVFGEdge>(*(EI.getCurrent()))) {
-                        objs |= indirEdge->getPointsTo();
-                    }
-                    continue;
-                }
-
-                const SVFGEdge* edge = *(EI.getCurrent());
-                const SVFGNode* srcNode = edge->getSrcNode();
-                
-                // if(forwardVisited(srcNode)) {
-
-                // }
-                // todo 反向遍历的时候应该注意设计 检查forwardVisited
-                
-
-                if(backwardVisited(srcNode)) // 共用visitedSet
-                    continue;
-                else
-                    addBackwardVisited(srcNode);
-
-                ContextCond cxt;
-                DPIm newItem(srcNode->getId(), cxt);
-                newItem.setParentNodeID(item.getCurNodeID());
-                tmp_worklist.push(newItem);           
-            }
-
-            if (child_no == 0) {
-                const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
-                if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
-                    if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
-                        continue;
-                    }
-                    std::cout << "v: " << v->toString() << std::endl;
-                    std::cout << "addr_node: " << addr_node->toString() << std::endl; 
-                    objs.set(addr_node->getPAGSrcNodeID());
-                    vardefs.insert(node);
-                }
-            }
-        }
-
-        // 将反向遍历得到的变量和内存对象加入到正向遍历的worklist中
-        // 找到对象对应的svfg节点
-        for(const auto& obj : objs) {
-            std::cout << "obj: " << obj << std::endl;
-            if(getPAG()->isConstantObj(obj)) {
-                continue;
-            }
-            const auto* pag_node = getPAG()->getBaseObject(obj);
-            (void)pag_node;
-            // const auto* svfg_node = getSVFG()->getDefVFGNode(pag_node);
-            // if(vardefs.find(svfg_node) != vardefs.end()) {
-            //     std::cout << "svfg_node: " << svfg_node->toString() << std::endl;
-            // }
-        }        
-    }
-
-
-
-    void forwardTraverse(DPIm& it) override
-    {
-        NodeSet backward_push_into_worklist;
-        everinworklist.clear();
-        everinworklist.insert(it.getCurNodeID());
-        clearWorklist();
-        pushIntoWorklist(it);
-
-        while (!isWorklistEmpty())
-        {
-            DPIm item = popFromWorklist();
-            std::cout << "forwardTraverse item: " << item.getCurNodeID() << std::endl;
-            // check path reaches sink actual param 
-            if(getSVFG()->getSVFGNode(item.getCurNodeID())) {
-                const auto node = getSVFG()->getSVFGNode(item.getCurNodeID());
-                if(SVFAcutalParamNodeToWriteSiteMap.find(node) != SVFAcutalParamNodeToWriteSiteMap.end()) {
-                    const auto ws = SVFAcutalParamNodeToWriteSiteMap[node];
-                    if(curReadSite) {
-                        srcToSinkMap[curReadSite].insert(ws);
-                        std::cout << "srcToSinkMap: " << curReadSite->toString() << " --> " << ws->toString() << std::endl;
-                    }
-                }
-            }
-
-
-            FWProcessCurNode(item);
-
-            GNODE* v = getNode(getNodeIDFromItem(item));
-            child_iterator EI = GTraits::child_begin(v);
-            child_iterator EE = GTraits::child_end(v);
-            for (; EI != EE; ++EI)
-            {
-                FWProcessOutgoingEdge(item,*(EI.getCurrent()) );
-            }
-
-            const SVFGNode* node = getSVFG()->getSVFGNode(v->getId());
-            if(const auto* store_node = SVFUtil::dyn_cast<StoreSVFGNode>(node)) {
-                std::cout << "store_node: " << store_node->getId() << std::endl;
-                bt(store_node);
-            }
-        }
-    }
-
+    void bt(const StoreSVFGNode* store_node);
+    void forwardTraverse(DPIm& it) override;
 
     // void reportBug(ProgSlice* slice) override;
 

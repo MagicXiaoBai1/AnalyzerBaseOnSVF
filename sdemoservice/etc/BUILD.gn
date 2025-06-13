@@ -1,0 +1,9 @@
+import("//build/ohos.gni")
+
+  ohos_prebuilt_etc("sdemo_service_init") {
+    source = "sdemo_service.cfg"
+    relative_install_dir = "init"
+    part_name = "sdemoservice_part"
+    subsystem_name = "sdemoservice"
+  }
+  

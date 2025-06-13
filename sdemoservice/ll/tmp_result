@@ -1,0 +1,4591 @@
+当前工作目录: /home/host_swap/sdemoservice/ll
+open: fopen
+open: open
+source: fread
+source: fgets
+source: fscanf
+source: safe_read
+source: foo
+sink: fwrite
+sink: full_write
+sink: fwrite_unlocked
+open_name: fopen
+src_arg_idx: 0
+dst_arg_idx: -1
+open_name: open
+src_arg_idx: 0
+dst_arg_idx: -1
+source_name: fread
+dst_args: 0 
+src_arg: 3
+source_name: fgets
+dst_args: 0 
+src_arg: 2
+source_name: fscanf
+dst_args: 0 
+src_arg: 1
+source_name: safe_read
+dst_args: 1 
+src_arg: 0
+source_name: foo
+dst_args: 0 
+src_arg: 0
+sink_name: fwrite
+args: 0 
+src_arg: 3
+sink_name: full_write
+args: 1 
+src_arg: 0
+sink_name: fwrite_unlocked
+args: 0 
+src_arg: 3
+analyze
+
+*********General Stats***************
+################ (program : sdemoservice_linked.ll)###############
+AddrsNum            1344
+BBWith2Succ         168
+BBWith3Succ         4
+CallsNum            771
+ConstArrayObj       5
+ConstStructObj      20
+ConstantObj         0
+CopysNum            117
+FIObjNum            35
+FSObjNum            1209
+FunctionObjs        457
+GepsNum             1184
+GlobalObjs          31
+HeapObjs            13
+IndCallSites        25
+LoadsNum            1279
+MaxStructSize       49
+NonPtrObj           737
+ReturnsNum          408
+StackObjs           743
+StoresNum           1780
+TotalCallSite       711
+TotalFieldObjects   87
+TotalObjects        1245
+TotalPTASVFStmts    5548
+TotalPointers       7746
+TotalSVFStmts       7792
+VarArrayObj         3
+VarStructObj        59
+----------------Time and memory stats--------------------
+LLVMIRTime          0.362
+SVFIRTime           0.24
+SymbolTableTime     0.071
+#######################################################
+
+*********PTACallGraph Stats (Andersen analysis)***************
+################ (program : sdemoservice_linked.ll)###############
+----------------Numbers stats----------------------------
+CalRetPairInCycle   0
+MaxNodeInCycle      0
+NodeInCycle         0
+TotalCycle          0
+TotalEdge           700
+TotalNode           457
+#######################################################
+
+*********Andersen Pointer Analysis Stats***************
+################ (program : sdemoservice_linked.ll)###############
+----------------Time and memory stats--------------------
+AvgIn/OutAddrEdge   0.224116
+AvgIn/OutCopyEdge   0.710647
+AvgIn/OutEdge       1.29962
+AvgIn/OutLoadEdge   0.161261
+AvgIn/OutStoreEdge  0.203592
+AvgPtsSetSize       1.45745
+AvgTopLvlPtsSize    2.84417
+CollapseTime        0
+CopyGepTime         0
+LoadStoreTime       0
+MemoryUsageVmrss    14248
+MemoryUsageVmsize   14048
+SCCDetectTime       0
+SCCMergeTime        0
+TotalTime           0.381
+UpdateCGTime        0
+----------------Numbers stats----------------------------
+AddrProcessed       1265
+CopyProcessed       2821
+DummyFieldPtrs      63
+FieldObjs           87
+GepProcessed        991
+IndCallSites        25
+IndEdgeSolved       14
+LoadProcessed       1709
+LocalVarInRecur     0
+MaxInAddrEdge       1
+MaxInCopyEdge       61
+MaxInLoadEdge       16
+MaxInStoreEdge      25
+MaxNodesInSCC       30
+MaxOutAddrEdge      22
+MaxOutCopyEdge      98
+MaxOutLoadEdge      9
+MaxOutStoreEdge     76
+MaxPtsSetSize       26
+MemObjects          1245
+NodesInCycles       39
+NullPointer         278
+NumOfAddrs          1223
+NumOfCGEdge         5869
+NumOfCGNode         5740
+NumOfCopys          2702
+NumOfFieldExpand    0
+NumOfGeps           1176
+NumOfLoads          880
+NumOfSCCDetect      7
+NumOfSFRs           0
+NumOfStores         1111
+NumOfValidNode      5457
+NumOfValidObjNode   1267
+Pointers            7683
+PointsToBlkPtr      0
+PointsToConstPtr    6
+SolveIterations     7
+StoreProcessed      1326
+TotalCycleNum       4
+TotalObjects        1332
+TotalPWCCycleNum    0
+TotalPointers       7746
+#######################################################
+
+****Persistent Points-To Cache Statistics: Andersen's analysis bitvector****
+################ (program : sdemoservice_linked.ll)###############
+UniquePointsToSets       2082
+TotalUnions              8554
+PropertyUnions           4856
+UniqueUnions             399
+LookupUnions             2553
+PreemptiveUnions         746
+TotalComplements         43524
+PropertyComplements      40125
+UniqueComplements        431
+LookupComplements        2537
+PreemptiveComplements    431
+TotalIntersections       3667
+PropertyIntersections    2804
+UniqueIntersections      1
+LookupIntersections      0
+PreemptiveIntersections  862
+#######################################################
+
+*********Memory SSA Statistics***************
+################ (program : sdemoservice_linked.ll)###############
+----------------Time and memory stats--------------------
+AverageRegSize      1.47666
+GenMUCHITime        0.025
+GenRegionTime       0.12
+InsertPHITime       0.002
+SSARenameTime       0.011
+TotalMSSATime       0.159
+----------------Numbers stats----------------------------
+BBHasMSSAPhi        81
+CSChiNode           249
+CSHasChi            142
+CSHasMu             275
+CSMuNode            574
+FunEntryChi         1064
+FunHasEntryChi      339
+FunHasRetMu         328
+FunRetMu            1044
+LoadHasMu           1279
+LoadMuNode          1156
+MSSAPhi             285
+MaxRegSize          26
+MemRegions          814
+StoreChiNode        1287
+StoreHasChi         1355
+#######################################################
+
+
+
+
+
+
+
+
+*********SVFG Statistics***************
+################ (program : sdemoservice_linked.ll)###############
+----------------Time and memory stats--------------------
+ATNodeTime          0.015
+AvgWeight           2.29595
+ConnDirEdgeTime     0
+ConnIndEdgeTime     0.028
+OptTime             0
+TLNodeTime          0
+TotalTime           0.056
+----------------Numbers stats----------------------------
+ActualIn            574
+ActualOut           249
+ActualParam         1223
+ActualRet           511
+Addr                1344
+AvgInDegree         1
+AvgIndInDeg         1
+AvgIndOutDeg        1
+AvgOutDegree        1
+Copy                117
+DirectCallEdge      771
+DirectEdge          9285
+DirectRetEdge       408
+FormalIn            1064
+FormalOut           1044
+FormalParam         554
+FormalRet           255
+Gep                 1184
+IndCallEdge         601
+IndRetEdge          258
+IndirectEdge        5555
+IndirectEdgeLabels  12754
+Load                1279
+MSSAPhi             285
+MaxInDegree         34
+MaxIndInDeg         34
+MaxIndOutDeg        44
+MaxOutDegree        387
+PHI                 266
+Store               1780
+TotalEdge           14840
+TotalNode           12373
+#######################################################
+
+*********SVFG Statistics***************
+################ (program : sdemoservice_linked.ll)###############
+----------------Time and memory stats--------------------
+ATNodeTime          0.015
+AvgWeight           2.30032
+ConnDirEdgeTime     0
+ConnIndEdgeTime     0.028
+OptTime             0
+TLNodeTime          0
+TotalTime           0.072
+----------------Numbers stats----------------------------
+ActualIn            574
+ActualOut           249
+ActualParam         1223
+ActualRet           511
+Addr                1344
+AvgInDegree         1
+AvgIndInDeg         1
+AvgIndOutDeg        1
+AvgOutDegree        1
+Copy                117
+DirectCallEdge      779
+DirectEdge          9297
+DirectRetEdge       412
+FormalIn            1064
+FormalOut           1044
+FormalParam         554
+FormalRet           255
+Gep                 1184
+IndCallEdge         613
+IndRetEdge          265
+IndirectEdge        5574
+IndirectEdgeLabels  12822
+Load                1279
+MSSAPhi             285
+MaxInDegree         34
+MaxIndInDeg         34
+MaxIndOutDeg        44
+MaxOutDegree        387
+PHI                 266
+Store               1780
+TotalEdge           14871
+TotalNode           12373
+#######################################################
+
+
+source: ActualParmVFGNode ID: 6020 CS[CallICFGNode: { "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }]ValVar ID: 1929
+   %71 = getelementptr inbounds i8, ptr %69, i32 %70, !dbg !6224 { "ln": 742, "cl": 43, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+source: ActualParmVFGNode ID: 6180 CS[CallICFGNode: { "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }]ValVar ID: 2051
+   %165 = load ptr, ptr %164, align 4, !dbg !6297 { "ln": 762, "cl": 60, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+source: ActualParmVFGNode ID: 6339 CS[CallICFGNode: { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]ValVar ID: 5416
+   %12 = getelementptr inbounds [1024 x i8], ptr %4, i32 0, i32 0, !dbg !6179 { "ln": 85, "cl": 15, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source: ActualParmVFGNode ID: 6777 CS[CallICFGNode: { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]ValVar ID: 5362
+   %14 = getelementptr inbounds [1024 x i8], ptr %5, i32 0, i32 0, !dbg !6181 { "ln": 71, "cl": 19, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source: ActualParmVFGNode ID: 6796 CS[CallICFGNode: { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]ValVar ID: 5292
+   %14 = getelementptr inbounds [1024 x i8], ptr %5, i32 0, i32 0, !dbg !6181 { "ln": 56, "cl": 19, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+sink: ActualParmVFGNode ID: 5923 CS[CallICFGNode: { "ln": 864, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }]ValVar ID: 2412
+   %120 = load ptr, ptr %119, align 4, !dbg !6294 { "ln": 864, "cl": 32, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+sink: ActualParmVFGNode ID: 5927 CS[CallICFGNode: { "ln": 858, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }]ValVar ID: 2383
+   %96 = call noundef ptr @_ZNKSt3__h15basic_streambufIcNS_11char_traitsIcEEE5pbaseB6v15004Ev(ptr noundef nonnull align 4 dereferenceable(32) %15), !dbg !6270 { "ln": 858, "cl": 38, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+sink: ActualParmVFGNode ID: 6172 CS[CallICFGNode: { "ln": 1011, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }]ValVar ID: 1635
+   %61 = load ptr, ptr %60, align 4, !dbg !6210 { "ln": 1011, "cl": 24, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+sink: ActualParmVFGNode ID: 6319 CS[CallICFGNode: { "ln": 838, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }]ValVar ID: 2319
+   %50 = call noundef ptr @_ZNKSt3__h15basic_streambufIcNS_11char_traitsIcEEE5pbaseB6v15004Ev(ptr noundef nonnull align 4 dereferenceable(32) %15), !dbg !6216 { "ln": 838, "cl": 30, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+initialize time: 777[ms]
+initialize done
+taint open param of fopen is return value
+ret_node: ValVar ID: 5275
+   %6 = call ptr @fopen(ptr noundef @.str, ptr noundef @.str.4), !dbg !6167 { "ln": 52, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+actual_ret: AddrVFGNode ID: 710 AddrStmt: [Var5275 <-- Var5276]	
+ValVar ID: 5275
+   %6 = call ptr @fopen(ptr noundef @.str, ptr noundef @.str.4), !dbg !6167 { "ln": 52, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source actual_param is constant
+open resource actual param: ActualParmVFGNode ID: 6015 CS[CallICFGNode: { "ln": 52, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [12 x i8] c"/etc/shadow\00", align 1, !dbg !0 { Glob  }
+taint open param of fopen is return value
+ret_node: ValVar ID: 5405
+   %5 = call ptr @fopen(ptr noundef @.str, ptr noundef @.str.4), !dbg !6167 { "ln": 82, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+actual_ret: AddrVFGNode ID: 725 AddrStmt: [Var5405 <-- Var5406]	
+ValVar ID: 5405
+   %5 = call ptr @fopen(ptr noundef @.str, ptr noundef @.str.4), !dbg !6167 { "ln": 82, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source actual_param is constant
+open resource actual param: ActualParmVFGNode ID: 6170 CS[CallICFGNode: { "ln": 82, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [12 x i8] c"/etc/shadow\00", align 1, !dbg !0 { Glob  }
+taint open param of fopen is return value
+ret_node: ValVar ID: 4945
+   %21 = call ptr @fopen(ptr noundef %19, ptr noundef %20), !dbg !6186 { "ln": 571, "cl": 19, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+actual_ret: AddrVFGNode ID: 672 AddrStmt: [Var4945 <-- Var4946]	
+ValVar ID: 4945
+   %21 = call ptr @fopen(ptr noundef %19, ptr noundef %20), !dbg !6186 { "ln": 571, "cl": 19, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+taint open param of fopen is return value
+ret_node: ValVar ID: 5280
+   %7 = call ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.5), !dbg !6170 { "ln": 53, "cl": 21, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+actual_ret: AddrVFGNode ID: 711 AddrStmt: [Var5280 <-- Var5281]	
+ValVar ID: 5280
+   %7 = call ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.5), !dbg !6170 { "ln": 53, "cl": 21, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source actual_param is constant
+open resource actual param: ActualParmVFGNode ID: 6768 CS[CallICFGNode: { "ln": 53, "cl": 21, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !8 { Glob  }
+taint open param of fopen is return value
+ret_node: ValVar ID: 5351
+   %7 = call ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.5), !dbg !6170 { "ln": 68, "cl": 21, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+actual_ret: AddrVFGNode ID: 720 AddrStmt: [Var5351 <-- Var5352]	
+ValVar ID: 5351
+   %7 = call ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.5), !dbg !6170 { "ln": 68, "cl": 21, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source actual_param is constant
+open resource actual param: ActualParmVFGNode ID: 6771 CS[CallICFGNode: { "ln": 68, "cl": 21, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !8 { Glob  }
+taint open param of fopen is return value
+ret_node: ValVar ID: 5346
+   %6 = call ptr @fopen(ptr noundef @.str, ptr noundef @.str.4), !dbg !6167 { "ln": 67, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+actual_ret: AddrVFGNode ID: 719 AddrStmt: [Var5346 <-- Var5347]	
+ValVar ID: 5346
+   %6 = call ptr @fopen(ptr noundef @.str, ptr noundef @.str.4), !dbg !6167 { "ln": 67, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+source actual_param is constant
+open resource actual param: ActualParmVFGNode ID: 6851 CS[CallICFGNode: { "ln": 67, "cl": 20, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }]GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [12 x i8] c"/etc/shadow\00", align 1, !dbg !0 { Glob  }
+def_node: AddrVFGNode ID: 716 AddrStmt: [Var5336 <-- Var5337]	
+ValVar ID: 5336
+   %3 = alloca ptr, align 4 { "ln": 67, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+
+--------------------------------
+read site: CallICFGNode4359 {fun: _Z26innerMayIllegalInforFlow_ci{ "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5362]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5363]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+def_node: AddrVFGNode ID: 723 AddrStmt: [Var5397 <-- Var5398]	
+ValVar ID: 5397
+   %3 = alloca ptr, align 4 { "ln": 82, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+
+--------------------------------
+read site: CallICFGNode4404 {fun: _Z28innerFalseIllegalInforFlow_ci{ "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5416]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5417]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+def_node: AddrVFGNode ID: 707 AddrStmt: [Var5265 <-- Var5266]	
+ValVar ID: 5265
+   %3 = alloca ptr, align 4 { "ln": 52, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+
+--------------------------------
+read site: CallICFGNode4307 {fun: _Z27innerTureIllegalInforFlow_ci{ "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5292]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5293]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+def_node: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+
+--------------------------------
+read site: CallICFGNode2030 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE9underflowEv{ "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %169 = call i32 @fread(ptr noundef %165, i32 noundef 1, i32 noundef %166, ptr noundef %168), !dbg !6300 CallICFGNode: { "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+def_node: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+
+--------------------------------
+read site: CallICFGNode1934 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE9underflowEv{ "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %75 = call i32 @fread(ptr noundef %71, i32 noundef 1, i32 noundef %72, ptr noundef %74), !dbg !6227 CallICFGNode: { "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+def_node: AddrVFGNode ID: 346 AddrStmt: [Var2233 <-- Var2234]	
+ValVar ID: 2233
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+
+--------------------------------
+write site: CallICFGNode2277 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE8overflowEi{ "ln": 838, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %54 = call i32 @fwrite(ptr noundef %50, i32 noundef 1, i32 noundef %51, ptr noundef %53), !dbg !6220 CallICFGNode: { "ln": 838, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+def_node: AddrVFGNode ID: 289 AddrStmt: [Var1541 <-- Var1542]	
+ValVar ID: 1541
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+
+--------------------------------
+write site: CallICFGNode1692 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE4syncEv{ "ln": 1011, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %65 = call i32 @fwrite(ptr noundef %61, i32 noundef 1, i32 noundef %62, ptr noundef %64), !dbg !6214 CallICFGNode: { "ln": 1011, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+def_node: AddrVFGNode ID: 346 AddrStmt: [Var2233 <-- Var2234]	
+ValVar ID: 2233
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+
+--------------------------------
+write site: CallICFGNode2354 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE8overflowEi{ "ln": 858, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %100 = call i32 @fwrite(ptr noundef %96, i32 noundef 1, i32 noundef %97, ptr noundef %99), !dbg !6274 CallICFGNode: { "ln": 858, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+def_node: AddrVFGNode ID: 346 AddrStmt: [Var2233 <-- Var2234]	
+ValVar ID: 2233
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+
+--------------------------------
+write site: CallICFGNode2369 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE8overflowEi{ "ln": 864, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %124 = call i32 @fwrite(ptr noundef %120, i32 noundef 1, i32 noundef %121, ptr noundef %123), !dbg !6298 CallICFGNode: { "ln": 864, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+--------------------------------
+srcToResourceValVars: 
+read site: CallICFGNode1934 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE9underflowEv{ "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %75 = call i32 @fread(ptr noundef %71, i32 noundef 1, i32 noundef %72, ptr noundef %74), !dbg !6227 CallICFGNode: { "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+read site: CallICFGNode2030 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE9underflowEv{ "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %169 = call i32 @fread(ptr noundef %165, i32 noundef 1, i32 noundef %166, ptr noundef %168), !dbg !6300 CallICFGNode: { "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+read site: CallICFGNode4307 {fun: _Z27innerTureIllegalInforFlow_ci{ "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5292]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5293]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+read site: CallICFGNode4404 {fun: _Z28innerFalseIllegalInforFlow_ci{ "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5416]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5417]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+read site: CallICFGNode4359 {fun: _Z26innerMayIllegalInforFlow_ci{ "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5362]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5363]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+--------------------------------
+sinkToResourceValVars: 
+write site: CallICFGNode2369 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE8overflowEi{ "ln": 864, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %124 = call i32 @fwrite(ptr noundef %120, i32 noundef 1, i32 noundef %121, ptr noundef %123), !dbg !6298 CallICFGNode: { "ln": 864, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+write site: CallICFGNode2354 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE8overflowEi{ "ln": 858, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %100 = call i32 @fwrite(ptr noundef %96, i32 noundef 1, i32 noundef %97, ptr noundef %99), !dbg !6274 CallICFGNode: { "ln": 858, "cl": 25, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+write site: CallICFGNode1692 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE4syncEv{ "ln": 1011, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %65 = call i32 @fwrite(ptr noundef %61, i32 noundef 1, i32 noundef %62, ptr noundef %64), !dbg !6214 CallICFGNode: { "ln": 1011, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+write site: CallICFGNode2277 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE8overflowEi{ "ln": 838, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %54 = call i32 @fwrite(ptr noundef %50, i32 noundef 1, i32 noundef %51, ptr noundef %53), !dbg !6220 CallICFGNode: { "ln": 838, "cl": 17, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+v: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+v: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+v: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+backwardTraverse time: 95[ms]
+backwardTraverse done
+it->first: CallICFGNode1934 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE9underflowEv{ "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %75 = call i32 @fread(ptr noundef %71, i32 noundef 1, i32 noundef %72, ptr noundef %74), !dbg !6227 CallICFGNode: { "ln": 742, "cl": 23, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+src: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+forwardTraverse item: 390
+forwardTraverse item: 2976
+forwardTraverse item: 4749
+store_node: 4749
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 336 AddrStmt: [Var2158 <-- Var2159]	
+ValVar ID: 2158
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 336 AddrStmt: [Var2158 <-- Var2159]	
+ValVar ID: 2158
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 289 AddrStmt: [Var1541 <-- Var1542]	
+ValVar ID: 1541
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 289 AddrStmt: [Var1541 <-- Var1542]	
+ValVar ID: 1541
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1542
+obj: 1818
+obj: 2159
+obj: 2749
+forwardTraverse item: 2029
+forwardTraverse item: 11133
+forwardTraverse item: 2977
+forwardTraverse item: 8311
+forwardTraverse item: 8097
+forwardTraverse item: 7373
+forwardTraverse item: 7108
+forwardTraverse item: 7286
+forwardTraverse item: 7161
+forwardTraverse item: 7223
+forwardTraverse item: 7078
+forwardTraverse item: 7290
+forwardTraverse item: 7071
+forwardTraverse item: 7110
+forwardTraverse item: 7185
+forwardTraverse item: 7282
+forwardTraverse item: 7075
+forwardTraverse item: 7170
+forwardTraverse item: 7429
+forwardTraverse item: 7281
+forwardTraverse item: 1982
+forwardTraverse item: 1980
+forwardTraverse item: 9116
+forwardTraverse item: 1981
+forwardTraverse item: 6214
+forwardTraverse item: 1913
+forwardTraverse item: 6024
+forwardTraverse item: 9115
+forwardTraverse item: 1917
+forwardTraverse item: 1916
+forwardTraverse item: 1391
+forwardTraverse item: 1399
+forwardTraverse item: 1402
+forwardTraverse item: 1918
+forwardTraverse item: 6389
+forwardTraverse item: 1983
+forwardTraverse item: 9114
+forwardTraverse item: 6247
+forwardTraverse item: 8912
+forwardTraverse item: 6248
+forwardTraverse item: 7742
+forwardTraverse item: 4632
+store_node: 4632
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 398 AddrStmt: [Var2860 <-- Var2861]	
+ValVar ID: 2860
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 398 AddrStmt: [Var2860 <-- Var2861]	
+ValVar ID: 2860
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 29
+obj: 42
+obj: 60
+obj: 74
+obj: 85
+obj: 88
+obj: 91
+obj: 341
+obj: 343
+obj: 1302
+obj: 1347
+obj: 1822
+obj: 1824
+obj: 2238
+obj: 2749
+obj: 2861
+obj: 3266
+obj: 3269
+obj: 3272
+obj: 3275
+obj: 3350
+obj: 3353
+obj: 3356
+obj: 3359
+obj: 4946
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8910
+forwardTraverse item: 6215
+forwardTraverse item: 6020
+forwardTraverse item: 8558
+forwardTraverse item: 8563
+forwardTraverse item: 8565
+forwardTraverse item: 1919
+forwardTraverse item: 7742
+forwardTraverse item: 6390
+forwardTraverse item: 8909
+forwardTraverse item: 7877
+forwardTraverse item: 7878
+forwardTraverse item: 4743
+store_node: 4743
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 387 AddrStmt: [Var2721 <-- Var2722]	
+ValVar ID: 2721
+   %6 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 387 AddrStmt: [Var2721 <-- Var2722]	
+ValVar ID: 2721
+   %6 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+v: AddrVFGNode ID: 314 AddrStmt: [Var1821 <-- Var1822]	
+ValVar ID: 1821
+   %5 = alloca i8, align 1 { "ln": 731, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 314 AddrStmt: [Var1821 <-- Var1822]	
+ValVar ID: 1821
+   %5 = alloca i8, align 1 { "ln": 731, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 397 AddrStmt: [Var2805 <-- Var2806]	
+ValVar ID: 2805
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 397 AddrStmt: [Var2805 <-- Var2806]	
+ValVar ID: 2805
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1822
+obj: 2722
+obj: 2806
+forwardTraverse item: 2854
+forwardTraverse item: 2885
+forwardTraverse item: 2886
+forwardTraverse item: 9201
+forwardTraverse item: 9205
+forwardTraverse item: 9223
+forwardTraverse item: 9228
+forwardTraverse item: 9360
+forwardTraverse item: 11589
+forwardTraverse item: 11613
+forwardTraverse item: 11616
+forwardTraverse item: 11636
+forwardTraverse item: 11655
+forwardTraverse item: 11659
+forwardTraverse item: 11660
+forwardTraverse item: 11668
+forwardTraverse item: 11697
+forwardTraverse item: 11845
+forwardTraverse item: 11920
+forwardTraverse item: 11935
+forwardTraverse item: 12019
+forwardTraverse item: 12057
+forwardTraverse item: 7743
+forwardTraverse item: 6450
+forwardTraverse item: 8538
+forwardTraverse item: 8566
+forwardTraverse item: 6216
+forwardTraverse item: 4743
+store_node: 4743
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2722
+forwardTraverse item: 7743
+forwardTraverse item: 4769
+store_node: 4769
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 409 AddrStmt: [Var2932 <-- Var2933]	
+ValVar ID: 2932
+   %14 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 409 AddrStmt: [Var2932 <-- Var2933]	
+ValVar ID: 2932
+   %14 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 1824
+obj: 2933
+forwardTraverse item: 4770
+store_node: 4770
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 410 AddrStmt: [Var2934 <-- Var2935]	
+ValVar ID: 2934
+   %15 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 410 AddrStmt: [Var2934 <-- Var2935]	
+ValVar ID: 2934
+   %15 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2935
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 5852
+forwardTraverse item: 6652
+forwardTraverse item: 6057
+forwardTraverse item: 9203
+forwardTraverse item: 9212
+forwardTraverse item: 9232
+forwardTraverse item: 9240
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10220
+forwardTraverse item: 10074
+forwardTraverse item: 4744
+store_node: 4744
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 388 AddrStmt: [Var2723 <-- Var2724]	
+ValVar ID: 2723
+   %7 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 388 AddrStmt: [Var2723 <-- Var2724]	
+ValVar ID: 2723
+   %7 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+obj: 1824
+obj: 2724
+forwardTraverse item: 7709
+forwardTraverse item: 4627
+store_node: 4627
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 316 AddrStmt: [Var1825 <-- Var1826]	
+ValVar ID: 1825
+   %7 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 316 AddrStmt: [Var1825 <-- Var1826]	
+ValVar ID: 1825
+   %7 = alloca i32, align 4 
+obj: 1826
+forwardTraverse item: 4634
+store_node: 4634
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 319 AddrStmt: [Var1831 <-- Var1832]	
+ValVar ID: 1831
+   %10 = alloca i32, align 4 { "ln": 741, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 319 AddrStmt: [Var1831 <-- Var1832]	
+ValVar ID: 1831
+   %10 = alloca i32, align 4 { "ln": 741, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1824
+obj: 1832
+forwardTraverse item: 7744
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 4744
+store_node: 4744
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2724
+forwardTraverse item: 3009
+forwardTraverse item: 11354
+forwardTraverse item: 3010
+forwardTraverse item: 11353
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 386 AddrStmt: [Var2719 <-- Var2720]	
+ValVar ID: 2719
+   %5 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 386 AddrStmt: [Var2719 <-- Var2720]	
+ValVar ID: 2719
+   %5 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 341
+obj: 343
+obj: 2720
+obj: 2722
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 7781
+forwardTraverse item: 7781
+forwardTraverse item: 7781
+forwardTraverse item: 9220
+forwardTraverse item: 10849
+forwardTraverse item: 10842
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 3000
+forwardTraverse item: 11269
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 4787
+store_node: 4787
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 429 AddrStmt: [Var3083 <-- Var3084]	
+ValVar ID: 3083
+   %10 = alloca i32, align 4 { "ln": 1009, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 429 AddrStmt: [Var3083 <-- Var3084]	
+ValVar ID: 3083
+   %10 = alloca i32, align 4 { "ln": 1009, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+v: AddrVFGNode ID: 391 AddrStmt: [Var2758 <-- Var2759]	
+ValVar ID: 2758
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 391 AddrStmt: [Var2758 <-- Var2759]	
+ValVar ID: 2758
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 341
+obj: 343
+obj: 2759
+obj: 3084
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2851
+forwardTraverse item: 9410
+forwardTraverse item: 11702
+forwardTraverse item: 2841
+forwardTraverse item: 4635
+store_node: 4635
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 1832
+forwardTraverse item: 4745
+store_node: 4745
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 389 AddrStmt: [Var2725 <-- Var2726]	
+ValVar ID: 2725
+   %8 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 389 AddrStmt: [Var2725 <-- Var2726]	
+ValVar ID: 2725
+   %8 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+v: AddrVFGNode ID: 325 AddrStmt: [Var1843 <-- Var1844]	
+ValVar ID: 1843
+   %16 = alloca ptr, align 4 { "ln": 769, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 325 AddrStmt: [Var1843 <-- Var1844]	
+ValVar ID: 1843
+   %16 = alloca ptr, align 4 { "ln": 769, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1824
+obj: 1832
+obj: 1844
+obj: 2726
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 5873
+forwardTraverse item: 5874
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 2724
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4763
+store_node: 4763
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 403 AddrStmt: [Var2899 <-- Var2900]	
+ValVar ID: 2899
+   %2 = alloca i8, align 1 { "ln": 247, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__string/char_traits.h" }
+addr_node: AddrVFGNode ID: 403 AddrStmt: [Var2899 <-- Var2900]	
+ValVar ID: 2899
+   %2 = alloca i8, align 1 { "ln": 247, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__string/char_traits.h" }
+v: AddrVFGNode ID: 624 AddrStmt: [Var4520 <-- Var4521]	
+ValVar ID: 4520
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 624 AddrStmt: [Var4520 <-- Var4521]	
+ValVar ID: 4520
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 29
+obj: 42
+obj: 60
+obj: 74
+obj: 85
+obj: 88
+obj: 91
+obj: 341
+obj: 343
+obj: 1302
+obj: 1347
+obj: 1822
+obj: 2238
+obj: 2900
+obj: 3266
+obj: 3269
+obj: 3272
+obj: 3275
+obj: 3350
+obj: 3353
+obj: 3356
+obj: 3359
+obj: 4521
+obj: 4946
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4763
+store_node: 4763
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2900
+forwardTraverse item: 4763
+store_node: 4763
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2900
+forwardTraverse item: 9231
+forwardTraverse item: 11605
+forwardTraverse item: 11686
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8315
+forwardTraverse item: 8311
+forwardTraverse item: 3037
+forwardTraverse item: 11070
+forwardTraverse item: 8258
+forwardTraverse item: 2873
+forwardTraverse item: 9237
+forwardTraverse item: 9767
+forwardTraverse item: 6022
+forwardTraverse item: 2842
+forwardTraverse item: 2843
+forwardTraverse item: 9216
+forwardTraverse item: 2975
+forwardTraverse item: 11118
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 2726
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 9244
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8088
+forwardTraverse item: 8097
+forwardTraverse item: 6259
+forwardTraverse item: 4629
+store_node: 4629
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 413 AddrStmt: [Var2973 <-- Var2974]	
+ValVar ID: 2973
+   %4 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+addr_node: AddrVFGNode ID: 413 AddrStmt: [Var2973 <-- Var2974]	
+ValVar ID: 2973
+   %4 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+v: AddrVFGNode ID: 414 AddrStmt: [Var2975 <-- Var2976]	
+ValVar ID: 2975
+   %5 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+addr_node: AddrVFGNode ID: 414 AddrStmt: [Var2975 <-- Var2976]	
+ValVar ID: 2975
+   %5 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+obj: 1824
+obj: 1826
+obj: 1828
+obj: 1836
+obj: 1838
+obj: 2974
+obj: 2976
+forwardTraverse item: 4643
+store_node: 4643
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 320 AddrStmt: [Var1833 <-- Var1834]	
+ValVar ID: 1833
+   %11 = alloca i32, align 4 { "ln": 758, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 320 AddrStmt: [Var1833 <-- Var1834]	
+ValVar ID: 1833
+   %11 = alloca i32, align 4 { "ln": 758, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1826
+obj: 1828
+obj: 1834
+obj: 1836
+obj: 1838
+forwardTraverse item: 10837
+forwardTraverse item: 10821
+forwardTraverse item: 11876
+forwardTraverse item: 9078
+forwardTraverse item: 9225
+forwardTraverse item: 11121
+forwardTraverse item: 1423
+forwardTraverse item: 1423
+forwardTraverse item: 1423
+forwardTraverse item: 10847
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 11121
+forwardTraverse item: 11121
+forwardTraverse item: 7317
+forwardTraverse item: 2830
+forwardTraverse item: 2831
+forwardTraverse item: 2832
+forwardTraverse item: 2833
+forwardTraverse item: 2834
+forwardTraverse item: 2835
+forwardTraverse item: 2836
+forwardTraverse item: 2837
+forwardTraverse item: 2838
+forwardTraverse item: 2839
+forwardTraverse item: 9241
+forwardTraverse item: 2844
+forwardTraverse item: 9214
+forwardTraverse item: 10139
+forwardTraverse item: 8902
+forwardTraverse item: 9242
+forwardTraverse item: 12125
+forwardTraverse item: 8317
+forwardTraverse item: 8317
+forwardTraverse item: 8317
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8311
+forwardTraverse item: 12129
+forwardTraverse item: 12131
+forwardTraverse item: 1401
+forwardTraverse item: 8564
+forwardTraverse item: 8525
+forwardTraverse item: 8569
+forwardTraverse item: 10843
+forwardTraverse item: 6182
+forwardTraverse item: 9222
+forwardTraverse item: 11203
+forwardTraverse item: 11583
+forwardTraverse item: 10846
+forwardTraverse item: 11750
+forwardTraverse item: 8083
+forwardTraverse item: 8083
+forwardTraverse item: 8083
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8097
+forwardTraverse item: 11627
+forwardTraverse item: 11588
+forwardTraverse item: 1914
+forwardTraverse item: 6026
+forwardTraverse item: 4641
+store_node: 4641
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 321 AddrStmt: [Var1835 <-- Var1836]	
+ValVar ID: 1835
+   %12 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 321 AddrStmt: [Var1835 <-- Var1836]	
+ValVar ID: 1835
+   %12 = alloca i32, align 4 
+obj: 1824
+obj: 1836
+forwardTraverse item: 9236
+forwardTraverse item: 10148
+forwardTraverse item: 10151
+forwardTraverse item: 9839
+forwardTraverse item: 7427
+forwardTraverse item: 7186
+forwardTraverse item: 7299
+forwardTraverse item: 11121
+forwardTraverse item: 9839
+forwardTraverse item: 9839
+forwardTraverse item: 1915
+forwardTraverse item: 6025
+forwardTraverse item: 9211
+forwardTraverse item: 11597
+forwardTraverse item: 10840
+forwardTraverse item: 3022
+forwardTraverse item: 10949
+forwardTraverse item: 3021
+forwardTraverse item: 10952
+forwardTraverse item: 2979
+forwardTraverse item: 10898
+forwardTraverse item: 4636
+store_node: 4636
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 318 AddrStmt: [Var1829 <-- Var1830]	
+ValVar ID: 1829
+   %9 = alloca i32, align 4 { "ln": 735, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 318 AddrStmt: [Var1829 <-- Var1830]	
+ValVar ID: 1829
+   %9 = alloca i32, align 4 { "ln": 735, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1830
+obj: 2900
+forwardTraverse item: 4677
+store_node: 4677
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 1830
+forwardTraverse item: 4678
+store_node: 4678
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 1830
+forwardTraverse item: 12189
+forwardTraverse item: 2979
+forwardTraverse item: 10898
+forwardTraverse item: 2979
+forwardTraverse item: 10898
+forwardTraverse item: 3885
+forwardTraverse item: 9227
+forwardTraverse item: 9767
+forwardTraverse item: 9124
+forwardTraverse item: 8312
+forwardTraverse item: 9361
+forwardTraverse item: 9204
+forwardTraverse item: 9202
+forwardTraverse item: 8312
+forwardTraverse item: 8312
+forwardTraverse item: 9247
+forwardTraverse item: 10821
+forwardTraverse item: 11876
+forwardTraverse item: 8321
+forwardTraverse item: 8096
+forwardTraverse item: 9217
+forwardTraverse item: 9208
+forwardTraverse item: 8096
+forwardTraverse item: 8096
+forwardTraverse item: 10848
+forwardTraverse item: 10139
+forwardTraverse item: 8203
+forwardTraverse item: 7270
+forwardTraverse item: 9226
+forwardTraverse item: 7257
+forwardTraverse item: 7296
+forwardTraverse item: 11203
+forwardTraverse item: 11583
+forwardTraverse item: 7125
+forwardTraverse item: 2840
+forwardTraverse item: 9246
+forwardTraverse item: 10148
+forwardTraverse item: 10151
+forwardTraverse item: 8937
+forwardTraverse item: 4680
+store_node: 4680
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 311 AddrStmt: [Var1815 <-- Var1816]	
+ValVar ID: 1815
+   %2 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 311 AddrStmt: [Var1815 <-- Var1816]	
+ValVar ID: 1815
+   %2 = alloca i32, align 4 
+obj: 1816
+obj: 1830
+forwardTraverse item: 10845
+forwardTraverse item: 3022
+forwardTraverse item: 10949
+forwardTraverse item: 3021
+forwardTraverse item: 10952
+forwardTraverse item: 9234
+forwardTraverse item: 9124
+forwardTraverse item: 2827
+forwardTraverse item: 10836
+forwardTraverse item: 8321
+forwardTraverse item: 8300
+forwardTraverse item: 8203
+forwardTraverse item: 8156
+forwardTraverse item: 7125
+forwardTraverse item: 8937
+src: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+forwardTraverse item: 315
+forwardTraverse item: 2830
+forwardTraverse item: 2831
+forwardTraverse item: 2832
+forwardTraverse item: 2833
+forwardTraverse item: 2834
+forwardTraverse item: 2835
+forwardTraverse item: 2836
+forwardTraverse item: 2837
+forwardTraverse item: 2838
+forwardTraverse item: 2839
+forwardTraverse item: 4626
+store_node: 4626
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1824
+forwardTraverse item: 4629
+store_node: 4629
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 413 AddrStmt: [Var2973 <-- Var2974]	
+ValVar ID: 2973
+   %4 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+addr_node: AddrVFGNode ID: 413 AddrStmt: [Var2973 <-- Var2974]	
+ValVar ID: 2973
+   %4 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+v: AddrVFGNode ID: 414 AddrStmt: [Var2975 <-- Var2976]	
+ValVar ID: 2975
+   %5 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+addr_node: AddrVFGNode ID: 414 AddrStmt: [Var2975 <-- Var2976]	
+ValVar ID: 2975
+   %5 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+obj: 1824
+obj: 1826
+obj: 1828
+obj: 1836
+obj: 1838
+obj: 2974
+obj: 2976
+forwardTraverse item: 8564
+forwardTraverse item: 8525
+forwardTraverse item: 8566
+forwardTraverse item: 1916
+forwardTraverse item: 1917
+forwardTraverse item: 1918
+forwardTraverse item: 8569
+forwardTraverse item: 1980
+forwardTraverse item: 1982
+forwardTraverse item: 1983
+forwardTraverse item: 9241
+forwardTraverse item: 1914
+forwardTraverse item: 6026
+forwardTraverse item: 4634
+store_node: 4634
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 319 AddrStmt: [Var1831 <-- Var1832]	
+ValVar ID: 1831
+   %10 = alloca i32, align 4 { "ln": 741, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 319 AddrStmt: [Var1831 <-- Var1832]	
+ValVar ID: 1831
+   %10 = alloca i32, align 4 { "ln": 741, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 398 AddrStmt: [Var2860 <-- Var2861]	
+ValVar ID: 2860
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 398 AddrStmt: [Var2860 <-- Var2861]	
+ValVar ID: 2860
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 341
+obj: 343
+obj: 1824
+obj: 1832
+obj: 2749
+obj: 2861
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 6020
+forwardTraverse item: 6215
+forwardTraverse item: 1919
+forwardTraverse item: 4641
+store_node: 4641
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 321 AddrStmt: [Var1835 <-- Var1836]	
+ValVar ID: 1835
+   %12 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 321 AddrStmt: [Var1835 <-- Var1836]	
+ValVar ID: 1835
+   %12 = alloca i32, align 4 
+v: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1818
+obj: 1824
+obj: 1836
+forwardTraverse item: 6247
+forwardTraverse item: 9114
+forwardTraverse item: 6390
+forwardTraverse item: 10843
+forwardTraverse item: 1915
+forwardTraverse item: 6025
+forwardTraverse item: 2841
+forwardTraverse item: 4635
+store_node: 4635
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 1832
+forwardTraverse item: 7743
+forwardTraverse item: 6216
+forwardTraverse item: 2873
+forwardTraverse item: 9211
+forwardTraverse item: 11597
+forwardTraverse item: 7877
+forwardTraverse item: 8909
+forwardTraverse item: 7743
+forwardTraverse item: 3885
+forwardTraverse item: 6022
+forwardTraverse item: 2842
+forwardTraverse item: 2843
+forwardTraverse item: 9216
+forwardTraverse item: 4744
+store_node: 4744
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 388 AddrStmt: [Var2723 <-- Var2724]	
+ValVar ID: 2723
+   %7 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 388 AddrStmt: [Var2723 <-- Var2724]	
+ValVar ID: 2723
+   %7 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+v: AddrVFGNode ID: 314 AddrStmt: [Var1821 <-- Var1822]	
+ValVar ID: 1821
+   %5 = alloca i8, align 1 { "ln": 731, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 314 AddrStmt: [Var1821 <-- Var1822]	
+ValVar ID: 1821
+   %5 = alloca i8, align 1 { "ln": 731, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 397 AddrStmt: [Var2805 <-- Var2806]	
+ValVar ID: 2805
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 397 AddrStmt: [Var2805 <-- Var2806]	
+ValVar ID: 2805
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1822
+obj: 1824
+obj: 2724
+obj: 2806
+forwardTraverse item: 7744
+forwardTraverse item: 4643
+store_node: 4643
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 320 AddrStmt: [Var1833 <-- Var1834]	
+ValVar ID: 1833
+   %11 = alloca i32, align 4 { "ln": 758, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 320 AddrStmt: [Var1833 <-- Var1834]	
+ValVar ID: 1833
+   %11 = alloca i32, align 4 { "ln": 758, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1826
+obj: 1828
+obj: 1834
+obj: 1836
+obj: 1838
+forwardTraverse item: 9227
+forwardTraverse item: 9767
+forwardTraverse item: 4769
+store_node: 4769
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 409 AddrStmt: [Var2932 <-- Var2933]	
+ValVar ID: 2932
+   %14 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 409 AddrStmt: [Var2932 <-- Var2933]	
+ValVar ID: 2932
+   %14 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 1824
+obj: 2933
+forwardTraverse item: 4744
+store_node: 4744
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2724
+forwardTraverse item: 4632
+store_node: 4632
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 29
+obj: 42
+obj: 60
+obj: 74
+obj: 85
+obj: 88
+obj: 91
+obj: 341
+obj: 343
+obj: 1302
+obj: 1347
+obj: 1822
+obj: 1824
+obj: 2238
+obj: 3266
+obj: 3269
+obj: 3272
+obj: 3275
+obj: 3350
+obj: 3353
+obj: 3356
+obj: 3359
+obj: 4946
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 9078
+forwardTraverse item: 9225
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 4745
+store_node: 4745
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 389 AddrStmt: [Var2725 <-- Var2726]	
+ValVar ID: 2725
+   %8 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 389 AddrStmt: [Var2725 <-- Var2726]	
+ValVar ID: 2725
+   %8 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+v: AddrVFGNode ID: 325 AddrStmt: [Var1843 <-- Var1844]	
+ValVar ID: 1843
+   %16 = alloca ptr, align 4 { "ln": 769, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 325 AddrStmt: [Var1843 <-- Var1844]	
+ValVar ID: 1843
+   %16 = alloca ptr, align 4 { "ln": 769, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1824
+obj: 1832
+obj: 1844
+obj: 2726
+forwardTraverse item: 2844
+forwardTraverse item: 9214
+forwardTraverse item: 9247
+forwardTraverse item: 10821
+forwardTraverse item: 11876
+forwardTraverse item: 3009
+forwardTraverse item: 11354
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 2854
+forwardTraverse item: 2885
+forwardTraverse item: 2886
+forwardTraverse item: 9201
+forwardTraverse item: 9205
+forwardTraverse item: 9223
+forwardTraverse item: 9228
+forwardTraverse item: 9360
+forwardTraverse item: 11589
+forwardTraverse item: 11613
+forwardTraverse item: 11616
+forwardTraverse item: 11636
+forwardTraverse item: 11655
+forwardTraverse item: 11659
+forwardTraverse item: 11660
+forwardTraverse item: 11668
+forwardTraverse item: 11697
+forwardTraverse item: 11845
+forwardTraverse item: 11920
+forwardTraverse item: 11935
+forwardTraverse item: 12019
+forwardTraverse item: 12057
+forwardTraverse item: 8902
+forwardTraverse item: 9242
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 386 AddrStmt: [Var2719 <-- Var2720]	
+ValVar ID: 2719
+   %5 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 386 AddrStmt: [Var2719 <-- Var2720]	
+ValVar ID: 2719
+   %5 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 341
+obj: 343
+obj: 2720
+obj: 2724
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2975
+forwardTraverse item: 11118
+forwardTraverse item: 6182
+forwardTraverse item: 9222
+forwardTraverse item: 10848
+forwardTraverse item: 10139
+forwardTraverse item: 5873
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 5852
+forwardTraverse item: 6652
+forwardTraverse item: 6057
+forwardTraverse item: 9203
+forwardTraverse item: 9212
+forwardTraverse item: 9232
+forwardTraverse item: 9240
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10220
+forwardTraverse item: 10074
+forwardTraverse item: 10846
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 2726
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 9236
+forwardTraverse item: 11203
+forwardTraverse item: 11583
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 7781
+forwardTraverse item: 7781
+forwardTraverse item: 7781
+forwardTraverse item: 9220
+forwardTraverse item: 10849
+forwardTraverse item: 10842
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 387 AddrStmt: [Var2721 <-- Var2722]	
+ValVar ID: 2721
+   %6 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 387 AddrStmt: [Var2721 <-- Var2722]	
+ValVar ID: 2721
+   %6 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+obj: 341
+obj: 343
+obj: 2722
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 3000
+forwardTraverse item: 11269
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 11121
+forwardTraverse item: 10840
+forwardTraverse item: 10148
+forwardTraverse item: 10151
+forwardTraverse item: 11121
+forwardTraverse item: 4763
+store_node: 4763
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 403 AddrStmt: [Var2899 <-- Var2900]	
+ValVar ID: 2899
+   %2 = alloca i8, align 1 { "ln": 247, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__string/char_traits.h" }
+addr_node: AddrVFGNode ID: 403 AddrStmt: [Var2899 <-- Var2900]	
+ValVar ID: 2899
+   %2 = alloca i8, align 1 { "ln": 247, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__string/char_traits.h" }
+v: AddrVFGNode ID: 624 AddrStmt: [Var4520 <-- Var4521]	
+ValVar ID: 4520
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 624 AddrStmt: [Var4520 <-- Var4521]	
+ValVar ID: 4520
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 391 AddrStmt: [Var2758 <-- Var2759]	
+ValVar ID: 2758
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 391 AddrStmt: [Var2758 <-- Var2759]	
+ValVar ID: 2758
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 29
+obj: 42
+obj: 60
+obj: 74
+obj: 85
+obj: 88
+obj: 91
+obj: 341
+obj: 343
+obj: 1302
+obj: 1347
+obj: 1822
+obj: 2238
+obj: 2759
+obj: 2900
+obj: 3266
+obj: 3269
+obj: 3272
+obj: 3275
+obj: 3350
+obj: 3353
+obj: 3356
+obj: 3359
+obj: 4521
+obj: 4946
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4763
+store_node: 4763
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2900
+forwardTraverse item: 4763
+store_node: 4763
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2900
+forwardTraverse item: 9231
+forwardTraverse item: 11605
+forwardTraverse item: 11686
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8315
+forwardTraverse item: 8311
+forwardTraverse item: 12125
+forwardTraverse item: 3022
+forwardTraverse item: 10949
+forwardTraverse item: 3021
+forwardTraverse item: 10952
+forwardTraverse item: 12131
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 9244
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8088
+forwardTraverse item: 8097
+forwardTraverse item: 11750
+forwardTraverse item: 9124
+forwardTraverse item: 11588
+forwardTraverse item: 1423
+forwardTraverse item: 1423
+forwardTraverse item: 1423
+forwardTraverse item: 10847
+forwardTraverse item: 4746
+store_node: 4746
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 11132
+forwardTraverse item: 7075
+forwardTraverse item: 7110
+forwardTraverse item: 7281
+forwardTraverse item: 7170
+forwardTraverse item: 7373
+forwardTraverse item: 7161
+forwardTraverse item: 11121
+forwardTraverse item: 7223
+forwardTraverse item: 7429
+forwardTraverse item: 7108
+forwardTraverse item: 7317
+forwardTraverse item: 7071
+forwardTraverse item: 9839
+forwardTraverse item: 8321
+forwardTraverse item: 9839
+forwardTraverse item: 8317
+forwardTraverse item: 8317
+forwardTraverse item: 8317
+forwardTraverse item: 4747
+store_node: 4747
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8311
+forwardTraverse item: 1402
+forwardTraverse item: 1981
+forwardTraverse item: 12129
+forwardTraverse item: 6214
+forwardTraverse item: 6389
+forwardTraverse item: 1401
+forwardTraverse item: 2979
+forwardTraverse item: 10898
+forwardTraverse item: 8203
+forwardTraverse item: 2979
+forwardTraverse item: 10898
+forwardTraverse item: 8083
+forwardTraverse item: 8083
+forwardTraverse item: 8083
+forwardTraverse item: 4748
+store_node: 4748
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 8097
+forwardTraverse item: 8565
+forwardTraverse item: 6248
+forwardTraverse item: 11627
+forwardTraverse item: 7742
+forwardTraverse item: 7742
+forwardTraverse item: 8312
+forwardTraverse item: 7125
+forwardTraverse item: 8312
+forwardTraverse item: 7427
+forwardTraverse item: 7186
+forwardTraverse item: 7299
+forwardTraverse item: 11121
+forwardTraverse item: 7290
+forwardTraverse item: 7878
+forwardTraverse item: 9839
+forwardTraverse item: 4743
+store_node: 4743
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2722
+forwardTraverse item: 4743
+store_node: 4743
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 2722
+forwardTraverse item: 8096
+forwardTraverse item: 8937
+forwardTraverse item: 8096
+forwardTraverse item: 4636
+store_node: 4636
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 318 AddrStmt: [Var1829 <-- Var1830]	
+ValVar ID: 1829
+   %9 = alloca i32, align 4 { "ln": 735, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 318 AddrStmt: [Var1829 <-- Var1830]	
+ValVar ID: 1829
+   %9 = alloca i32, align 4 { "ln": 735, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1830
+obj: 2900
+forwardTraverse item: 4677
+store_node: 4677
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 1830
+forwardTraverse item: 4678
+store_node: 4678
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+obj: 1830
+forwardTraverse item: 12189
+forwardTraverse item: 9115
+forwardTraverse item: 4770
+store_node: 4770
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 410 AddrStmt: [Var2934 <-- Var2935]	
+ValVar ID: 2934
+   %15 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 410 AddrStmt: [Var2934 <-- Var2935]	
+ValVar ID: 2934
+   %15 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2935
+forwardTraverse item: 2979
+forwardTraverse item: 10898
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 7270
+forwardTraverse item: 7296
+forwardTraverse item: 9361
+forwardTraverse item: 9204
+forwardTraverse item: 9202
+forwardTraverse item: 8910
+forwardTraverse item: 3010
+forwardTraverse item: 11353
+forwardTraverse item: 8312
+forwardTraverse item: 9217
+forwardTraverse item: 9208
+forwardTraverse item: 5874
+forwardTraverse item: 8096
+forwardTraverse item: 9226
+forwardTraverse item: 7257
+forwardTraverse item: 2840
+forwardTraverse item: 9246
+forwardTraverse item: 4680
+store_node: 4680
+obj: 341
+obj: 343
+obj: 1824
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+
+v: AddrVFGNode ID: 311 AddrStmt: [Var1815 <-- Var1816]	
+ValVar ID: 1815
+   %2 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 311 AddrStmt: [Var1815 <-- Var1816]	
+ValVar ID: 1815
+   %2 = alloca i32, align 4 
+obj: 1816
+obj: 1830
+forwardTraverse item: 10845
+forwardTraverse item: 9234
+forwardTraverse item: 2827
+forwardTraverse item: 10836
+forwardTraverse item: 8300
+forwardTraverse item: 8156
+it->first: CallICFGNode4404 {fun: _Z28innerFalseIllegalInforFlow_ci{ "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5416]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5417]	
+ValVar ID: 5418
+   %14 = call ptr @fgets(ptr noundef %12, i32 noundef 1024, ptr noundef %13), !dbg !6182 { "ln": 85, "cl": 9, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+src: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+forwardTraverse item: 724
+forwardTraverse item: 2408
+forwardTraverse item: 2409
+forwardTraverse item: 5991
+forwardTraverse item: 6339
+forwardTraverse item: 5227
+store_node: 5227
+obj: 5400
+
+v: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+obj: 5400
+obj: 9903
+forwardTraverse item: 7431
+forwardTraverse item: 11310
+forwardTraverse item: 5702
+store_node: 5702
+obj: 5400
+
+v: AddrVFGNode ID: 1342 AddrStmt: [Var9346 <-- Var9347]	
+ValVar ID: 9346
+   %str.addr = alloca ptr, align 8 
+addr_node: AddrVFGNode ID: 1342 AddrStmt: [Var9346 <-- Var9347]	
+ValVar ID: 9346
+   %str.addr = alloca ptr, align 8 
+v: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+v: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+obj: 5270
+obj: 5341
+obj: 9347
+forwardTraverse item: 3873
+forwardTraverse item: 10500
+forwardTraverse item: 8505
+forwardTraverse item: 8028
+forwardTraverse item: 7044
+it->first: CallICFGNode4359 {fun: _Z26innerMayIllegalInforFlow_ci{ "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5362]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5363]	
+ValVar ID: 5364
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 71, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+src: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+forwardTraverse item: 718
+forwardTraverse item: 2406
+forwardTraverse item: 2407
+forwardTraverse item: 6773
+forwardTraverse item: 6777
+forwardTraverse item: 5223
+store_node: 5223
+obj: 5341
+
+v: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+obj: 5341
+obj: 9904
+forwardTraverse item: 7431
+forwardTraverse item: 11211
+forwardTraverse item: 5702
+store_node: 5702
+obj: 5341
+
+v: AddrVFGNode ID: 1342 AddrStmt: [Var9346 <-- Var9347]	
+ValVar ID: 9346
+   %str.addr = alloca ptr, align 8 
+addr_node: AddrVFGNode ID: 1342 AddrStmt: [Var9346 <-- Var9347]	
+ValVar ID: 9346
+   %str.addr = alloca ptr, align 8 
+v: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+v: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+obj: 5270
+obj: 5400
+obj: 9347
+forwardTraverse item: 3873
+forwardTraverse item: 10500
+forwardTraverse item: 8505
+forwardTraverse item: 8028
+forwardTraverse item: 7021
+forwardTraverse item: 9055
+forwardTraverse item: 8983
+it->first: CallICFGNode2030 {fun: _ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE9underflowEv{ "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }}
+   %169 = call i32 @fread(ptr noundef %165, i32 noundef 1, i32 noundef %166, ptr noundef %168), !dbg !6300 CallICFGNode: { "ln": 762, "cl": 27, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+src: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+forwardTraverse item: 312
+forwardTraverse item: 2828
+forwardTraverse item: 4621
+store_node: 4621
+obj: 1818
+
+v: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 312 AddrStmt: [Var1817 <-- Var1818]	
+ValVar ID: 1817
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1818
+forwardTraverse item: 1873
+forwardTraverse item: 1874
+forwardTraverse item: 1875
+forwardTraverse item: 1876
+forwardTraverse item: 1877
+forwardTraverse item: 1878
+forwardTraverse item: 1879
+forwardTraverse item: 1880
+forwardTraverse item: 1881
+forwardTraverse item: 1882
+forwardTraverse item: 1883
+forwardTraverse item: 1884
+forwardTraverse item: 1885
+forwardTraverse item: 1886
+forwardTraverse item: 1887
+forwardTraverse item: 1888
+forwardTraverse item: 1889
+forwardTraverse item: 1890
+forwardTraverse item: 1891
+forwardTraverse item: 1892
+forwardTraverse item: 1893
+forwardTraverse item: 1894
+forwardTraverse item: 1895
+forwardTraverse item: 1896
+forwardTraverse item: 1897
+forwardTraverse item: 1898
+forwardTraverse item: 1899
+forwardTraverse item: 1900
+forwardTraverse item: 1901
+forwardTraverse item: 1902
+forwardTraverse item: 1903
+forwardTraverse item: 1904
+forwardTraverse item: 1905
+forwardTraverse item: 1906
+forwardTraverse item: 1907
+forwardTraverse item: 1908
+forwardTraverse item: 1909
+forwardTraverse item: 1910
+forwardTraverse item: 1911
+forwardTraverse item: 1912
+forwardTraverse item: 5851
+forwardTraverse item: 5911
+forwardTraverse item: 5958
+forwardTraverse item: 5975
+forwardTraverse item: 5979
+forwardTraverse item: 6018
+forwardTraverse item: 6032
+forwardTraverse item: 6037
+forwardTraverse item: 6059
+forwardTraverse item: 6068
+forwardTraverse item: 6076
+forwardTraverse item: 6123
+forwardTraverse item: 6144
+forwardTraverse item: 6151
+forwardTraverse item: 6166
+forwardTraverse item: 6200
+forwardTraverse item: 6213
+forwardTraverse item: 6285
+forwardTraverse item: 6328
+forwardTraverse item: 6388
+forwardTraverse item: 6439
+forwardTraverse item: 6559
+forwardTraverse item: 6568
+forwardTraverse item: 6606
+forwardTraverse item: 6636
+forwardTraverse item: 6767
+forwardTraverse item: 6770
+forwardTraverse item: 6800
+forwardTraverse item: 6903
+forwardTraverse item: 10839
+forwardTraverse item: 2850
+forwardTraverse item: 2852
+forwardTraverse item: 2853
+forwardTraverse item: 2855
+forwardTraverse item: 2856
+forwardTraverse item: 2857
+forwardTraverse item: 2858
+forwardTraverse item: 2859
+forwardTraverse item: 2860
+forwardTraverse item: 2861
+forwardTraverse item: 2862
+forwardTraverse item: 2863
+forwardTraverse item: 2864
+forwardTraverse item: 2865
+forwardTraverse item: 2866
+forwardTraverse item: 4638
+store_node: 4638
+obj: 1818
+
+obj: 1818
+forwardTraverse item: 2867
+forwardTraverse item: 2868
+forwardTraverse item: 1924
+forwardTraverse item: 2869
+forwardTraverse item: 4639
+store_node: 4639
+obj: 1818
+
+forwardTraverse item: 2870
+forwardTraverse item: 2871
+forwardTraverse item: 2872
+forwardTraverse item: 1925
+forwardTraverse item: 1926
+forwardTraverse item: 1927
+forwardTraverse item: 1928
+forwardTraverse item: 1929
+forwardTraverse item: 1930
+forwardTraverse item: 1931
+forwardTraverse item: 1932
+forwardTraverse item: 1933
+forwardTraverse item: 1934
+forwardTraverse item: 1935
+forwardTraverse item: 1936
+forwardTraverse item: 1937
+forwardTraverse item: 1938
+forwardTraverse item: 1939
+forwardTraverse item: 1940
+forwardTraverse item: 1941
+forwardTraverse item: 1942
+forwardTraverse item: 1943
+forwardTraverse item: 1944
+forwardTraverse item: 1945
+forwardTraverse item: 1946
+forwardTraverse item: 1947
+forwardTraverse item: 1948
+forwardTraverse item: 1949
+forwardTraverse item: 1950
+forwardTraverse item: 1951
+forwardTraverse item: 5988
+forwardTraverse item: 1952
+forwardTraverse item: 1953
+forwardTraverse item: 1954
+forwardTraverse item: 1955
+forwardTraverse item: 1956
+forwardTraverse item: 1957
+forwardTraverse item: 1958
+forwardTraverse item: 1959
+forwardTraverse item: 1960
+forwardTraverse item: 1961
+forwardTraverse item: 1962
+forwardTraverse item: 1963
+forwardTraverse item: 1964
+forwardTraverse item: 1965
+forwardTraverse item: 1966
+forwardTraverse item: 1967
+forwardTraverse item: 1968
+forwardTraverse item: 1969
+forwardTraverse item: 1970
+forwardTraverse item: 1971
+forwardTraverse item: 1972
+forwardTraverse item: 1973
+forwardTraverse item: 1974
+forwardTraverse item: 1975
+forwardTraverse item: 1976
+forwardTraverse item: 1977
+forwardTraverse item: 1978
+forwardTraverse item: 5987
+forwardTraverse item: 2874
+forwardTraverse item: 2875
+forwardTraverse item: 2876
+forwardTraverse item: 2877
+forwardTraverse item: 4674
+store_node: 4674
+obj: 1818
+
+v: AddrVFGNode ID: 324 AddrStmt: [Var1841 <-- Var1842]	
+ValVar ID: 1841
+   %15 = alloca i32, align 4 { "ln": 762, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 324 AddrStmt: [Var1841 <-- Var1842]	
+ValVar ID: 1841
+   %15 = alloca i32, align 4 { "ln": 762, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1842
+forwardTraverse item: 2878
+forwardTraverse item: 6243
+forwardTraverse item: 2879
+forwardTraverse item: 2880
+forwardTraverse item: 6246
+forwardTraverse item: 2881
+forwardTraverse item: 2882
+forwardTraverse item: 2883
+forwardTraverse item: 2884
+forwardTraverse item: 7745
+forwardTraverse item: 7745
+forwardTraverse item: 7831
+forwardTraverse item: 7741
+forwardTraverse item: 7745
+forwardTraverse item: 7745
+forwardTraverse item: 7745
+forwardTraverse item: 7831
+forwardTraverse item: 7770
+forwardTraverse item: 7628
+forwardTraverse item: 7745
+forwardTraverse item: 7831
+forwardTraverse item: 7745
+forwardTraverse item: 7745
+forwardTraverse item: 7745
+forwardTraverse item: 7745
+forwardTraverse item: 7741
+forwardTraverse item: 7628
+forwardTraverse item: 7745
+forwardTraverse item: 7741
+forwardTraverse item: 7745
+forwardTraverse item: 7741
+forwardTraverse item: 7745
+forwardTraverse item: 7741
+forwardTraverse item: 7628
+forwardTraverse item: 7628
+forwardTraverse item: 7628
+forwardTraverse item: 7831
+forwardTraverse item: 7628
+forwardTraverse item: 9034
+forwardTraverse item: 1400
+forwardTraverse item: 6023
+forwardTraverse item: 9036
+forwardTraverse item: 9109
+forwardTraverse item: 9110
+forwardTraverse item: 1920
+forwardTraverse item: 5996
+forwardTraverse item: 1921
+forwardTraverse item: 5997
+forwardTraverse item: 1403
+forwardTraverse item: 1404
+forwardTraverse item: 1922
+forwardTraverse item: 1405
+forwardTraverse item: 1406
+forwardTraverse item: 1923
+forwardTraverse item: 9111
+forwardTraverse item: 8264
+forwardTraverse item: 8569
+forwardTraverse item: 1407
+forwardTraverse item: 1408
+forwardTraverse item: 3887
+forwardTraverse item: 3888
+forwardTraverse item: 3889
+forwardTraverse item: 3890
+forwardTraverse item: 3891
+forwardTraverse item: 3892
+forwardTraverse item: 3893
+forwardTraverse item: 3894
+forwardTraverse item: 3895
+forwardTraverse item: 3896
+forwardTraverse item: 3897
+forwardTraverse item: 3898
+forwardTraverse item: 3899
+forwardTraverse item: 3900
+forwardTraverse item: 3901
+forwardTraverse item: 3902
+forwardTraverse item: 3903
+forwardTraverse item: 3904
+forwardTraverse item: 3905
+forwardTraverse item: 3906
+forwardTraverse item: 3907
+forwardTraverse item: 3908
+forwardTraverse item: 3909
+forwardTraverse item: 3910
+forwardTraverse item: 3911
+forwardTraverse item: 3912
+forwardTraverse item: 3913
+forwardTraverse item: 4645
+store_node: 4645
+obj: 1818
+
+forwardTraverse item: 4646
+store_node: 4646
+obj: 1818
+
+forwardTraverse item: 4647
+store_node: 4647
+obj: 1818
+
+forwardTraverse item: 4648
+store_node: 4648
+obj: 1818
+
+forwardTraverse item: 4649
+store_node: 4649
+obj: 1818
+
+forwardTraverse item: 4650
+store_node: 4650
+obj: 1818
+
+forwardTraverse item: 4651
+store_node: 4651
+obj: 1818
+
+forwardTraverse item: 4652
+store_node: 4652
+obj: 1818
+
+forwardTraverse item: 4653
+store_node: 4653
+obj: 1818
+
+forwardTraverse item: 4654
+store_node: 4654
+obj: 1818
+
+forwardTraverse item: 4655
+store_node: 4655
+obj: 1818
+
+forwardTraverse item: 4656
+store_node: 4656
+obj: 1818
+
+forwardTraverse item: 4657
+store_node: 4657
+obj: 1818
+
+forwardTraverse item: 4658
+store_node: 4658
+obj: 1818
+
+forwardTraverse item: 4659
+store_node: 4659
+obj: 1818
+
+forwardTraverse item: 4660
+store_node: 4660
+obj: 1818
+
+forwardTraverse item: 4661
+store_node: 4661
+obj: 1818
+
+forwardTraverse item: 4662
+store_node: 4662
+obj: 1818
+
+forwardTraverse item: 4663
+store_node: 4663
+obj: 1818
+
+forwardTraverse item: 4664
+store_node: 4664
+obj: 1818
+
+forwardTraverse item: 4665
+store_node: 4665
+obj: 1818
+
+forwardTraverse item: 4666
+store_node: 4666
+obj: 1818
+
+forwardTraverse item: 4667
+store_node: 4667
+obj: 1818
+
+forwardTraverse item: 4668
+store_node: 4668
+obj: 1818
+
+forwardTraverse item: 4669
+store_node: 4669
+obj: 1818
+
+forwardTraverse item: 4670
+store_node: 4670
+obj: 1818
+
+forwardTraverse item: 4671
+store_node: 4671
+obj: 1818
+
+forwardTraverse item: 6180
+forwardTraverse item: 6183
+forwardTraverse item: 9037
+forwardTraverse item: 1979
+forwardTraverse item: 6242
+forwardTraverse item: 7873
+forwardTraverse item: 6244
+forwardTraverse item: 6245
+forwardTraverse item: 7876
+forwardTraverse item: 1981
+forwardTraverse item: 5976
+forwardTraverse item: 5977
+forwardTraverse item: 5978
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+v: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 390 AddrStmt: [Var2748 <-- Var2749]	
+ValVar ID: 2748
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 336 AddrStmt: [Var2158 <-- Var2159]	
+ValVar ID: 2158
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 336 AddrStmt: [Var2158 <-- Var2159]	
+ValVar ID: 2158
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 289 AddrStmt: [Var1541 <-- Var1542]	
+ValVar ID: 1541
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 289 AddrStmt: [Var1541 <-- Var1542]	
+ValVar ID: 1541
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1542
+obj: 2159
+obj: 2749
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4760
+store_node: 4760
+obj: 1818
+
+v: AddrVFGNode ID: 398 AddrStmt: [Var2860 <-- Var2861]	
+ValVar ID: 2860
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 398 AddrStmt: [Var2860 <-- Var2861]	
+ValVar ID: 2860
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 2861
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+v: AddrVFGNode ID: 386 AddrStmt: [Var2719 <-- Var2720]	
+ValVar ID: 2719
+   %5 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 386 AddrStmt: [Var2719 <-- Var2720]	
+ValVar ID: 2719
+   %5 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 397 AddrStmt: [Var2805 <-- Var2806]	
+ValVar ID: 2805
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 397 AddrStmt: [Var2805 <-- Var2806]	
+ValVar ID: 2805
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 362 AddrStmt: [Var2466 <-- Var2467]	
+ValVar ID: 2466
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 362 AddrStmt: [Var2466 <-- Var2467]	
+ValVar ID: 2466
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 258 AddrStmt: [Var1235 <-- Var1236]	
+ValVar ID: 1235
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 258 AddrStmt: [Var1235 <-- Var1236]	
+ValVar ID: 1235
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 247 AddrStmt: [Var1088 <-- Var1089]	
+ValVar ID: 1088
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 247 AddrStmt: [Var1088 <-- Var1089]	
+ValVar ID: 1088
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 1089
+obj: 1236
+obj: 2467
+obj: 2720
+obj: 2806
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4760
+store_node: 4760
+obj: 1818
+
+obj: 2861
+forwardTraverse item: 4756
+store_node: 4756
+obj: 1818
+
+obj: 2806
+forwardTraverse item: 4750
+store_node: 4750
+obj: 1818
+
+v: AddrVFGNode ID: 391 AddrStmt: [Var2758 <-- Var2759]	
+ValVar ID: 2758
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 391 AddrStmt: [Var2758 <-- Var2759]	
+ValVar ID: 2758
+   %2 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 2759
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4760
+store_node: 4760
+obj: 1818
+
+obj: 2861
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+obj: 2720
+forwardTraverse item: 4750
+store_node: 4750
+obj: 1818
+
+obj: 2759
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+obj: 2720
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+obj: 2720
+forwardTraverse item: 4749
+store_node: 4749
+obj: 1818
+
+obj: 2749
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+obj: 2720
+forwardTraverse item: 4750
+store_node: 4750
+obj: 1818
+
+obj: 2759
+forwardTraverse item: 4750
+store_node: 4750
+obj: 1818
+
+obj: 2759
+forwardTraverse item: 4750
+store_node: 4750
+obj: 1818
+
+obj: 2759
+forwardTraverse item: 4760
+store_node: 4760
+obj: 1818
+
+obj: 2861
+forwardTraverse item: 4750
+store_node: 4750
+obj: 1818
+
+obj: 2759
+forwardTraverse item: 8897
+forwardTraverse item: 8901
+forwardTraverse item: 8903
+forwardTraverse item: 8265
+forwardTraverse item: 8904
+forwardTraverse item: 4637
+store_node: 4637
+obj: 1818
+
+forwardTraverse item: 3886
+forwardTraverse item: 8567
+forwardTraverse item: 8568
+forwardTraverse item: 8905
+forwardTraverse item: 4641
+store_node: 4641
+obj: 1818
+
+v: AddrVFGNode ID: 321 AddrStmt: [Var1835 <-- Var1836]	
+ValVar ID: 1835
+   %12 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 321 AddrStmt: [Var1835 <-- Var1836]	
+ValVar ID: 1835
+   %12 = alloca i32, align 4 
+v: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 315 AddrStmt: [Var1823 <-- Var1824]	
+ValVar ID: 1823
+   %6 = alloca i32, align 4 { "ln": 734, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1824
+obj: 1836
+forwardTraverse item: 8570
+forwardTraverse item: 8907
+forwardTraverse item: 7872
+forwardTraverse item: 4765
+store_node: 4765
+obj: 1818
+
+v: AddrVFGNode ID: 405 AddrStmt: [Var2924 <-- Var2925]	
+ValVar ID: 2924
+   %10 = alloca ptr, align 4 { "ln": 989, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 405 AddrStmt: [Var2924 <-- Var2925]	
+ValVar ID: 2924
+   %10 = alloca ptr, align 4 { "ln": 989, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2925
+forwardTraverse item: 7874
+forwardTraverse item: 7875
+forwardTraverse item: 4768
+store_node: 4768
+obj: 1818
+
+v: AddrVFGNode ID: 408 AddrStmt: [Var2930 <-- Var2931]	
+ValVar ID: 2930
+   %13 = alloca ptr, align 4 { "ln": 990, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 408 AddrStmt: [Var2930 <-- Var2931]	
+ValVar ID: 2930
+   %13 = alloca ptr, align 4 { "ln": 990, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2931
+forwardTraverse item: 6248
+forwardTraverse item: 7742
+forwardTraverse item: 7743
+forwardTraverse item: 7744
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2999
+forwardTraverse item: 11270
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2999
+forwardTraverse item: 11270
+forwardTraverse item: 2986
+forwardTraverse item: 11180
+forwardTraverse item: 2978
+forwardTraverse item: 10899
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2999
+forwardTraverse item: 11270
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2978
+forwardTraverse item: 10899
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2976
+forwardTraverse item: 11133
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2978
+forwardTraverse item: 10899
+forwardTraverse item: 2978
+forwardTraverse item: 10899
+forwardTraverse item: 2978
+forwardTraverse item: 10899
+forwardTraverse item: 2999
+forwardTraverse item: 11270
+forwardTraverse item: 2978
+forwardTraverse item: 10899
+forwardTraverse item: 8520
+forwardTraverse item: 5998
+forwardTraverse item: 2873
+forwardTraverse item: 9211
+forwardTraverse item: 11597
+forwardTraverse item: 4642
+store_node: 4642
+obj: 1818
+
+v: AddrVFGNode ID: 322 AddrStmt: [Var1837 <-- Var1838]	
+ValVar ID: 1837
+   %13 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 322 AddrStmt: [Var1837 <-- Var1838]	
+ValVar ID: 1837
+   %13 = alloca i32, align 4 
+obj: 1838
+forwardTraverse item: 4764
+store_node: 4764
+obj: 1818
+
+v: AddrVFGNode ID: 404 AddrStmt: [Var2922 <-- Var2923]	
+ValVar ID: 2922
+   %9 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 404 AddrStmt: [Var2922 <-- Var2923]	
+ValVar ID: 2922
+   %9 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 2923
+forwardTraverse item: 3005
+forwardTraverse item: 11358
+forwardTraverse item: 4766
+store_node: 4766
+obj: 1818
+
+v: AddrVFGNode ID: 406 AddrStmt: [Var2926 <-- Var2927]	
+ValVar ID: 2926
+   %11 = alloca ptr, align 4 { "ln": 990, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 406 AddrStmt: [Var2926 <-- Var2927]	
+ValVar ID: 2926
+   %11 = alloca ptr, align 4 { "ln": 990, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2927
+forwardTraverse item: 4767
+store_node: 4767
+obj: 1818
+
+v: AddrVFGNode ID: 407 AddrStmt: [Var2928 <-- Var2929]	
+ValVar ID: 2928
+   %12 = alloca ptr, align 4 { "ln": 990, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 407 AddrStmt: [Var2928 <-- Var2929]	
+ValVar ID: 2928
+   %12 = alloca ptr, align 4 { "ln": 990, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2929
+forwardTraverse item: 3008
+forwardTraverse item: 11355
+forwardTraverse item: 7878
+forwardTraverse item: 4743
+store_node: 4743
+obj: 1818
+
+v: AddrVFGNode ID: 387 AddrStmt: [Var2721 <-- Var2722]	
+ValVar ID: 2721
+   %6 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 387 AddrStmt: [Var2721 <-- Var2722]	
+ValVar ID: 2721
+   %6 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+v: AddrVFGNode ID: 314 AddrStmt: [Var1821 <-- Var1822]	
+ValVar ID: 1821
+   %5 = alloca i8, align 1 { "ln": 731, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 314 AddrStmt: [Var1821 <-- Var1822]	
+ValVar ID: 1821
+   %5 = alloca i8, align 1 { "ln": 731, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 341
+obj: 343
+obj: 1822
+obj: 2722
+obj: 2749
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4744
+store_node: 4744
+obj: 1818
+
+v: AddrVFGNode ID: 388 AddrStmt: [Var2723 <-- Var2724]	
+ValVar ID: 2723
+   %7 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 388 AddrStmt: [Var2723 <-- Var2724]	
+ValVar ID: 2723
+   %7 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+obj: 1824
+obj: 2724
+forwardTraverse item: 4745
+store_node: 4745
+obj: 1818
+
+v: AddrVFGNode ID: 389 AddrStmt: [Var2725 <-- Var2726]	
+ValVar ID: 2725
+   %8 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 389 AddrStmt: [Var2725 <-- Var2726]	
+ValVar ID: 2725
+   %8 = alloca ptr, align 4 { "ln": 249, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+v: AddrVFGNode ID: 325 AddrStmt: [Var1843 <-- Var1844]	
+ValVar ID: 1843
+   %16 = alloca ptr, align 4 { "ln": 769, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 325 AddrStmt: [Var1843 <-- Var1844]	
+ValVar ID: 1843
+   %16 = alloca ptr, align 4 { "ln": 769, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 319 AddrStmt: [Var1831 <-- Var1832]	
+ValVar ID: 1831
+   %10 = alloca i32, align 4 { "ln": 741, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 319 AddrStmt: [Var1831 <-- Var1832]	
+ValVar ID: 1831
+   %10 = alloca i32, align 4 { "ln": 741, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1824
+obj: 1832
+obj: 1844
+obj: 2726
+forwardTraverse item: 2029
+forwardTraverse item: 2029
+forwardTraverse item: 2050
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2029
+forwardTraverse item: 2029
+forwardTraverse item: 2029
+forwardTraverse item: 2050
+forwardTraverse item: 2033
+forwardTraverse item: 2034
+forwardTraverse item: 2035
+forwardTraverse item: 2036
+forwardTraverse item: 2037
+forwardTraverse item: 2038
+forwardTraverse item: 2039
+forwardTraverse item: 2040
+forwardTraverse item: 2041
+forwardTraverse item: 2042
+forwardTraverse item: 2043
+forwardTraverse item: 2044
+forwardTraverse item: 2045
+forwardTraverse item: 5878
+forwardTraverse item: 6028
+forwardTraverse item: 6401
+forwardTraverse item: 2030
+forwardTraverse item: 2029
+forwardTraverse item: 2050
+forwardTraverse item: 2029
+forwardTraverse item: 2029
+forwardTraverse item: 2029
+forwardTraverse item: 2029
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2030
+forwardTraverse item: 2029
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2029
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2029
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2030
+forwardTraverse item: 2030
+forwardTraverse item: 2030
+forwardTraverse item: 2050
+forwardTraverse item: 2030
+forwardTraverse item: 6006
+forwardTraverse item: 4643
+store_node: 4643
+obj: 1818
+
+v: AddrVFGNode ID: 320 AddrStmt: [Var1833 <-- Var1834]	
+ValVar ID: 1833
+   %11 = alloca i32, align 4 { "ln": 758, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 320 AddrStmt: [Var1833 <-- Var1834]	
+ValVar ID: 1833
+   %11 = alloca i32, align 4 { "ln": 758, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+v: AddrVFGNode ID: 413 AddrStmt: [Var2973 <-- Var2974]	
+ValVar ID: 2973
+   %4 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+addr_node: AddrVFGNode ID: 413 AddrStmt: [Var2973 <-- Var2974]	
+ValVar ID: 2973
+   %4 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+v: AddrVFGNode ID: 414 AddrStmt: [Var2975 <-- Var2976]	
+ValVar ID: 2975
+   %5 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+addr_node: AddrVFGNode ID: 414 AddrStmt: [Var2975 <-- Var2976]	
+ValVar ID: 2975
+   %5 = alloca ptr, align 4 { "ln": 31, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__algorithm/min.h" }
+obj: 1826
+obj: 1828
+obj: 1834
+obj: 1836
+obj: 1838
+obj: 2974
+obj: 2976
+forwardTraverse item: 9227
+forwardTraverse item: 9767
+forwardTraverse item: 9210
+forwardTraverse item: 11596
+forwardTraverse item: 3004
+forwardTraverse item: 11359
+forwardTraverse item: 5869
+forwardTraverse item: 3006
+forwardTraverse item: 11357
+forwardTraverse item: 3007
+forwardTraverse item: 11356
+forwardTraverse item: 5872
+forwardTraverse item: 4770
+store_node: 4770
+obj: 1818
+
+v: AddrVFGNode ID: 410 AddrStmt: [Var2934 <-- Var2935]	
+ValVar ID: 2934
+   %15 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 410 AddrStmt: [Var2934 <-- Var2935]	
+ValVar ID: 2934
+   %15 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 2935
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 2975
+forwardTraverse item: 11118
+forwardTraverse item: 2977
+forwardTraverse item: 2977
+forwardTraverse item: 3000
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 2720
+obj: 2722
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 2724
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 2726
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 2977
+forwardTraverse item: 2977
+forwardTraverse item: 3000
+forwardTraverse item: 2987
+forwardTraverse item: 2988
+forwardTraverse item: 2989
+forwardTraverse item: 2990
+forwardTraverse item: 2991
+forwardTraverse item: 2992
+forwardTraverse item: 2993
+forwardTraverse item: 2994
+forwardTraverse item: 2995
+forwardTraverse item: 2996
+forwardTraverse item: 2997
+forwardTraverse item: 2998
+forwardTraverse item: 4757
+store_node: 4757
+obj: 1818
+
+forwardTraverse item: 7741
+forwardTraverse item: 7741
+forwardTraverse item: 7622
+forwardTraverse item: 2979
+forwardTraverse item: 2977
+forwardTraverse item: 3000
+forwardTraverse item: 2977
+forwardTraverse item: 2977
+forwardTraverse item: 2977
+forwardTraverse item: 2977
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2979
+forwardTraverse item: 2977
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2977
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2979
+forwardTraverse item: 2979
+forwardTraverse item: 2979
+forwardTraverse item: 3000
+forwardTraverse item: 2979
+forwardTraverse item: 2844
+forwardTraverse item: 9214
+forwardTraverse item: 9247
+forwardTraverse item: 10821
+forwardTraverse item: 11876
+forwardTraverse item: 9219
+forwardTraverse item: 3012
+forwardTraverse item: 5868
+forwardTraverse item: 5870
+forwardTraverse item: 5871
+forwardTraverse item: 3010
+forwardTraverse item: 11353
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8315
+forwardTraverse item: 11121
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8315
+forwardTraverse item: 8508
+forwardTraverse item: 1422
+forwardTraverse item: 6029
+forwardTraverse item: 2046
+forwardTraverse item: 2047
+forwardTraverse item: 5879
+forwardTraverse item: 2048
+forwardTraverse item: 2049
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+obj: 2720
+forwardTraverse item: 4742
+store_node: 4742
+obj: 1818
+
+obj: 2720
+forwardTraverse item: 4720
+store_node: 4720
+obj: 1818
+
+v: AddrVFGNode ID: 368 AddrStmt: [Var2564 <-- Var2565]	
+ValVar ID: 2564
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 368 AddrStmt: [Var2564 <-- Var2565]	
+ValVar ID: 2564
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+v: AddrVFGNode ID: 346 AddrStmt: [Var2233 <-- Var2234]	
+ValVar ID: 2233
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 346 AddrStmt: [Var2233 <-- Var2234]	
+ValVar ID: 2233
+   %4 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 2234
+obj: 2565
+forwardTraverse item: 8312
+forwardTraverse item: 8311
+forwardTraverse item: 8315
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 8311
+forwardTraverse item: 11121
+forwardTraverse item: 8312
+forwardTraverse item: 8311
+forwardTraverse item: 11121
+forwardTraverse item: 8311
+forwardTraverse item: 11121
+forwardTraverse item: 8311
+forwardTraverse item: 11121
+forwardTraverse item: 8312
+forwardTraverse item: 8312
+forwardTraverse item: 8312
+forwardTraverse item: 8315
+forwardTraverse item: 8312
+forwardTraverse item: 6182
+forwardTraverse item: 9222
+forwardTraverse item: 10848
+forwardTraverse item: 10139
+forwardTraverse item: 9239
+forwardTraverse item: 2051
+forwardTraverse item: 5874
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8088
+forwardTraverse item: 12129
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8088
+forwardTraverse item: 9083
+forwardTraverse item: 8936
+forwardTraverse item: 7742
+forwardTraverse item: 6030
+forwardTraverse item: 6031
+forwardTraverse item: 7742
+forwardTraverse item: 5880
+forwardTraverse item: 5881
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2972
+forwardTraverse item: 11122
+forwardTraverse item: 2950
+forwardTraverse item: 10890
+forwardTraverse item: 8096
+forwardTraverse item: 8097
+forwardTraverse item: 8088
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 8097
+forwardTraverse item: 12125
+forwardTraverse item: 8096
+forwardTraverse item: 8097
+forwardTraverse item: 12131
+forwardTraverse item: 8097
+forwardTraverse item: 12215
+forwardTraverse item: 8097
+forwardTraverse item: 12189
+forwardTraverse item: 8096
+forwardTraverse item: 8096
+forwardTraverse item: 8096
+forwardTraverse item: 8088
+forwardTraverse item: 8096
+forwardTraverse item: 9236
+forwardTraverse item: 11203
+forwardTraverse item: 11583
+forwardTraverse item: 10850
+forwardTraverse item: 3013
+forwardTraverse item: 7373
+forwardTraverse item: 7108
+forwardTraverse item: 7317
+forwardTraverse item: 2885
+forwardTraverse item: 9203
+forwardTraverse item: 11627
+forwardTraverse item: 7161
+forwardTraverse item: 7223
+forwardTraverse item: 7078
+forwardTraverse item: 7250
+forwardTraverse item: 8935
+forwardTraverse item: 4743
+store_node: 4743
+obj: 1818
+
+obj: 2722
+forwardTraverse item: 7743
+forwardTraverse item: 7744
+forwardTraverse item: 4743
+store_node: 4743
+obj: 1818
+
+obj: 2722
+forwardTraverse item: 7743
+forwardTraverse item: 7744
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2026
+forwardTraverse item: 2027
+forwardTraverse item: 2028
+forwardTraverse item: 2018
+forwardTraverse item: 2019
+forwardTraverse item: 2020
+forwardTraverse item: 7096
+forwardTraverse item: 7290
+forwardTraverse item: 7092
+forwardTraverse item: 7071
+forwardTraverse item: 7110
+forwardTraverse item: 7282
+forwardTraverse item: 7170
+forwardTraverse item: 2854
+forwardTraverse item: 9360
+forwardTraverse item: 11750
+forwardTraverse item: 7257
+forwardTraverse item: 7075
+forwardTraverse item: 2886
+forwardTraverse item: 9201
+forwardTraverse item: 11588
+forwardTraverse item: 7429
+forwardTraverse item: 9342
+forwardTraverse item: 7281
+forwardTraverse item: 9231
+forwardTraverse item: 7270
+forwardTraverse item: 7296
+forwardTraverse item: 7263
+forwardTraverse item: 7209
+forwardTraverse item: 7079
+forwardTraverse item: 10840
+forwardTraverse item: 10148
+forwardTraverse item: 10151
+forwardTraverse item: 1982
+forwardTraverse item: 1980
+forwardTraverse item: 1401
+forwardTraverse item: 6652
+forwardTraverse item: 9205
+forwardTraverse item: 9839
+forwardTraverse item: 6214
+forwardTraverse item: 1913
+forwardTraverse item: 6024
+forwardTraverse item: 9108
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 4744
+store_node: 4744
+obj: 1818
+
+obj: 2724
+forwardTraverse item: 4745
+store_node: 4745
+obj: 1818
+
+obj: 2726
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 4744
+store_node: 4744
+obj: 1818
+
+obj: 2724
+forwardTraverse item: 4745
+store_node: 4745
+obj: 1818
+
+obj: 2726
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4746
+store_node: 4746
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4747
+store_node: 4747
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4748
+store_node: 4748
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4723
+store_node: 4723
+obj: 1818
+
+v: AddrVFGNode ID: 369 AddrStmt: [Var2566 <-- Var2567]	
+ValVar ID: 2566
+   %5 = alloca ptr, align 4 { "ln": 267, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 369 AddrStmt: [Var2566 <-- Var2567]	
+ValVar ID: 2566
+   %5 = alloca ptr, align 4 { "ln": 267, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+obj: 341
+obj: 343
+obj: 2565
+obj: 2567
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4724
+store_node: 4724
+obj: 1818
+
+obj: 341
+obj: 343
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4725
+store_node: 4725
+obj: 1818
+
+v: AddrVFGNode ID: 370 AddrStmt: [Var2568 <-- Var2569]	
+ValVar ID: 2568
+   %6 = alloca ptr, align 4 { "ln": 267, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+addr_node: AddrVFGNode ID: 370 AddrStmt: [Var2568 <-- Var2569]	
+ValVar ID: 2568
+   %6 = alloca ptr, align 4 { "ln": 267, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/streambuf" }
+obj: 341
+obj: 343
+obj: 2569
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 2887
+forwardTraverse item: 9115
+forwardTraverse item: 1914
+forwardTraverse item: 1917
+forwardTraverse item: 1916
+forwardTraverse item: 1399
+forwardTraverse item: 1918
+forwardTraverse item: 5852
+forwardTraverse item: 9212
+forwardTraverse item: 9839
+forwardTraverse item: 1402
+forwardTraverse item: 6057
+forwardTraverse item: 9839
+forwardTraverse item: 6389
+forwardTraverse item: 3885
+forwardTraverse item: 4632
+store_node: 4632
+obj: 1818
+
+obj: 29
+obj: 42
+obj: 60
+obj: 74
+obj: 85
+obj: 88
+obj: 91
+obj: 341
+obj: 343
+obj: 1302
+obj: 1347
+obj: 1822
+obj: 1824
+obj: 2238
+obj: 2861
+obj: 3266
+obj: 3269
+obj: 3272
+obj: 3275
+obj: 3350
+obj: 3353
+obj: 3356
+obj: 3359
+obj: 4946
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 9220
+forwardTraverse item: 11579
+forwardTraverse item: 11604
+forwardTraverse item: 11607
+forwardTraverse item: 11608
+forwardTraverse item: 11713
+forwardTraverse item: 11749
+forwardTraverse item: 11777
+forwardTraverse item: 1983
+forwardTraverse item: 9244
+forwardTraverse item: 9035
+forwardTraverse item: 1398
+forwardTraverse item: 3022
+forwardTraverse item: 10949
+forwardTraverse item: 3021
+forwardTraverse item: 10952
+forwardTraverse item: 9114
+forwardTraverse item: 6247
+forwardTraverse item: 8565
+forwardTraverse item: 7781
+forwardTraverse item: 10898
+forwardTraverse item: 7742
+forwardTraverse item: 8900
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 2975
+forwardTraverse item: 11118
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 2975
+forwardTraverse item: 11118
+forwardTraverse item: 11121
+forwardTraverse item: 11121
+forwardTraverse item: 10887
+forwardTraverse item: 6035
+forwardTraverse item: 8910
+forwardTraverse item: 1915
+forwardTraverse item: 6025
+forwardTraverse item: 6215
+forwardTraverse item: 6020
+forwardTraverse item: 8563
+forwardTraverse item: 1919
+forwardTraverse item: 7781
+forwardTraverse item: 10898
+forwardTraverse item: 7781
+forwardTraverse item: 10898
+forwardTraverse item: 7742
+forwardTraverse item: 9223
+forwardTraverse item: 9228
+forwardTraverse item: 11589
+forwardTraverse item: 11613
+forwardTraverse item: 11616
+forwardTraverse item: 11636
+forwardTraverse item: 11655
+forwardTraverse item: 11659
+forwardTraverse item: 11660
+forwardTraverse item: 11668
+forwardTraverse item: 11697
+forwardTraverse item: 11845
+forwardTraverse item: 11920
+forwardTraverse item: 11935
+forwardTraverse item: 12019
+forwardTraverse item: 12057
+forwardTraverse item: 11605
+forwardTraverse item: 11686
+forwardTraverse item: 10074
+forwardTraverse item: 10220
+forwardTraverse item: 10074
+forwardTraverse item: 9839
+forwardTraverse item: 9839
+forwardTraverse item: 10220
+forwardTraverse item: 10220
+forwardTraverse item: 6390
+forwardTraverse item: 10847
+forwardTraverse item: 8898
+forwardTraverse item: 9124
+forwardTraverse item: 8909
+forwardTraverse item: 7877
+forwardTraverse item: 8566
+forwardTraverse item: 4763
+store_node: 4763
+obj: 1818
+
+v: AddrVFGNode ID: 403 AddrStmt: [Var2899 <-- Var2900]	
+ValVar ID: 2899
+   %2 = alloca i8, align 1 { "ln": 247, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__string/char_traits.h" }
+addr_node: AddrVFGNode ID: 403 AddrStmt: [Var2899 <-- Var2900]	
+ValVar ID: 2899
+   %2 = alloca i8, align 1 { "ln": 247, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__string/char_traits.h" }
+v: AddrVFGNode ID: 624 AddrStmt: [Var4520 <-- Var4521]	
+ValVar ID: 4520
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+addr_node: AddrVFGNode ID: 624 AddrStmt: [Var4520 <-- Var4521]	
+ValVar ID: 4520
+   %3 = alloca ptr, align 4 { "ln": 0, "fl": "" }
+obj: 29
+obj: 42
+obj: 60
+obj: 74
+obj: 85
+obj: 88
+obj: 91
+obj: 341
+obj: 343
+obj: 1302
+obj: 1347
+obj: 1822
+obj: 2238
+obj: 2759
+obj: 2900
+obj: 3266
+obj: 3269
+obj: 3272
+obj: 3275
+obj: 3350
+obj: 3353
+obj: 3356
+obj: 3359
+obj: 4521
+obj: 4946
+obj: 5150
+obj: 5152
+obj: 5231
+forwardTraverse item: 4743
+store_node: 4743
+obj: 1818
+
+obj: 2722
+forwardTraverse item: 12360
+forwardTraverse item: 12214
+forwardTraverse item: 12132
+forwardTraverse item: 7781
+forwardTraverse item: 7743
+forwardTraverse item: 8538
+forwardTraverse item: 6216
+forwardTraverse item: 4763
+store_node: 4763
+obj: 1818
+
+obj: 2900
+forwardTraverse item: 4763
+store_node: 4763
+obj: 1818
+
+obj: 2900
+forwardTraverse item: 4743
+store_node: 4743
+obj: 1818
+
+obj: 2722
+forwardTraverse item: 9232
+forwardTraverse item: 9240
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10074
+forwardTraverse item: 10220
+forwardTraverse item: 10074
+forwardTraverse item: 10072
+forwardTraverse item: 10074
+forwardTraverse item: 11132
+forwardTraverse item: 11269
+forwardTraverse item: 11132
+forwardTraverse item: 10898
+forwardTraverse item: 10898
+forwardTraverse item: 11269
+forwardTraverse item: 11269
+forwardTraverse item: 7743
+forwardTraverse item: 8321
+forwardTraverse item: 4769
+store_node: 4769
+obj: 1818
+
+v: AddrVFGNode ID: 409 AddrStmt: [Var2932 <-- Var2933]	
+ValVar ID: 2932
+   %14 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+addr_node: AddrVFGNode ID: 409 AddrStmt: [Var2932 <-- Var2933]	
+ValVar ID: 2932
+   %14 = alloca ptr, align 4 { "ln": 991, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__locale" }
+obj: 1824
+obj: 2933
+forwardTraverse item: 4634
+store_node: 4634
+obj: 1818
+
+obj: 1824
+obj: 1832
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 9392
+forwardTraverse item: 11574
+forwardTraverse item: 11857
+forwardTraverse item: 4763
+store_node: 4763
+obj: 1818
+
+obj: 2900
+forwardTraverse item: 4744
+store_node: 4744
+obj: 1818
+
+obj: 2724
+forwardTraverse item: 4627
+store_node: 4627
+obj: 1818
+
+v: AddrVFGNode ID: 316 AddrStmt: [Var1825 <-- Var1826]	
+ValVar ID: 1825
+   %7 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 316 AddrStmt: [Var1825 <-- Var1826]	
+ValVar ID: 1825
+   %7 = alloca i32, align 4 
+obj: 1826
+forwardTraverse item: 7744
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 2973
+forwardTraverse item: 11120
+forwardTraverse item: 10849
+forwardTraverse item: 10842
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 11269
+forwardTraverse item: 11132
+forwardTraverse item: 11132
+forwardTraverse item: 4744
+store_node: 4744
+obj: 1818
+
+obj: 2724
+forwardTraverse item: 8203
+forwardTraverse item: 3009
+forwardTraverse item: 11354
+forwardTraverse item: 2841
+forwardTraverse item: 4635
+store_node: 4635
+obj: 1818
+
+obj: 1832
+forwardTraverse item: 1423
+forwardTraverse item: 9393
+forwardTraverse item: 10072
+forwardTraverse item: 10072
+forwardTraverse item: 3003
+forwardTraverse item: 11198
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 2851
+forwardTraverse item: 9410
+forwardTraverse item: 11702
+forwardTraverse item: 4745
+store_node: 4745
+obj: 1818
+
+obj: 2726
+forwardTraverse item: 1423
+forwardTraverse item: 1423
+forwardTraverse item: 2974
+forwardTraverse item: 11119
+forwardTraverse item: 7125
+forwardTraverse item: 5873
+forwardTraverse item: 6022
+forwardTraverse item: 2842
+forwardTraverse item: 2843
+forwardTraverse item: 9216
+forwardTraverse item: 8317
+forwardTraverse item: 11179
+forwardTraverse item: 1423
+forwardTraverse item: 8258
+forwardTraverse item: 9237
+forwardTraverse item: 9767
+forwardTraverse item: 2975
+forwardTraverse item: 11118
+forwardTraverse item: 8317
+forwardTraverse item: 8317
+forwardTraverse item: 8937
+forwardTraverse item: 9078
+forwardTraverse item: 9225
+forwardTraverse item: 8083
+forwardTraverse item: 12315
+forwardTraverse item: 8317
+forwardTraverse item: 4629
+store_node: 4629
+obj: 1818
+
+obj: 1824
+obj: 1826
+obj: 1828
+obj: 1836
+obj: 1838
+forwardTraverse item: 10837
+forwardTraverse item: 10821
+forwardTraverse item: 11876
+forwardTraverse item: 8083
+forwardTraverse item: 8083
+forwardTraverse item: 8902
+forwardTraverse item: 9242
+forwardTraverse item: 7186
+forwardTraverse item: 11609
+forwardTraverse item: 11844
+forwardTraverse item: 8083
+forwardTraverse item: 2830
+forwardTraverse item: 2831
+forwardTraverse item: 2832
+forwardTraverse item: 2833
+forwardTraverse item: 2834
+forwardTraverse item: 2835
+forwardTraverse item: 2836
+forwardTraverse item: 2837
+forwardTraverse item: 2838
+forwardTraverse item: 2839
+forwardTraverse item: 9241
+forwardTraverse item: 10139
+forwardTraverse item: 7427
+forwardTraverse item: 7299
+forwardTraverse item: 10846
+forwardTraverse item: 4677
+store_node: 4677
+obj: 1818
+
+v: AddrVFGNode ID: 318 AddrStmt: [Var1829 <-- Var1830]	
+ValVar ID: 1829
+   %9 = alloca i32, align 4 { "ln": 735, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+addr_node: AddrVFGNode ID: 318 AddrStmt: [Var1829 <-- Var1830]	
+ValVar ID: 1829
+   %9 = alloca i32, align 4 { "ln": 735, "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/fstream" }
+obj: 1830
+obj: 2900
+forwardTraverse item: 9839
+forwardTraverse item: 10072
+forwardTraverse item: 7251
+forwardTraverse item: 8564
+forwardTraverse item: 8525
+forwardTraverse item: 10843
+forwardTraverse item: 11203
+forwardTraverse item: 11583
+forwardTraverse item: 4636
+store_node: 4636
+obj: 1818
+
+obj: 1830
+forwardTraverse item: 4678
+store_node: 4678
+obj: 1818
+
+obj: 1830
+forwardTraverse item: 9204
+forwardTraverse item: 10898
+forwardTraverse item: 4679
+store_node: 4679
+obj: 1818
+
+obj: 1830
+forwardTraverse item: 6026
+forwardTraverse item: 10148
+forwardTraverse item: 10151
+forwardTraverse item: 9361
+forwardTraverse item: 9202
+forwardTraverse item: 9208
+forwardTraverse item: 9226
+forwardTraverse item: 3022
+forwardTraverse item: 10949
+forwardTraverse item: 3021
+forwardTraverse item: 10952
+forwardTraverse item: 9217
+forwardTraverse item: 2840
+forwardTraverse item: 9246
+forwardTraverse item: 9124
+forwardTraverse item: 4680
+store_node: 4680
+obj: 1818
+
+v: AddrVFGNode ID: 311 AddrStmt: [Var1815 <-- Var1816]	
+ValVar ID: 1815
+   %2 = alloca i32, align 4 
+addr_node: AddrVFGNode ID: 311 AddrStmt: [Var1815 <-- Var1816]	
+ValVar ID: 1815
+   %2 = alloca i32, align 4 
+obj: 1816
+obj: 1830
+forwardTraverse item: 10845
+forwardTraverse item: 8321
+forwardTraverse item: 9234
+forwardTraverse item: 8203
+forwardTraverse item: 2827
+forwardTraverse item: 10836
+forwardTraverse item: 7125
+forwardTraverse item: 8300
+forwardTraverse item: 8937
+forwardTraverse item: 8156
+it->first: CallICFGNode4307 {fun: _Z27innerTureIllegalInforFlow_ci{ "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }}
+CallPE: [Var9343 <-- Var5292]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9344 <-- Var5285]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+CallPE: [Var9345 <-- Var5293]	
+ValVar ID: 5294
+   %16 = call ptr @fgets(ptr noundef %14, i32 noundef 1024, ptr noundef %15), !dbg !6185 { "ln": 56, "cl": 13, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+src: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+forwardTraverse item: 709
+forwardTraverse item: 2403
+forwardTraverse item: 2404
+forwardTraverse item: 2405
+forwardTraverse item: 6117
+forwardTraverse item: 6796
+forwardTraverse item: 6241
+forwardTraverse item: 5217
+store_node: 5217
+obj: 5270
+
+v: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 709 AddrStmt: [Var5269 <-- Var5270]	
+ValVar ID: 5269
+   %5 = alloca [1024 x i8], align 1 { "ln": 54, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+obj: 5270
+obj: 9905
+forwardTraverse item: 7431
+forwardTraverse item: 10678
+forwardTraverse item: 5702
+store_node: 5702
+obj: 5270
+
+v: AddrVFGNode ID: 1342 AddrStmt: [Var9346 <-- Var9347]	
+ValVar ID: 9346
+   %str.addr = alloca ptr, align 8 
+addr_node: AddrVFGNode ID: 1342 AddrStmt: [Var9346 <-- Var9347]	
+ValVar ID: 9346
+   %str.addr = alloca ptr, align 8 
+v: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 724 AddrStmt: [Var5399 <-- Var5400]	
+ValVar ID: 5399
+   %4 = alloca [1024 x i8], align 1 { "ln": 83, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+v: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+addr_node: AddrVFGNode ID: 718 AddrStmt: [Var5340 <-- Var5341]	
+ValVar ID: 5340
+   %5 = alloca [1024 x i8], align 1 { "ln": 69, "fl": "../../sdemoservice/src/i_sdemo_service.cpp" }
+obj: 5341
+obj: 5400
+obj: 9347
+forwardTraverse item: 3873
+forwardTraverse item: 10500
+forwardTraverse item: 8505
+forwardTraverse item: 8028
+forwardTraverse item: 7312
+forwardTraverse item: 9050
+forwardTraverse item: 8978
+forwardTraverse time: 272[ms]
+forwardTraverse done

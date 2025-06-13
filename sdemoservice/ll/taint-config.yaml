@@ -33,3 +33,6 @@ Sinks:
   - Name: fwrite_unlocked
     SrcArg: 3
     DstArgs: [0]
+  - Name: fprintf
+    SrcArg: 0
+    DstArgs: [2]

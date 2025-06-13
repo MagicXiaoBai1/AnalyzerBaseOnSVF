@@ -1,0 +1,54 @@
+  - name: input_filename
+    file: read_write.c
+    line: 84
+    site: "CallICFGNode31 fun: main ln: 119, cl: 26, fl: read_write.c    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode:  ln: 119, cl: 26, fl: read_write.c "
+  - name: .str.1
+    file: 
+    line: -1
+    value: "GlobalValVar ID: 5 @.str.1 = private unnamed_addr constant [11 x i8] coutput.txt\00, align 1, !dbg !7  Glob  "
+    site: "CallICFGNode45 fun: main ln: 126, cl: 9, fl: read_write.c    %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode:  ln: 126, cl: 9, fl: read_write.c "
+  - name: input_filename
+    file: read_write.c
+    line: 84
+    site: "CallICFGNode31 fun: main ln: 119, cl: 26, fl: read_write.c    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode:  ln: 119, cl: 26, fl: read_write.c "
+  - name: .str.1
+    file: 
+    line: -1
+    value: "GlobalValVar ID: 5 @.str.1 = private unnamed_addr constant [11 x i8] coutput.txt\00, align 1, !dbg !7  Glob  "
+    site: "CallICFGNode45 fun: main ln: 126, cl: 9, fl: read_write.c    %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode:  ln: 126, cl: 9, fl: read_write.c "
+  - name: input_filename
+    file: read_write.c
+    line: 84
+    site: "CallICFGNode31 fun: main ln: 119, cl: 26, fl: read_write.c    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode:  ln: 119, cl: 26, fl: read_write.c "
+  - name: .str.1
+    file: 
+    line: -1
+    value: "GlobalValVar ID: 5 @.str.1 = private unnamed_addr constant [11 x i8] coutput.txt\00, align 1, !dbg !7  Glob  "
+    site: "CallICFGNode45 fun: main ln: 126, cl: 9, fl: read_write.c    %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode:  ln: 126, cl: 9, fl: read_write.c "
+  - name: input_filename
+    file: read_write.c
+    line: 84
+    site: "CallICFGNode31 fun: main ln: 119, cl: 26, fl: read_write.c    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode:  ln: 119, cl: 26, fl: read_write.c "
+  - name: .str.1
+    file: 
+    line: -1
+    value: "GlobalValVar ID: 5 @.str.1 = private unnamed_addr constant [11 x i8] coutput.txt\00, align 1, !dbg !7  Glob  "
+    site: "CallICFGNode45 fun: main ln: 126, cl: 9, fl: read_write.c    %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode:  ln: 126, cl: 9, fl: read_write.c "
+  - name: input_filename
+    file: read_write.c
+    line: 84
+    site: "CallICFGNode31 fun: main ln: 119, cl: 26, fl: read_write.c    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode:  ln: 119, cl: 26, fl: read_write.c "
+  - name: .str.1
+    file: 
+    line: -1
+    value: "GlobalValVar ID: 5 @.str.1 = private unnamed_addr constant [11 x i8] coutput.txt\00, align 1, !dbg !7  Glob  "
+    site: "CallICFGNode45 fun: main ln: 126, cl: 9, fl: read_write.c    %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode:  ln: 126, cl: 9, fl: read_write.c "
+  - name: input_filename
+    file: read_write.c
+    line: 84
+    site: "CallICFGNode31 fun: main ln: 119, cl: 26, fl: read_write.c    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode:  ln: 119, cl: 26, fl: read_write.c "
+  - name: .str.1
+    file: 
+    line: -1
+    value: "GlobalValVar ID: 5 @.str.1 = private unnamed_addr constant [11 x i8] coutput.txt\00, align 1, !dbg !7  Glob  "
+    site: "CallICFGNode45 fun: main ln: 126, cl: 9, fl: read_write.c    %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode:  ln: 126, cl: 9, fl: read_write.c "

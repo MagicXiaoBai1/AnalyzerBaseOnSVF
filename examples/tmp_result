@@ -1,0 +1,453 @@
+当前工作目录: /home/host_swap/examples
+open: fopen
+open: open
+source: fread
+source: fgets
+source: fscanf
+source: safe_read
+source: foo
+sink: fwrite
+sink: full_write
+sink: fwrite_unlocked
+open_name: fopen
+src_arg_idx: 0
+dst_arg_idx: -1
+open_name: open
+src_arg_idx: 0
+dst_arg_idx: -1
+source_name: fread
+dst_args: 0 
+src_arg: 3
+source_name: fgets
+dst_args: 0 
+src_arg: 2
+source_name: fscanf
+dst_args: 0 
+src_arg: 1
+source_name: safe_read
+dst_args: 1 
+src_arg: 0
+source_name: foo
+dst_args: 0 
+src_arg: 0
+sink_name: fwrite
+args: 0 
+src_arg: 3
+sink_name: full_write
+args: 1 
+src_arg: 0
+sink_name: fwrite_unlocked
+args: 0 
+src_arg: 3
+analyze
+
+*********General Stats***************
+################ (program : read_write.ll)###############
+AddrsNum            31
+BBWith2Succ         2
+BBWith3Succ         0
+CallsNum            0
+ConstArrayObj       0
+ConstStructObj      0
+ConstantObj         0
+CopysNum            3
+FIObjNum            1
+FSObjNum            16
+FunctionObjs        10
+GepsNum             8
+GlobalObjs          0
+HeapObjs            5
+IndCallSites        0
+LoadsNum            1
+MaxStructSize       0
+NonPtrObj           17
+ReturnsNum          1
+StackObjs           2
+StoresNum           5
+TotalCallSite       8
+TotalFieldObjects   2
+TotalObjects        18
+TotalPTASVFStmts    31
+TotalPointers       96
+TotalSVFStmts       64
+VarArrayObj         2
+VarStructObj        0
+----------------Time and memory stats--------------------
+LLVMIRTime          0.022
+SVFIRTime           0.001
+SymbolTableTime     0
+#######################################################
+
+*********PTACallGraph Stats (Andersen analysis)***************
+################ (program : read_write.ll)###############
+----------------Numbers stats----------------------------
+CalRetPairInCycle   0
+MaxNodeInCycle      0
+NodeInCycle         0
+TotalCycle          0
+TotalEdge           8
+TotalNode           10
+#######################################################
+
+*********Andersen Pointer Analysis Stats***************
+################ (program : read_write.ll)###############
+----------------Time and memory stats--------------------
+AvgIn/OutAddrEdge   0.387755
+AvgIn/OutCopyEdge   0.244898
+AvgIn/OutEdge       0.632653
+AvgIn/OutLoadEdge   0
+AvgIn/OutStoreEdge  0
+AvgPtsSetSize       0.234375
+AvgTopLvlPtsSize    0.967742
+CollapseTime        0
+CopyGepTime         0
+LoadStoreTime       0
+MemoryUsageVmrss    0
+MemoryUsageVmsize   0
+SCCDetectTime       0
+SCCMergeTime        0
+TotalTime           0
+UpdateCGTime        0
+----------------Numbers stats----------------------------
+AddrProcessed       19
+CopyProcessed       3
+DummyFieldPtrs      0
+FieldObjs           2
+GepProcessed        8
+IndCallSites        0
+IndEdgeSolved       0
+LoadProcessed       0
+LocalVarInRecur     0
+MaxInAddrEdge       1
+MaxInCopyEdge       1
+MaxInLoadEdge       0
+MaxInStoreEdge      0
+MaxNodesInSCC       0
+MaxOutAddrEdge      3
+MaxOutCopyEdge      5
+MaxOutLoadEdge      0
+MaxOutStoreEdge     0
+MaxPtsSetSize       1
+MemObjects          18
+NodesInCycles       0
+NullPointer         0
+NumOfAddrs          19
+NumOfCGEdge         12
+NumOfCGNode         61
+NumOfCopys          4
+NumOfFieldExpand    0
+NumOfGeps           8
+NumOfLoads          0
+NumOfSCCDetect      1
+NumOfSFRs           0
+NumOfStores         0
+NumOfValidNode      49
+NumOfValidObjNode   17
+Pointers            96
+PointsToBlkPtr      0
+PointsToConstPtr    0
+SolveIterations     1
+StoreProcessed      0
+TotalCycleNum       0
+TotalObjects        20
+TotalPWCCycleNum    0
+TotalPointers       96
+#######################################################
+
+****Persistent Points-To Cache Statistics: Andersen's analysis bitvector****
+################ (program : read_write.ll)###############
+UniquePointsToSets       20
+TotalUnions              30
+PropertyUnions           30
+UniqueUnions             0
+LookupUnions             0
+PreemptiveUnions         0
+TotalComplements         59
+PropertyComplements      59
+UniqueComplements        0
+LookupComplements        0
+PreemptiveComplements    0
+TotalIntersections       0
+PropertyIntersections    0
+UniqueIntersections      0
+LookupIntersections      0
+PreemptiveIntersections  0
+#######################################################
+
+*********Memory SSA Statistics***************
+################ (program : read_write.ll)###############
+----------------Time and memory stats--------------------
+AverageRegSize      1
+GenMUCHITime        0
+GenRegionTime       0
+InsertPHITime       0
+SSARenameTime       0
+TotalMSSATime       0
+----------------Numbers stats----------------------------
+BBHasMSSAPhi        2
+CSChiNode           5
+CSHasChi            5
+CSHasMu             5
+CSMuNode            5
+FunEntryChi         7
+FunHasEntryChi      3
+FunHasRetMu         3
+FunRetMu            7
+LoadHasMu           1
+LoadMuNode          1
+MSSAPhi             2
+MaxRegSize          1
+MemRegions          6
+StoreChiNode        5
+StoreHasChi         5
+#######################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*********SVFG Statistics***************
+################ (program : read_write.ll)###############
+----------------Time and memory stats--------------------
+ATNodeTime          0
+AvgWeight           1
+ConnDirEdgeTime     0
+ConnIndEdgeTime     0
+OptTime             0
+TLNodeTime          0
+TotalTime           0
+----------------Numbers stats----------------------------
+ActualIn            5
+ActualOut           5
+ActualParam         16
+ActualRet           4
+Addr                31
+AvgInDegree         0
+AvgIndInDeg         1
+AvgIndOutDeg        1
+AvgOutDegree        0
+Copy                3
+DirectCallEdge      0
+DirectEdge          50
+DirectRetEdge       1
+FormalIn            7
+FormalOut           7
+FormalParam         0
+FormalRet           3
+Gep                 8
+IndCallEdge         1
+IndRetEdge          1
+IndirectEdge        24
+IndirectEdgeLabels  24
+Load                1
+MSSAPhi             2
+MaxInDegree         3
+MaxIndInDeg         2
+MaxIndOutDeg        2
+MaxOutDegree        6
+PHI                 4
+Store               5
+TotalEdge           74
+TotalNode           113
+#######################################################
+
+*********SVFG Statistics***************
+################ (program : read_write.ll)###############
+----------------Time and memory stats--------------------
+ATNodeTime          0
+AvgWeight           1
+ConnDirEdgeTime     0
+ConnIndEdgeTime     0
+OptTime             0
+TLNodeTime          0
+TotalTime           0
+----------------Numbers stats----------------------------
+ActualIn            5
+ActualOut           5
+ActualParam         16
+ActualRet           4
+Addr                31
+AvgInDegree         0
+AvgIndInDeg         1
+AvgIndOutDeg        1
+AvgOutDegree        0
+Copy                3
+DirectCallEdge      0
+DirectEdge          50
+DirectRetEdge       1
+FormalIn            7
+FormalOut           7
+FormalParam         0
+FormalRet           3
+Gep                 8
+IndCallEdge         1
+IndRetEdge          1
+IndirectEdge        24
+IndirectEdgeLabels  24
+Load                1
+MSSAPhi             2
+MaxInDegree         3
+MaxIndInDeg         2
+MaxIndOutDeg        2
+MaxOutDegree        6
+PHI                 4
+Store               5
+TotalEdge           74
+TotalNode           113
+#######################################################
+source: ActualParmVFGNode ID: 53 CS[CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }]ValVar ID: 58
+   %call5 = call ptr @get_buffer(), !dbg !110 { "ln": 106, "cl": 21, "fl": "read_write.c" }
+sink: ActualParmVFGNode ID: 49 CS[CallICFGNode: { "ln": 126, "cl": 9, "fl": "read_write.c" }]ValVar ID: 89
+   %arraydecay11 = getelementptr inbounds [1024 x i8], ptr %buffer2, i64 0, i64 0, !dbg !141 { "ln": 126, "cl": 16, "fl": "read_write.c" }
+initialize time: 18[ms]
+initialize done
+taint open param of fopen is return value
+ret_node: ValVar ID: 55
+   %call4 = call noalias ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.2), !dbg !108 { "ln": 85, "cl": 25, "fl": "read_write.c" }
+actual_ret: AddrVFGNode ID: 26 AddrStmt: [Var55 <-- Var56]	
+ValVar ID: 55
+   %call4 = call noalias ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.2), !dbg !108 { "ln": 85, "cl": 25, "fl": "read_write.c" }
+source actual_param is constant
+open resource actual param: ActualParmVFGNode ID: 58 CS[CallICFGNode: { "ln": 85, "cl": 25, "fl": "read_write.c" }]GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [11 x i8] c"output.txt\00", align 1, !dbg !7 { Glob  }
+taint open param of fopen is return value
+ret_node: ValVar ID: 50
+   %call = call noalias ptr @fopen(ptr noundef %arraydecay, ptr noundef @.str), !dbg !45 { "ln": 84, "cl": 24, "fl": "read_write.c" }
+actual_ret: AddrVFGNode ID: 24 AddrStmt: [Var50 <-- Var51]	
+ValVar ID: 50
+   %call = call noalias ptr @fopen(ptr noundef %arraydecay, ptr noundef @.str), !dbg !45 { "ln": 84, "cl": 24, "fl": "read_write.c" }
+def_node: AddrVFGNode ID: 24 AddrStmt: [Var50 <-- Var51]	
+ValVar ID: 50
+   %call = call noalias ptr @fopen(ptr noundef %arraydecay, ptr noundef @.str), !dbg !45 { "ln": 84, "cl": 24, "fl": "read_write.c" }
+read site: CallICFGNode31 {fun: main{ "ln": 119, "cl": 26, "fl": "read_write.c" }}
+   %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }
+openSite: CallICFGNode24 {fun: main{ "ln": 84, "cl": 24, "fl": "read_write.c" }}
+AddrStmt: [Var50 <-- Var51]	
+ValVar ID: 50
+   %call = call noalias ptr @fopen(ptr noundef %arraydecay, ptr noundef @.str), !dbg !45 { "ln": 84, "cl": 24, "fl": "read_write.c" }
+
+--------------------------------
+read site: CallICFGNode31 {fun: main{ "ln": 119, "cl": 26, "fl": "read_write.c" }}
+   %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }
+openSite: CallICFGNode24 {fun: main{ "ln": 84, "cl": 24, "fl": "read_write.c" }}
+AddrStmt: [Var50 <-- Var51]	
+ValVar ID: 50
+   %call = call noalias ptr @fopen(ptr noundef %arraydecay, ptr noundef @.str), !dbg !45 { "ln": 84, "cl": 24, "fl": "read_write.c" }
+resourceActualParam: ValVar ID: 49
+   %arraydecay = getelementptr inbounds [100 x i8], ptr %input_filename, i64 0, i64 0, !dbg !44 { "ln": 84, "cl": 30, "fl": "read_write.c" }
+def_node: GepVFGNode ID: 39 GepStmt: [Var49 <-- Var27]	
+ValVar ID: 49
+   %arraydecay = getelementptr inbounds [100 x i8], ptr %input_filename, i64 0, i64 0, !dbg !44 { "ln": 84, "cl": 30, "fl": "read_write.c" }
+def_node: AddrVFGNode ID: 22 AddrStmt: [Var27 <-- Var28]	
+ValVar ID: 27
+   %input_filename = alloca [100 x i8], align 16 { "ln": 73, "fl": "read_write.c" }
+def_node: AddrVFGNode ID: 26 AddrStmt: [Var55 <-- Var56]	
+ValVar ID: 55
+   %call4 = call noalias ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.2), !dbg !108 { "ln": 85, "cl": 25, "fl": "read_write.c" }
+write site: CallICFGNode45 {fun: main{ "ln": 126, "cl": 9, "fl": "read_write.c" }}
+   %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode: { "ln": 126, "cl": 9, "fl": "read_write.c" }
+openSite: CallICFGNode26 {fun: main{ "ln": 85, "cl": 25, "fl": "read_write.c" }}
+AddrStmt: [Var55 <-- Var56]	
+ValVar ID: 55
+   %call4 = call noalias ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.2), !dbg !108 { "ln": 85, "cl": 25, "fl": "read_write.c" }
+
+--------------------------------
+write site: CallICFGNode45 {fun: main{ "ln": 126, "cl": 9, "fl": "read_write.c" }}
+   %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode: { "ln": 126, "cl": 9, "fl": "read_write.c" }
+openSite: CallICFGNode26 {fun: main{ "ln": 85, "cl": 25, "fl": "read_write.c" }}
+AddrStmt: [Var55 <-- Var56]	
+ValVar ID: 55
+   %call4 = call noalias ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.2), !dbg !108 { "ln": 85, "cl": 25, "fl": "read_write.c" }
+resourceActualParam: GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [11 x i8] c"output.txt\00", align 1, !dbg !7 { Glob  }
+def_node: AddrVFGNode ID: 2 AddrStmt: [Var5 <-- Var3]	
+GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [11 x i8] c"output.txt\00", align 1, !dbg !7 { Glob  }
+def_node: AddrVFGNode ID: 2 AddrStmt: [Var5 <-- Var3]	
+GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [11 x i8] c"output.txt\00", align 1, !dbg !7 { Glob  }
+--------------------------------
+srcToResourceValVars: 
+read site: CallICFGNode31 {fun: main{ "ln": 119, "cl": 26, "fl": "read_write.c" }}
+   %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }
+resourceValVar: ValVar ID: 49
+   %arraydecay = getelementptr inbounds [100 x i8], ptr %input_filename, i64 0, i64 0, !dbg !44 { "ln": 84, "cl": 30, "fl": "read_write.c" }
+  ValName: input_filename
+  Location: { "ln": 84, "cl": 30, "fl": "read_write.c" }
+  Line number: 84
+  File name: read_write.c
+--------------------------------
+sinkToResourceValVars: 
+write site: CallICFGNode45 {fun: main{ "ln": 126, "cl": 9, "fl": "read_write.c" }}
+   %call12 = call i64 @fwrite(ptr noundef %arraydecay11, i64 noundef 1024, i64 noundef %call6, ptr noundef %call4), !dbg !142 CallICFGNode: { "ln": 126, "cl": 9, "fl": "read_write.c" }
+resourceValVar: GlobalValVar ID: 5
+ @.str.1 = private unnamed_addr constant [11 x i8] c"output.txt\00", align 1, !dbg !7 { Glob  }
+  ValName: .str.1
+  Location: { Glob  }
+  Line number: -1
+  File name: 
+v: AddrVFGNode ID: 17 AddrStmt: [Var10 <-- Var11]	
+ValVar ID: 10
+   %call = call noalias ptr @malloc(i64 noundef 1024) #4, !dbg !29 { "ln": 36, "cl": 19, "fl": "read_write.c" }
+addr_node: AddrVFGNode ID: 17 AddrStmt: [Var10 <-- Var11]	
+ValVar ID: 10
+   %call = call noalias ptr @malloc(i64 noundef 1024) #4, !dbg !29 { "ln": 36, "cl": 19, "fl": "read_write.c" }
+backwardTraverse time: 5[ms]
+backwardTraverse done
+it->first: CallICFGNode31 {fun: main{ "ln": 119, "cl": 26, "fl": "read_write.c" }}
+   %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }
+src: AddrVFGNode ID: 17 AddrStmt: [Var10 <-- Var11]	
+ValVar ID: 10
+   %call = call noalias ptr @malloc(i64 noundef 1024) #4, !dbg !29 { "ln": 36, "cl": 19, "fl": "read_write.c" }
+forwardTraverse item: 17
+forwardTraverse item: 71
+forwardTraverse item: 70
+forwardTraverse item: 66
+forwardTraverse item: 42
+forwardTraverse item: 53
+forwardTraverse item: 43
+forwardTraverse item: 33
+forwardTraverse item: 75
+forwardTraverse item: 34
+forwardTraverse item: 48
+store_node: 48
+obj: 11
+
+v: AddrVFGNode ID: 23 AddrStmt: [Var30 <-- Var31]	
+ValVar ID: 30
+   %buffer2 = alloca [1024 x i8], align 16 { "ln": 120, "fl": "read_write.c" }
+addr_node: AddrVFGNode ID: 23 AddrStmt: [Var30 <-- Var31]	
+ValVar ID: 30
+   %buffer2 = alloca [1024 x i8], align 16 { "ln": 120, "fl": "read_write.c" }
+v: AddrVFGNode ID: 17 AddrStmt: [Var10 <-- Var11]	
+ValVar ID: 10
+   %call = call noalias ptr @malloc(i64 noundef 1024) #4, !dbg !29 { "ln": 36, "cl": 19, "fl": "read_write.c" }
+addr_node: AddrVFGNode ID: 17 AddrStmt: [Var10 <-- Var11]	
+ValVar ID: 10
+   %call = call noalias ptr @malloc(i64 noundef 1024) #4, !dbg !29 { "ln": 36, "cl": 19, "fl": "read_write.c" }
+obj: 11
+obj: 31
+obj: 126
+forwardTraverse item: 86
+forwardTraverse item: 87
+forwardTraverse item: 95
+forwardTraverse time: 0[ms]
+forwardTraverse done

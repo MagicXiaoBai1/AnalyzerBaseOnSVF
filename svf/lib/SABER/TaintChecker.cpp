@@ -291,16 +291,9 @@ void TaintChecker::initSrcResourceValVar() {
 
     }
 
-
-
     // 从句柄定义点 得到对应的资源名称实参
 
-    
-
     // todo 格局资源实参的位置 调用ae 求解对应的资源名变量的范围
-
-
-
 }
 
 void TaintChecker::initSinkResourceValVar() {

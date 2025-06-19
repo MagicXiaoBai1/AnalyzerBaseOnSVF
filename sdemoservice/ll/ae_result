@@ -1,0 +1,772 @@
+
+*********General Stats***************
+################ (program : 1.ll)###############
+AddrsNum            57
+BBWith2Succ         5
+BBWith3Succ         0
+CallsNum            3
+ConstArrayObj       0
+ConstStructObj      0
+ConstantObj         36
+CopysNum            3
+FIObjNum            30
+FSObjNum            28
+FunctionObjs        9
+GepsNum             1087
+GlobalObjs          7
+HeapObjs            3
+IndCallSites        0
+LoadsNum            22
+MaxStructSize       0
+NonPtrObj           52
+ReturnsNum          1
+StackObjs           10
+StoresNum           1082
+TotalCallSite       12
+TotalFieldObjects   512
+TotalObjects        1081
+TotalPTASVFStmts    1156
+TotalPointers       1181
+TotalSVFStmts       2273
+VarArrayObj         9
+VarStructObj        0
+----------------Time and memory stats--------------------
+LLVMIRTime          0.05
+SVFIRTime           0.118
+SymbolTableTime     0.003
+#######################################################
+
+*********PTACallGraph Stats (Andersen analysis)***************
+################ (program : 1.ll)###############
+----------------Numbers stats----------------------------
+CalRetPairInCycle   0
+MaxNodeInCycle      0
+NodeInCycle         0
+TotalCycle          0
+TotalEdge           12
+TotalNode           9
+#######################################################
+
+*********Andersen Pointer Analysis Stats***************
+################ (program : 1.ll)###############
+----------------Time and memory stats--------------------
+AvgIn/OutAddrEdge   0.0238908
+AvgIn/OutCopyEdge   0.956485
+AvgIn/OutEdge       1.00939
+AvgIn/OutLoadEdge   0.0179181
+AvgIn/OutStoreEdge  0.0110922
+AvgPtsSetSize       0.401761
+AvgTopLvlPtsSize    0.99912
+CollapseTime        0
+CopyGepTime         0
+LoadStoreTime       0
+MemoryUsageVmrss    4880
+MemoryUsageVmsize   3964
+SCCDetectTime       0
+SCCMergeTime        0
+TotalTime           0.071
+UpdateCGTime        0
+----------------Numbers stats----------------------------
+AddrProcessed       28
+CopyProcessed       26
+DummyFieldPtrs      10
+FieldObjs           512
+GepProcessed        1101
+IndCallSites        0
+IndEdgeSolved       0
+LoadProcessed       14
+LocalVarInRecur     0
+MaxInAddrEdge       1
+MaxInCopyEdge       7
+MaxInLoadEdge       1
+MaxInStoreEdge      1
+MaxNodesInSCC       0
+MaxOutAddrEdge      1
+MaxOutCopyEdge      1026
+MaxOutLoadEdge      5
+MaxOutStoreEdge     1
+MaxPtsSetSize       1
+MemObjects          1081
+NodesInCycles       0
+NullPointer         0
+NumOfAddrs          28
+NumOfCGEdge         1155
+NumOfCGNode         1698
+NumOfCopys          34
+NumOfFieldExpand    0
+NumOfGeps           1087
+NumOfLoads          21
+NumOfSCCDetect      2
+NumOfSFRs           0
+NumOfStores         13
+NumOfValidNode      1172
+NumOfValidObjNode   28
+Pointers            1171
+PointsToBlkPtr      0
+PointsToConstPtr    0
+SolveIterations     2
+StoreProcessed      13
+TotalCycleNum       0
+TotalObjects        1593
+TotalPWCCycleNum    0
+TotalPointers       1181
+#######################################################
+
+****Persistent Points-To Cache Statistics: Andersen's analysis bitvector****
+################ (program : 1.ll)###############
+UniquePointsToSets       543
+TotalUnions              1162
+PropertyUnions           1162
+UniqueUnions             0
+LookupUnions             0
+PreemptiveUnions         0
+TotalComplements         2891
+PropertyComplements      2886
+UniqueComplements        2
+LookupComplements        1
+PreemptiveComplements    2
+TotalIntersections       33
+PropertyIntersections    29
+UniqueIntersections      0
+LookupIntersections      0
+PreemptiveIntersections  4
+#######################################################
+
+************************
+################ (program : )###############
+EXT_CallSite_Num              11
+Func_Num                      2
+ICFG_Node_Num                 90
+NonEXT_CallSite_Num           1
+SVF_STMT_NUM                  0
+-------------------------------------------------------
+Total_Time(sec)               0.002
+Memory usage: 49008KB
+#######################################################
+--------------------------------
+node: GlobalICFGNode0
+CopyStmt: [Var1 <-- Var0]	
+ConstantNullPtrValVar ID: 0
+ ptr null { constant data }
+AddrStmt: [Var127 <-- Var128]	
+ConstantIntValNode ID: 127
+ i64 1024 { constant data }
+AddrStmt: [Var7 <-- Var8]	
+ConstantIntValNode ID: 7
+ i8 101 { constant data }
+AddrStmt: [Var50 <-- Var53]	
+GlobalValVar ID: 50
+ @.str.5 = private unnamed_addr constant [3 x i8] c"%s\00", align 1, !dbg !25 { Glob  }
+AddrStmt: [Var5 <-- Var6]	
+ConstantIntValNode ID: 5
+ i8 47 { constant data }
+AddrStmt: [Var54 <-- Var57]	
+GlobalValVar ID: 54
+ @.str.6 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1, !dbg !30 { Glob  }
+AddrStmt: [Var34 <-- Var47]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+AddrStmt: [Var30 <-- Var33]	
+GlobalValVar ID: 30
+ @.str.2 = private unnamed_addr constant [2 x i8] c"r\00", align 1, !dbg !13 { Glob  }
+AddrStmt: [Var16 <-- Var29]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+AddrStmt: [Var142 <-- Var143]	
+ConstantIntValNode ID: 142
+ i32 1024 { constant data }
+AddrStmt: [Var48 <-- Var49]	
+GlobalValVar ID: 48
+ @.str.4 = private unnamed_addr constant [2 x i8] c"a\00", align 1, !dbg !23 { Glob  }
+AddrStmt: [Var129 <-- Var130]	
+ConstantIntValNode ID: 129
+ i1 false { constant data }
+AddrStmt: [Var90 <-- Var91]	
+ConstantIntValNode ID: 90
+ i64 19 { constant data }
+AddrStmt: [Var4 <-- Var15]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+AddrStmt: [Var13 <-- Var14]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+AddrStmt: [Var86 <-- Var87]	
+ConstantIntValNode ID: 86
+ i64 0 { constant data }
+AddrStmt: [Var23 <-- Var24]	
+ConstantIntValNode ID: 23
+ i8 100 { constant data }
+AddrStmt: [Var25 <-- Var26]	
+ConstantIntValNode ID: 25
+ i8 111 { constant data }
+AddrStmt: [Var35 <-- Var36]	
+ConstantIntValNode ID: 35
+ i8 109 { constant data }
+AddrStmt: [Var177 <-- Var178]	
+ConstantIntValNode ID: 177
+ i32 0 { constant data }
+AddrStmt: [Var9 <-- Var10]	
+ConstantIntValNode ID: 9
+ i8 116 { constant data }
+AddrStmt: [Var11 <-- Var12]	
+ConstantIntValNode ID: 11
+ i8 99 { constant data }
+AddrStmt: [Var106 <-- Var107]	
+ConstantIntValNode ID: 106
+ i64 20 { constant data }
+AddrStmt: [Var109 <-- Var110]	
+ConstantIntValNode ID: 109
+ i64 1 { constant data }
+AddrStmt: [Var27 <-- Var28]	
+ConstantIntValNode ID: 27
+ i8 119 { constant data }
+AddrStmt: [Var31 <-- Var32]	
+ConstantIntValNode ID: 31
+ i8 114 { constant data }
+AddrStmt: [Var43 <-- Var44]	
+ConstantIntValNode ID: 43
+ i8 108 { constant data }
+AddrStmt: [Var45 <-- Var46]	
+ConstantIntValNode ID: 45
+ i8 103 { constant data }
+AddrStmt: [Var55 <-- Var56]	
+ConstantIntValNode ID: 55
+ i8 10 { constant data }
+AddrStmt: [Var64 <-- Var65]	
+ConstantIntValNode ID: 64
+ i32 1 { constant data }
+AddrStmt: [Var17 <-- Var18]	
+ConstantIntValNode ID: 17
+ i8 115 { constant data }
+AddrStmt: [Var19 <-- Var20]	
+ConstantIntValNode ID: 19
+ i8 104 { constant data }
+AddrStmt: [Var21 <-- Var22]	
+ConstantIntValNode ID: 21
+ i8 97 { constant data }
+AddrStmt: [Var37 <-- Var38]	
+ConstantIntValNode ID: 37
+ i8 117 { constant data }
+AddrStmt: [Var39 <-- Var40]	
+ConstantIntValNode ID: 39
+ i8 98 { constant data }
+AddrStmt: [Var41 <-- Var42]	
+ConstantIntValNode ID: 41
+ i8 110 { constant data }
+AddrStmt: [Var51 <-- Var52]	
+ConstantIntValNode ID: 51
+ i8 37 { constant data }
+GepStmt: [Var220 <-- Var4]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+StoreStmt: [Var220 <-- Var5]	
+ConstantIntValNode ID: 5
+ i8 47 { constant data }
+GepStmt: [Var221 <-- Var4]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+StoreStmt: [Var221 <-- Var7]	
+ConstantIntValNode ID: 7
+ i8 101 { constant data }
+GepStmt: [Var222 <-- Var4]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+StoreStmt: [Var222 <-- Var9]	
+ConstantIntValNode ID: 9
+ i8 116 { constant data }
+GepStmt: [Var223 <-- Var4]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+StoreStmt: [Var223 <-- Var11]	
+ConstantIntValNode ID: 11
+ i8 99 { constant data }
+GepStmt: [Var224 <-- Var4]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+StoreStmt: [Var224 <-- Var5]	
+ConstantIntValNode ID: 5
+ i8 47 { constant data }
+GepStmt: [Var225 <-- Var4]	
+GlobalValVar ID: 4
+ @.str = private unnamed_addr constant [6 x i8] c"/etc/\00", align 1, !dbg !0 { Glob  }
+StoreStmt: [Var225 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+GepStmt: [Var226 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var226 <-- Var17]	
+ConstantIntValNode ID: 17
+ i8 115 { constant data }
+GepStmt: [Var227 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var227 <-- Var19]	
+ConstantIntValNode ID: 19
+ i8 104 { constant data }
+GepStmt: [Var228 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var228 <-- Var21]	
+ConstantIntValNode ID: 21
+ i8 97 { constant data }
+GepStmt: [Var229 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var229 <-- Var23]	
+ConstantIntValNode ID: 23
+ i8 100 { constant data }
+GepStmt: [Var230 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var230 <-- Var25]	
+ConstantIntValNode ID: 25
+ i8 111 { constant data }
+GepStmt: [Var231 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var231 <-- Var27]	
+ConstantIntValNode ID: 27
+ i8 119 { constant data }
+GepStmt: [Var232 <-- Var16]	
+GlobalValVar ID: 16
+ @.str.1 = private unnamed_addr constant [7 x i8] c"shadow\00", align 1, !dbg !8 { Glob  }
+StoreStmt: [Var232 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+GepStmt: [Var233 <-- Var30]	
+GlobalValVar ID: 30
+ @.str.2 = private unnamed_addr constant [2 x i8] c"r\00", align 1, !dbg !13 { Glob  }
+StoreStmt: [Var233 <-- Var31]	
+ConstantIntValNode ID: 31
+ i8 114 { constant data }
+GepStmt: [Var234 <-- Var30]	
+GlobalValVar ID: 30
+ @.str.2 = private unnamed_addr constant [2 x i8] c"r\00", align 1, !dbg !13 { Glob  }
+StoreStmt: [Var234 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+GepStmt: [Var235 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var235 <-- Var5]	
+ConstantIntValNode ID: 5
+ i8 47 { constant data }
+GepStmt: [Var236 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var236 <-- Var19]	
+ConstantIntValNode ID: 19
+ i8 104 { constant data }
+GepStmt: [Var237 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var237 <-- Var25]	
+ConstantIntValNode ID: 25
+ i8 111 { constant data }
+GepStmt: [Var238 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var238 <-- Var35]	
+ConstantIntValNode ID: 35
+ i8 109 { constant data }
+GepStmt: [Var239 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var239 <-- Var7]	
+ConstantIntValNode ID: 7
+ i8 101 { constant data }
+GepStmt: [Var240 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var240 <-- Var5]	
+ConstantIntValNode ID: 5
+ i8 47 { constant data }
+GepStmt: [Var241 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var241 <-- Var37]	
+ConstantIntValNode ID: 37
+ i8 117 { constant data }
+GepStmt: [Var242 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var242 <-- Var39]	
+ConstantIntValNode ID: 39
+ i8 98 { constant data }
+GepStmt: [Var243 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var243 <-- Var37]	
+ConstantIntValNode ID: 37
+ i8 117 { constant data }
+GepStmt: [Var244 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var244 <-- Var41]	
+ConstantIntValNode ID: 41
+ i8 110 { constant data }
+GepStmt: [Var245 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var245 <-- Var9]	
+ConstantIntValNode ID: 9
+ i8 116 { constant data }
+GepStmt: [Var246 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var246 <-- Var37]	
+ConstantIntValNode ID: 37
+ i8 117 { constant data }
+GepStmt: [Var247 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var247 <-- Var5]	
+ConstantIntValNode ID: 5
+ i8 47 { constant data }
+GepStmt: [Var248 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var248 <-- Var43]	
+ConstantIntValNode ID: 43
+ i8 108 { constant data }
+GepStmt: [Var249 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var249 <-- Var25]	
+ConstantIntValNode ID: 25
+ i8 111 { constant data }
+GepStmt: [Var250 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var250 <-- Var45]	
+ConstantIntValNode ID: 45
+ i8 103 { constant data }
+GepStmt: [Var251 <-- Var34]	
+GlobalValVar ID: 34
+ @.str.3 = private unnamed_addr constant [17 x i8] c"/home/ubuntu/log\00", align 1, !dbg !18 { Glob  }
+StoreStmt: [Var251 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+GepStmt: [Var252 <-- Var48]	
+GlobalValVar ID: 48
+ @.str.4 = private unnamed_addr constant [2 x i8] c"a\00", align 1, !dbg !23 { Glob  }
+StoreStmt: [Var252 <-- Var21]	
+ConstantIntValNode ID: 21
+ i8 97 { constant data }
+GepStmt: [Var253 <-- Var48]	
+GlobalValVar ID: 48
+ @.str.4 = private unnamed_addr constant [2 x i8] c"a\00", align 1, !dbg !23 { Glob  }
+StoreStmt: [Var253 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+GepStmt: [Var254 <-- Var50]	
+GlobalValVar ID: 50
+ @.str.5 = private unnamed_addr constant [3 x i8] c"%s\00", align 1, !dbg !25 { Glob  }
+StoreStmt: [Var254 <-- Var51]	
+ConstantIntValNode ID: 51
+ i8 37 { constant data }
+GepStmt: [Var255 <-- Var50]	
+GlobalValVar ID: 50
+ @.str.5 = private unnamed_addr constant [3 x i8] c"%s\00", align 1, !dbg !25 { Glob  }
+StoreStmt: [Var255 <-- Var17]	
+ConstantIntValNode ID: 17
+ i8 115 { constant data }
+GepStmt: [Var256 <-- Var50]	
+GlobalValVar ID: 50
+ @.str.5 = private unnamed_addr constant [3 x i8] c"%s\00", align 1, !dbg !25 { Glob  }
+StoreStmt: [Var256 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+GepStmt: [Var257 <-- Var54]	
+GlobalValVar ID: 54
+ @.str.6 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1, !dbg !30 { Glob  }
+StoreStmt: [Var257 <-- Var51]	
+ConstantIntValNode ID: 51
+ i8 37 { constant data }
+GepStmt: [Var258 <-- Var54]	
+GlobalValVar ID: 54
+ @.str.6 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1, !dbg !30 { Glob  }
+StoreStmt: [Var258 <-- Var23]	
+ConstantIntValNode ID: 23
+ i8 100 { constant data }
+GepStmt: [Var259 <-- Var54]	
+GlobalValVar ID: 54
+ @.str.6 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1, !dbg !30 { Glob  }
+StoreStmt: [Var259 <-- Var55]	
+ConstantIntValNode ID: 55
+ i8 10 { constant data }
+GepStmt: [Var260 <-- Var54]	
+GlobalValVar ID: 54
+ @.str.6 = private unnamed_addr constant [4 x i8] c"%d\0A\00", align 1, !dbg !30 { Glob  }
+StoreStmt: [Var260 <-- Var13]	
+ConstantIntValNode ID: 13
+ i8 0 { constant data }
+AddrStmt: [Var58 <-- Var59]	
+FunValVar ID: 58
+_Z27innerTureIllegalInforFlow_ci
+AddrStmt: [Var179 <-- Var180]	
+FunValVar ID: 179
+llvm.dbg.declare
+AddrStmt: [Var92 <-- Var93]	
+FunValVar ID: 92
+strncpy
+AddrStmt: [Var99 <-- Var100]	
+FunValVar ID: 99
+strlen
+AddrStmt: [Var118 <-- Var119]	
+FunValVar ID: 118
+fopen
+AddrStmt: [Var131 <-- Var132]	
+FunValVar ID: 131
+llvm.memset.p0.i64
+AddrStmt: [Var151 <-- Var152]	
+FunValVar ID: 151
+fprintf
+AddrStmt: [Var165 <-- Var166]	
+FunValVar ID: 165
+fclose
+AddrStmt: [Var144 <-- Var145]	
+FunValVar ID: 144
+fgets
+-----------Var and Value-----------
+Var0                 Value: ⊥
+Var1                 Value: [-oo, +oo]
+Var4                 Value: {0x7f00000f}
+Var5                 Value: [47, 47]
+Var6                 Value: [47, 47]
+Var7                 Value: [101, 101]
+Var8                 Value: [101, 101]
+Var9                 Value: [116, 116]
+Var10                Value: [116, 116]
+Var11                Value: [99, 99]
+Var12                Value: [99, 99]
+Var13                Value: [0, 0]
+Var14                Value: [0, 0]
+Var15                Value: {0x7f00000f}
+Var16                Value: {0x7f00001d}
+Var17                Value: [115, 115]
+Var18                Value: [115, 115]
+Var19                Value: [104, 104]
+Var20                Value: [104, 104]
+Var21                Value: [97, 97]
+Var22                Value: [97, 97]
+Var23                Value: [100, 100]
+Var24                Value: [100, 100]
+Var25                Value: [111, 111]
+Var26                Value: [111, 111]
+Var27                Value: [119, 119]
+Var28                Value: [119, 119]
+Var29                Value: {0x7f00001d}
+Var30                Value: {0x7f000021}
+Var31                Value: [114, 114]
+Var32                Value: [114, 114]
+Var33                Value: {0x7f000021}
+Var34                Value: {0x7f00002f}
+Var35                Value: [109, 109]
+Var36                Value: [109, 109]
+Var37                Value: [117, 117]
+Var38                Value: [117, 117]
+Var39                Value: [98, 98]
+Var40                Value: [98, 98]
+Var41                Value: [110, 110]
+Var42                Value: [110, 110]
+Var43                Value: [108, 108]
+Var44                Value: [108, 108]
+Var45                Value: [103, 103]
+Var46                Value: [103, 103]
+Var47                Value: {0x7f00002f}
+Var48                Value: {0x7f000031}
+Var49                Value: {0x7f000031}
+Var50                Value: {0x7f000035}
+Var51                Value: [37, 37]
+Var52                Value: [37, 37]
+Var53                Value: {0x7f000035}
+Var54                Value: {0x7f000039}
+Var55                Value: [10, 10]
+Var56                Value: [10, 10]
+Var57                Value: {0x7f000039}
+Var58                Value: {is function
+0x7f00003b}
+Var59                Value: {is function
+0x7f00003b}
+Var64                Value: [1, 1]
+Var65                Value: [1, 1]
+Var86                Value: [0, 0]
+Var87                Value: [0, 0]
+Var90                Value: [19, 19]
+Var91                Value: [19, 19]
+Var92                Value: {is function
+0x7f00005d}
+Var93                Value: {is function
+0x7f00005d}
+Var99                Value: {is function
+0x7f000064}
+Var100               Value: {is function
+0x7f000064}
+Var106               Value: [20, 20]
+Var107               Value: [20, 20]
+Var109               Value: [1, 1]
+Var110               Value: [1, 1]
+Var118               Value: {is function
+0x7f000077}
+Var119               Value: {is function
+0x7f000077}
+Var127               Value: [1024, 1024]
+Var128               Value: [1024, 1024]
+Var129               Value: [0, 0]
+Var130               Value: [0, 0]
+Var131               Value: {is function
+0x7f000084}
+Var132               Value: {is function
+0x7f000084}
+Var142               Value: [1024, 1024]
+Var143               Value: [1024, 1024]
+Var144               Value: {is function
+0x7f000091}
+Var145               Value: {is function
+0x7f000091}
+Var151               Value: {is function
+0x7f000098}
+Var152               Value: {is function
+0x7f000098}
+Var165               Value: {is function
+0x7f0000a6}
+Var166               Value: {is function
+0x7f0000a6}
+Var177               Value: [0, 0]
+Var178               Value: [0, 0]
+Var179               Value: {is function
+0x7f0000b4}
+Var180               Value: {is function
+0x7f0000b4}
+Var220               Value: {0x7f000f18}
+Var221               Value: {0x7f000f19}
+Var222               Value: {0x7f000f1a}
+Var223               Value: {0x7f000f1b}
+Var224               Value: {0x7f000f1c}
+Var225               Value: {0x7f000f1d}
+Var226               Value: {0x7f000f1e}
+Var227               Value: {0x7f000f1f}
+Var228               Value: {0x7f000f20}
+Var229               Value: {0x7f000f21}
+Var230               Value: {0x7f000f22}
+Var231               Value: {0x7f000f23}
+Var232               Value: {0x7f000f24}
+Var233               Value: {0x7f000f25}
+Var234               Value: {0x7f000f26}
+Var235               Value: {0x7f000f27}
+Var236               Value: {0x7f000f28}
+Var237               Value: {0x7f000f29}
+Var238               Value: {0x7f000f2a}
+Var239               Value: {0x7f000f2b}
+Var240               Value: {0x7f000f2c}
+Var241               Value: {0x7f000f2d}
+Var242               Value: {0x7f000f2e}
+Var243               Value: {0x7f000f2f}
+Var244               Value: {0x7f000f30}
+Var245               Value: {0x7f000f31}
+Var246               Value: {0x7f000f32}
+Var247               Value: {0x7f000f33}
+Var248               Value: {0x7f000f34}
+Var249               Value: {0x7f000f35}
+Var250               Value: {0x7f000f36}
+Var251               Value: {0x7f000f37}
+Var252               Value: {0x7f000f38}
+Var253               Value: {0x7f000f39}
+Var254               Value: {0x7f000f3a}
+Var255               Value: {0x7f000f3b}
+Var256               Value: {0x7f000f3c}
+Var257               Value: {0x7f000f3d}
+Var258               Value: {0x7f000f3e}
+Var259               Value: {0x7f000f3f}
+Var260               Value: {0x7f000f40}
+Var3864              Value: {0x7f000f18}
+Var3865              Value: {0x7f000f19}
+Var3866              Value: {0x7f000f1a}
+Var3867              Value: {0x7f000f1b}
+Var3868              Value: {0x7f000f1c}
+Var3869              Value: {0x7f000f1d}
+Var3870              Value: {0x7f000f1e}
+Var3871              Value: {0x7f000f1f}
+Var3872              Value: {0x7f000f20}
+Var3873              Value: {0x7f000f21}
+Var3874              Value: {0x7f000f22}
+Var3875              Value: {0x7f000f23}
+Var3876              Value: {0x7f000f24}
+Var3877              Value: {0x7f000f25}
+Var3878              Value: {0x7f000f26}
+Var3879              Value: {0x7f000f27}
+Var3880              Value: {0x7f000f28}
+Var3881              Value: {0x7f000f29}
+Var3882              Value: {0x7f000f2a}
+Var3883              Value: {0x7f000f2b}
+Var3884              Value: {0x7f000f2c}
+Var3885              Value: {0x7f000f2d}
+Var3886              Value: {0x7f000f2e}
+Var3887              Value: {0x7f000f2f}
+Var3888              Value: {0x7f000f30}
+Var3889              Value: {0x7f000f31}
+Var3890              Value: {0x7f000f32}
+Var3891              Value: {0x7f000f33}
+Var3892              Value: {0x7f000f34}
+Var3893              Value: {0x7f000f35}
+Var3894              Value: {0x7f000f36}
+Var3895              Value: {0x7f000f37}
+Var3896              Value: {0x7f000f38}
+Var3897              Value: {0x7f000f39}
+Var3898              Value: {0x7f000f3a}
+Var3899              Value: {0x7f000f3b}
+Var3900              Value: {0x7f000f3c}
+Var3901              Value: {0x7f000f3d}
+Var3902              Value: {0x7f000f3e}
+Var3903              Value: {0x7f000f3f}
+Var3904              Value: {0x7f000f40}
+0x7f000f18           Value: [47, 47]
+0x7f000f19           Value: [101, 101]
+0x7f000f1a           Value: [116, 116]
+0x7f000f1b           Value: [99, 99]
+0x7f000f1c           Value: [47, 47]
+0x7f000f1d           Value: [0, 0]
+0x7f000f1e           Value: [115, 115]
+0x7f000f1f           Value: [104, 104]
+0x7f000f20           Value: [97, 97]
+0x7f000f21           Value: [100, 100]
+0x7f000f22           Value: [111, 111]
+0x7f000f23           Value: [119, 119]
+0x7f000f24           Value: [0, 0]
+0x7f000f25           Value: [114, 114]
+0x7f000f26           Value: [0, 0]
+0x7f000f27           Value: [47, 47]
+0x7f000f28           Value: [104, 104]
+0x7f000f29           Value: [111, 111]
+0x7f000f2a           Value: [109, 109]
+0x7f000f2b           Value: [101, 101]
+0x7f000f2c           Value: [47, 47]
+0x7f000f2d           Value: [117, 117]
+0x7f000f2e           Value: [98, 98]
+0x7f000f2f           Value: [117, 117]
+0x7f000f30           Value: [110, 110]
+0x7f000f31           Value: [116, 116]
+0x7f000f32           Value: [117, 117]
+0x7f000f33           Value: [47, 47]
+0x7f000f34           Value: [108, 108]
+0x7f000f35           Value: [111, 111]
+0x7f000f36           Value: [103, 103]
+0x7f000f37           Value: [0, 0]
+0x7f000f38           Value: [97, 97]
+0x7f000f39           Value: [0, 0]
+0x7f000f3a           Value: [37, 37]
+0x7f000f3b           Value: [115, 115]
+0x7f000f3c           Value: [0, 0]
+0x7f000f3d           Value: [37, 37]
+0x7f000f3e           Value: [100, 100]
+0x7f000f3f           Value: [10, 10]
+0x7f000f40           Value: [0, 0]
+-----------------------------------------
+Resource variable: a at line 19 in file i_sdemo_service_without_oh.cpp
+Resource variable: a at line 24 in file i_sdemo_service_without_oh.cpp
+Resource variable: a at line 19 in file i_sdemo_service_without_oh.cpp
+Variable information written to resourcevar-config.yaml
+Resource variable: a at line 24 in file i_sdemo_service_without_oh.cpp
+Variable information written to resourcevar-config.yaml

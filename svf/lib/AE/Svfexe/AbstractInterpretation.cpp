@@ -112,6 +112,14 @@ void AbstractInterpretation::analyse()
         ICFGWTO* wto = funcToWTO[cgn];
         handleWTOComponents(wto->getWTOComponents());
     }
+
+    if (const CallGraphNode* cgn = svfir->getCallGraph()->getCallGraphNode("_Z27innerTureIllegalInforFlow_ci"))
+    {
+        ICFGWTO* wto = funcToWTO[cgn];
+        handleWTOComponents(wto->getWTOComponents());
+    }
+
+    
 }
 
 /// handle global node

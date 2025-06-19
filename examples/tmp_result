@@ -73,9 +73,9 @@ TotalSVFStmts       64
 VarArrayObj         2
 VarStructObj        0
 ----------------Time and memory stats--------------------
-LLVMIRTime          0.022
-SVFIRTime           0.001
-SymbolTableTime     0
+LLVMIRTime          0.041
+SVFIRTime           0.004
+SymbolTableTime     0.002
 #######################################################
 
 *********PTACallGraph Stats (Andersen analysis)***************
@@ -106,7 +106,7 @@ MemoryUsageVmrss    0
 MemoryUsageVmsize   0
 SCCDetectTime       0
 SCCMergeTime        0
-TotalTime           0
+TotalTime           0.002
 UpdateCGTime        0
 ----------------Numbers stats----------------------------
 AddrProcessed       19
@@ -182,7 +182,7 @@ GenMUCHITime        0
 GenRegionTime       0
 InsertPHITime       0
 SSARenameTime       0
-TotalMSSATime       0
+TotalMSSATime       0.001
 ----------------Numbers stats----------------------------
 BBHasMSSAPhi        2
 CSChiNode           5
@@ -233,7 +233,7 @@ ConnDirEdgeTime     0
 ConnIndEdgeTime     0
 OptTime             0
 TLNodeTime          0
-TotalTime           0
+TotalTime           0.001
 ----------------Numbers stats----------------------------
 ActualIn            5
 ActualOut           5
@@ -278,7 +278,7 @@ ConnDirEdgeTime     0
 ConnIndEdgeTime     0
 OptTime             0
 TLNodeTime          0
-TotalTime           0
+TotalTime           0.001
 ----------------Numbers stats----------------------------
 ActualIn            5
 ActualOut           5
@@ -313,11 +313,11 @@ Store               5
 TotalEdge           74
 TotalNode           113
 #######################################################
-source: ActualParmVFGNode ID: 53 CS[CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }]ValVar ID: 58
+source: ActualParmVFGNode ID: 54 CS[CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }]ValVar ID: 58
    %call5 = call ptr @get_buffer(), !dbg !110 { "ln": 106, "cl": 21, "fl": "read_write.c" }
-sink: ActualParmVFGNode ID: 49 CS[CallICFGNode: { "ln": 126, "cl": 9, "fl": "read_write.c" }]ValVar ID: 89
+sink: ActualParmVFGNode ID: 50 CS[CallICFGNode: { "ln": 126, "cl": 9, "fl": "read_write.c" }]ValVar ID: 89
    %arraydecay11 = getelementptr inbounds [1024 x i8], ptr %buffer2, i64 0, i64 0, !dbg !141 { "ln": 126, "cl": 16, "fl": "read_write.c" }
-initialize time: 18[ms]
+initialize time: 68[ms]
 initialize done
 taint open param of fopen is return value
 ret_node: ValVar ID: 55
@@ -410,7 +410,7 @@ ValVar ID: 10
 addr_node: AddrVFGNode ID: 17 AddrStmt: [Var10 <-- Var11]	
 ValVar ID: 10
    %call = call noalias ptr @malloc(i64 noundef 1024) #4, !dbg !29 { "ln": 36, "cl": 19, "fl": "read_write.c" }
-backwardTraverse time: 5[ms]
+backwardTraverse time: 1[ms]
 backwardTraverse done
 it->first: CallICFGNode31 {fun: main{ "ln": 119, "cl": 26, "fl": "read_write.c" }}
    %call6 = call i64 @fread(ptr noundef %call5, i64 noundef 1, i64 noundef 8, ptr noundef %call), !dbg !113 CallICFGNode: { "ln": 119, "cl": 26, "fl": "read_write.c" }
@@ -420,9 +420,9 @@ ValVar ID: 10
 forwardTraverse item: 17
 forwardTraverse item: 71
 forwardTraverse item: 70
-forwardTraverse item: 66
+forwardTraverse item: 67
 forwardTraverse item: 42
-forwardTraverse item: 53
+forwardTraverse item: 54
 forwardTraverse item: 43
 forwardTraverse item: 33
 forwardTraverse item: 75

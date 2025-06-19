@@ -1,13 +1,51 @@
-#ifndef INFORNODE_H_
-#define INFORNODE_H_
+#ifndef SVF_PROGRAM_BEHAVIOR_CONFIRMER_INFORNODE_H_
+#define SVF_PROGRAM_BEHAVIOR_CONFIRMER_INFORNODE_H_
 
+#include "Util/GeneralType.h"
+#include "Util/Options.h"
+#include "Graphs/SVFG.h"
+#include "ObjectType.h"
+
+#include <vector>
+#include <unordered_map>
 
 namespace SVF
 {
-class InforNode{
+
+class InfoNodeInPolicy {    // TODO 想个贴切的类名 
+public:
+    std::string subjectName;
+    ObjectType objectType;
+    std::unordered_map<std::string, std::string> objectInfo;
+    enum InfoDirection {
+        in,    // 读
+        out,   // 写
+    } infoDirection;
     
 };
 
+class ResourceNode{
+    ObjectType objectType;
+    enum InfoDirection {
+        in,    // 读
+        out,   // 写
+        in_and_out,
+    } infoDirection;
+    std::string resourceInfoForShow;
+};
+
+
+class InfoNodeInCode {
+public:
+    std::string subjectName;
+    const CallICFGNode* correspondingICFGNode;
+    const ResourceNode* correspondingResourceNode;
+    std::vector<const SVFGNode*> defOrUseVars;
+    enum InfoDirection {
+        in,    // 读 , defOrUseVar中存着def的变量
+        out,   // 写 , defOrUseVar中存着use的变量
+    } infoDirection;
+};    
 
 } // End namespace SVF
 

@@ -1,0 +1,9 @@
+- name: full_path
+  line: 69
+  file: i_sdemo_service.cpp
+
+- name: full_path
+  line: 69
+  file: ../../sdemoservice/src/i_sdemo_service.cpp
+
+

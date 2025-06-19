@@ -8,5 +8,3 @@
   value: abc
 - name: blackhole
   line: 19
-  file: test_ae.c
-

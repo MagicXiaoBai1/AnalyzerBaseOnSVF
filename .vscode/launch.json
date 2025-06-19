@@ -45,7 +45,37 @@
         "-taint=true",
         "-read-taint-config",
         "taint-config.yaml",
-        "sdemoservice_linked.ll"
+        "libsensor_service.z.so.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/sdemoservice/ll",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    },
+    {
+      "name": "Debug AE with ResourceVarConfig",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/ae",
+      "args": [
+        "-resource-var-config=resourcevar-config.yaml",
+        "test_ae.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/examples",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    },
+    {
+      "name": "Debug AE with sdemo",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/ae",
+      "args": [
+        "-resource-var-config=resourcevar-config.yaml",
+        "i_sdemo_service.ll"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/sdemoservice/ll",

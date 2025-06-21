@@ -25,6 +25,8 @@ public:
 };
 
 class ResourceNode{
+public:
+
     ObjectType objectType;
     enum InfoDirection {
         in,    // 读
@@ -39,12 +41,21 @@ class InfoNodeInCode {
 public:
     std::string subjectName;
     const CallICFGNode* correspondingICFGNode;
-    const ResourceNode* correspondingResourceNode;
-    std::vector<const SVFGNode*> defOrUseVars;
+    const SVFFunction* usedFunction;
+    ResourceNode* const correspondingResourceNode;
+    std::vector<const SVFGNode*> defOrUseInfoVars;
     enum InfoDirection {
         in,    // 读 , defOrUseVar中存着def的变量
         out,   // 写 , defOrUseVar中存着use的变量
     } infoDirection;
+
+    InfoNodeInCode(
+        const SVFFunction* usedFun, 
+        const CallICFGNode* icfgNode, 
+        ResourceNode* resourceNode, 
+        const std::vector<const SVFGNode*>& vars, 
+        InfoDirection dir)
+        : usedFunction(usedFun), correspondingICFGNode(icfgNode), correspondingResourceNode(resourceNode), defOrUseInfoVars(vars), infoDirection(dir) {};
 };    
 
 } // End namespace SVF

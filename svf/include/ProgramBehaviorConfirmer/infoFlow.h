@@ -14,8 +14,17 @@ class IntraProcessInfoFlowInPolicy{
 };
 
 class IntraProcessInfoFlowInCode{
+public:
     std::vector<InfoNodeInCode> inputNodes;
     std::vector<InfoNodeInCode> outputNodes;
+    IntraProcessInfoFlowInCode() {};
+    IntraProcessInfoFlowInCode(
+        const std::vector<InfoNodeInCode>& inputs, 
+        const std::vector<InfoNodeInCode>& outputs)
+        : inputNodes(inputs), outputNodes(outputs) {};
+
+    const std::vector<InfoNodeInCode>& getInputNodes() const { return inputNodes; };
+    const std::vector<InfoNodeInCode>& getOutputNodes() const { return outputNodes; };
 };
 
 

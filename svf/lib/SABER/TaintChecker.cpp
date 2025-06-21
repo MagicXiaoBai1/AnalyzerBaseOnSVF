@@ -54,21 +54,6 @@ void TaintChecker::initOpens() {
                     const PAGNode *pagNode = *ait;
                     // pagNode->dump();
 
-                    // 如果该参数是我们关注的open参数（如句柄参数），则加入source集合
-                    if (IsIntrestedOpenParam(fun, pos))
-                    { 
-                        const ActualParmVFGNode *src = getSVFG()->getActualParmVFGNode(pagNode, it->first);
-                        const auto* actual_param = src->getParam();
-                        if (actual_param->getValue()->holdConstant()) {
-                            std::cout << "source actual_param is constant" << std::endl;
-                        } else {
-                            // 记录参数节点到调用点的映射，并加入sources集合
-                            SVFAcutalParamNodeToReadSiteMap[src] = it->first;
-                            addToSources(src);
-                            std::cout << "open: " << src->toString() << std::endl;
-                        }
-                    }
-
                     // 找到读取资源对应的实参数节点
                     if(IsIntrestedOpenResource(fun, pos)) {
                         const ActualParmVFGNode *obj = getSVFG()->getActualParmVFGNode(pagNode, it->first);

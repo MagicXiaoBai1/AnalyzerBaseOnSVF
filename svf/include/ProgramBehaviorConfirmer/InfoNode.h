@@ -14,6 +14,8 @@ namespace SVF
 
 class InfoNodeInPolicy {    // TODO 想个贴切的类名 
 public:
+    InfoNodeInPolicy() = default;
+    virtual ~InfoNodeInPolicy() = default;
     std::string subjectName;
     ObjectType objectType;
     std::unordered_map<std::string, std::string> objectInfo;
@@ -26,7 +28,8 @@ public:
 
 class ResourceNode{
 public:
-
+    ResourceNode() = default;
+    virtual ~ResourceNode() = default;
     ObjectType objectType;
     enum InfoDirection {
         in,    // 读
@@ -39,10 +42,12 @@ public:
 
 class InfoNodeInCode {
 public:
+    InfoNodeInCode() = default;
+    virtual ~InfoNodeInCode() = default;
     std::string subjectName;
     const CallICFGNode* correspondingICFGNode;
     const SVFFunction* usedFunction;
-    ResourceNode* const correspondingResourceNode;
+    std::vector<const ResourceNode*> correspondingResourceNode;
     std::vector<const SVFGNode*> defOrUseInfoVars;
     enum InfoDirection {
         in,    // 读 , defOrUseVar中存着def的变量
@@ -52,10 +57,9 @@ public:
     InfoNodeInCode(
         const SVFFunction* usedFun, 
         const CallICFGNode* icfgNode, 
-        ResourceNode* resourceNode, 
         const std::vector<const SVFGNode*>& vars, 
         InfoDirection dir)
-        : usedFunction(usedFun), correspondingICFGNode(icfgNode), correspondingResourceNode(resourceNode), defOrUseInfoVars(vars), infoDirection(dir) {};
+        : correspondingICFGNode(icfgNode), usedFunction(usedFun), defOrUseInfoVars(vars), infoDirection(dir) {};
 };    
 
 } // End namespace SVF

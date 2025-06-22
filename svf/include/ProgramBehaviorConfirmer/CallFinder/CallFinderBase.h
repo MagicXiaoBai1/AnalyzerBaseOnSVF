@@ -25,10 +25,9 @@
 namespace SVF
 {
 
-class CallFinderBase : public SrcSnkDDA{
+class CallFinderBase {
 public:
     virtual std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module);
-
 
 
 };

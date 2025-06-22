@@ -1,3 +1,4 @@
+add_subdirectory(ProgramBehaviorConfirmer)
 add_subdirectory(SABER)
 add_subdirectory(WPA)
 add_subdirectory(Example)
@@ -8,13 +9,13 @@ add_subdirectory(LLVM2SVF)
 add_subdirectory(AE)
 
 set_target_properties(
-    cfl dvf svf-ex llvm2svf mta saber wpa ae
+    cfl dvf svf-ex llvm2svf mta saber wpa ae ProgramBehaviorConfirmer
     PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 install(
-    TARGETS cfl dvf svf-ex llvm2svf mta saber wpa ae
+    TARGETS cfl dvf svf-ex llvm2svf mta saber wpa ae ProgramBehaviorConfirmer
     EXPORT SVFTargets
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -17,7 +17,9 @@ namespace SVF
 
 class SocketCallFinder : public CallFinderBase {
 public:
-    std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow) override;
+    SocketCallFinder() = default;
+    virtual ~SocketCallFinder() = default;
+    std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) override;
 };
 
 } // End namespace SVF

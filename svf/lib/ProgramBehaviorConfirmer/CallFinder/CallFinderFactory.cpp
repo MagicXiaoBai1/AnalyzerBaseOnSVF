@@ -5,8 +5,8 @@
 
 namespace SVF {
 
-CallFinderFactory::CallFinderFactory() {
-    callFinderMap[ObjectType::file] = std::make_shared<FileCallFinder>();
+CallFinderFactory::CallFinderFactory(SVF::SrcSnkDDA* dda) {
+    callFinderMap[ObjectType::file] = std::make_shared<FileCallFinder>(dda);
     callFinderMap[ObjectType::socket] = std::make_shared<SocketCallFinder>();
     callFinderMap[ObjectType::samgr_binder] = std::make_shared<BinderCallFinder>();
 }

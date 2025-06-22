@@ -87,7 +87,6 @@ private:
     Map<const SVFGNode*, const CallICFGNode*> SVFAcutalParamNodeToOpenSiteMap;
 
 // ------------------------------------------------------------------------------------------- 调用点到资源
-    virtual void findOpenReadWrite();
 
     // 读调用点到对应的资源对象 实参节点
     Map<const CallICFGNode*, const ActualParmVFGNode*> ReadSiteToResourceActualParamNodeMap;

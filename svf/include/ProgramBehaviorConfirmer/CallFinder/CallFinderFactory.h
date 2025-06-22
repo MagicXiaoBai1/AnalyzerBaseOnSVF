@@ -13,7 +13,7 @@ namespace SVF {
 
 class CallFinderFactory {
 public:
-    CallFinderFactory();
+    CallFinderFactory(SVF::SrcSnkDDA* dda);
     std::shared_ptr<CallFinderBase> getCallFinder(ObjectType type);
 private:
     std::unordered_map<ObjectType, std::shared_ptr<CallFinderBase>> callFinderMap;

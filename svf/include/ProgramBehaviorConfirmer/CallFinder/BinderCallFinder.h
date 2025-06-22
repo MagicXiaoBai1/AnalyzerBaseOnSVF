@@ -17,7 +17,9 @@ namespace SVF
 
 class BinderCallFinder : public CallFinderBase {
 public:
-    std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow) override;
+    BinderCallFinder() = default;
+    virtual ~BinderCallFinder() = default;
+    std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) override;
 };
 
 } // End namespace SVF

@@ -2,7 +2,7 @@
 # ps aux | grep just_pull.sh
 
 while true; do
-    git pull
+    git pull --tags origin main
     if [ $? -eq 0 ]; then
         echo "Git pull succeeded!"
         break

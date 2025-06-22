@@ -2,6 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "build and Debug ProgramBehaviorConfirmer",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/ProgramBehaviorConfirmer",
+      "args": [
+        "-taint=true",
+        "-read-taint-config",
+        "taint-config.yaml",
+        "read_write.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/examples",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "CMake Build" // 添加这一行
+    },
+    {
       "name": "build and Debug SVF Saber",
       "type": "cppdbg",
       "request": "launch",

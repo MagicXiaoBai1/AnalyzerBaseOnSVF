@@ -10,7 +10,8 @@
     {
       "label": "CMake Build",
       "type": "shell",
-      "command": "./build.sh debug",
+      "command": "cmake --build ./Debug-build -j 8",
+      // "command": "./build.sh debug",
       "group": "build",
       "dependsOn": ["CMake Configure"]
     }

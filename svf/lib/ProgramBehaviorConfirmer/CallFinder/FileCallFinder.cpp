@@ -201,4 +201,30 @@ bool FileCallFinder::IsRelatedToPolicy(const InfoNodeInCode* openNode){
 // }
 
 
+bool FileCallFinder::isOpenLikeFun(const SVFFunction* fun) {
+    // TODO: implement logic to check if function is open-like
+    return false;
+}
+
+bool FileCallFinder::isReadLikeFun(const SVFFunction* fun) {
+    // TODO: implement logic to check if function is read-like
+    return false;
+}
+
+bool FileCallFinder::isWriteLikeFun(const SVFFunction* fun) {
+    // TODO: implement logic to check if function is write-like
+    return false;
+}
+
+bool FileCallFinder::IsInfoInParam(const SVFFunction* fun, int param_idx) {
+    // TODO: implement logic to check if parameter is info-in
+    return false;
+}
+
+bool FileCallFinder::IsInfoOutParam(const SVFFunction* fun, int param_idx) {
+    // TODO: implement logic to check if parameter is info-out
+    return false;
+}
+
+
 } // namespace SVF

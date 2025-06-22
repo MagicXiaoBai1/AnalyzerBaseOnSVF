@@ -8,13 +8,16 @@
 
 #include "SVF-LLVM/LLVMUtil.h"
 #include "SVF-LLVM/SVFIRBuilder.h"
-#include "SABER/LeakChecker.h"
-#include "SABER/FileChecker.h"
+
+#include "SABER/SrcSnkDDA.h"
 #include "SABER/TaintChecker.h"
-#include "SABER/DoubleFreeChecker.h"
+
+#include "ProgramBehaviorConfirmer/CallFinder/CallFinderFactory.h"
+
 #include "Util/CommandLine.h"
 #include "Util/Options.h"
 #include "Util/Z3Expr.h"
+
 #include <sanitizer/dfsan_interface.h> // going to use
 
 
@@ -27,7 +30,7 @@ int main(int argc, char ** argv)
 
     std::vector<std::string> moduleNameVec;
     moduleNameVec = OptionBase::parseOptions(
-                        argc, argv, "Source-Sink Bug Detector", "[options] <input-bitcode...>"
+                        argc, argv, "Program InfoFlow Behavior Confirmer", "[options] <input-bitcode...>"
                     );
 
     if (Options::WriteAnder() == "ir_annotator")
@@ -46,21 +49,18 @@ int main(int argc, char ** argv)
     SVFModule* svfModule = LLVMModuleSet::buildSVFModule(moduleNameVec);
     SVFIRBuilder builder(svfModule);
     SVFIR* pag = builder.build();
+    
+    std::shared_ptr<TaintChecker> saber;
+    saber = std::make_shared<TaintChecker>();
 
+    
+    saber->initialize(pag->getModule());
 
-    std::unique_ptr<LeakChecker> saber;
-    if(Options::TaintCheck())
-        saber = std::make_unique<TaintChecker>();
-    else if(Options::MemoryLeakCheck())
-        saber = std::make_unique<LeakChecker>();
-    else if(Options::FileCheck())
-        saber = std::make_unique<FileChecker>();
-    else if(Options::DFreeCheck())
-        saber = std::make_unique<DoubleFreeChecker>();
-    else
-        saber = std::make_unique<LeakChecker>();  // if no checker is specified, we use leak checker as the default one.
+    CallFinderFactory tmp = CallFinderFactory(saber.get());
+    auto tmp2 = tmp.getCallFinder(ObjectType::file);
+    IntraProcessInfoFlowInPolicy infoFlowPolicy;
+    tmp2->findInfoFlowNode(infoFlowPolicy, pag->getModule());
 
-    saber->runOnModule(pag);
     LLVMModuleSet::releaseLLVMModuleSet();
 
 

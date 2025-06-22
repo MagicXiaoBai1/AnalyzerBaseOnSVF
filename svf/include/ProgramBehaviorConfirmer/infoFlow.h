@@ -9,8 +9,10 @@ namespace SVF
 {
 
 class IntraProcessInfoFlowInPolicy{
+public:
     std::vector<InfoNodeInPolicy> inputNodes;
     std::vector<InfoNodeInPolicy> outputNodes;
+    IntraProcessInfoFlowInPolicy() {};
 };
 
 class IntraProcessInfoFlowInCode{

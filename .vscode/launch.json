@@ -10,10 +10,10 @@
         "-taint=true",
         "-read-taint-config",
         "taint-config.yaml",
-        "read_write.ll"
+        "i_sdemo_service.ll"
       ],
       "stopAtEntry": false,
-      "cwd": "${workspaceFolder}/examples",
+      "cwd": "${workspaceFolder}/sdemoservice/ll",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",

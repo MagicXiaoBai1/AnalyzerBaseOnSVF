@@ -1,8 +1,8 @@
 #include "ProgramBehaviorConfirmer/CallFinder/FileCallFinder.h"
+#include "ProgramBehaviorConfirmer/ResourceFuncClassifier.h"
 
 namespace SVF {
 std::unique_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) {
-    // TODO: 实现文件相关的查找逻辑
     // 初始化各种图
 
     findOpen();
@@ -36,6 +36,16 @@ std::unique_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(Int
             ++it;
         }
     }
+    //打印allReadCite allWriteCite
+    std::cout << "allReadCite size: " << allReadCite->size() << std::endl;
+    for (const auto& readNode : *allReadCite) {
+        readNode.showIncode();
+    }
+    std::cout << "allWriteCite size: " << allWriteCite->size() << std::endl;
+    for (const auto& writeNode : *allWriteCite) {
+        writeNode.showIncode();
+    }
+    
     return infoFlowInCode;
 }
 
@@ -202,28 +212,23 @@ bool FileCallFinder::IsRelatedToPolicy(const InfoNodeInCode* openNode){
 
 
 bool FileCallFinder::isOpenLikeFun(const SVFFunction* fun) {
-    // TODO: implement logic to check if function is open-like
-    return false;
+    return ResourceFuncClassifier::getInstance().isOpenLikeFun(fun);
 }
 
 bool FileCallFinder::isReadLikeFun(const SVFFunction* fun) {
-    // TODO: implement logic to check if function is read-like
-    return false;
+    return ResourceFuncClassifier::getInstance().isSourceLikeFun(fun);
 }
 
 bool FileCallFinder::isWriteLikeFun(const SVFFunction* fun) {
-    // TODO: implement logic to check if function is write-like
-    return false;
+    return ResourceFuncClassifier::getInstance().isSinkLikeFun(fun);
 }
 
 bool FileCallFinder::IsInfoInParam(const SVFFunction* fun, int param_idx) {
-    // TODO: implement logic to check if parameter is info-in
-    return false;
+    return ResourceFuncClassifier::getInstance().isInterestedSrcParam(fun, param_idx);
 }
 
 bool FileCallFinder::IsInfoOutParam(const SVFFunction* fun, int param_idx) {
-    // TODO: implement logic to check if parameter is info-out
-    return false;
+    return ResourceFuncClassifier::getInstance().isInterestedSinkParam(fun, param_idx);
 }
 
 

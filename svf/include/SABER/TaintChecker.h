@@ -28,7 +28,7 @@ namespace SVF
 //        // override the base class function
 //     void analyze(SVFModule* module) {
 //         (void)module;
-//     }
+//     } 
 
 //     inline bool isSourceLikeFun(const SVFFunction* fun)
 //     {

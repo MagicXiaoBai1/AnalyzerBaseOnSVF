@@ -60,6 +60,10 @@ public:
         const std::vector<const SVFGNode*>& vars, 
         InfoDirection dir)
         : correspondingICFGNode(icfgNode), usedFunction(usedFun), defOrUseInfoVars(vars), infoDirection(dir) {};
+    void showIncode() const{
+        std::cout << "InfoNodeInCode: " << correspondingICFGNode->toString() << std::endl;
+        std::cout << "Function name: " << usedFunction->getName() << std::endl;
+    };
 };    
 
 } // End namespace SVF

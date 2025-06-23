@@ -19,7 +19,6 @@
 #include "Util/Options.h"
 #include "Util/Z3Expr.h"
 
-#include <sanitizer/dfsan_interface.h> // going to use
 
 
 using namespace llvm;

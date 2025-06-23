@@ -10,7 +10,25 @@
         "-taint=true",
         "-read-taint-config",
         "taint-config.yaml",
-        "i_sdemo_service.ll"
+        "read_write.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/examples",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "CMake Build" // 添加这一行
+    },
+    {
+      "name": "build and Debug ProgramBehaviorConfirmer in sdemo",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/ProgramBehaviorConfirmer",
+      "args": [
+        "-taint=true",
+        "-read-taint-config",
+        "taint-config.yaml",
+        "i_sdemo_service1.ll"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/sdemoservice/ll",
@@ -63,7 +81,8 @@
         "-taint=true",
         "-read-taint-config",
         "taint-config.yaml",
-        "libsensor_service.z.so.ll"
+        //"libsensor_service.z.so.ll"
+        "i_sdemo_service.ll"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/sdemoservice/ll",

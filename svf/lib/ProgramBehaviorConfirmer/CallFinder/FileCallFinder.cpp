@@ -1,5 +1,6 @@
 #include "ProgramBehaviorConfirmer/CallFinder/FileCallFinder.h"
 #include "ProgramBehaviorConfirmer/ResourceFuncClassifier.h"
+#include <regex>
 
 namespace SVF {
 std::shared_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) {
@@ -25,6 +26,8 @@ std::shared_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(Int
     for (auto it = allReadCite->begin(); it != allReadCite->end();) {
         if (!IsRelatedToPolicy(&(*it))) {
             it = allReadCite->erase(it);
+            //++it;
+
         } else {
             ++it;
         }
@@ -32,6 +35,8 @@ std::shared_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(Int
     for (auto it = allWriteCite->begin(); it != allWriteCite->end();) {
         if (!IsRelatedToPolicy(&(*it))) {
             it = allWriteCite->erase(it);
+            //++it;
+
         } else {
             ++it;
         }
@@ -75,7 +80,7 @@ void FileCallFinder::findOpen() {
                     // 获取返回值在SVFG中的定义节点
                     const VFGNode* actual_ret = srcSnkDDA->getSVFG()->getDefVFGNode(ret_node);
                     std::cout << "actual_ret: " << actual_ret->toString() << std::endl;
-                    allOpenCite.push_back(ResourceOpenNode(cs, (const VFGNode*)actual_ret, ObjectType::file));
+                    allOpenCite.push_back(ResourceOpenNode(cs, fun, actual_ret, ObjectType::file));
                 }
             }
         }
@@ -143,72 +148,96 @@ void FileCallFinder::findWrite() {
     });
 }
 
-bool FileCallFinder::IsRelatedToPolicy(const ResourceOpenNode* openNode){
+bool FileCallFinder::IsRelatedToPolicy(ResourceOpenNode* openNode){
     // 看看open的内容是不是策略描述的
     // TODO
+    SVFIR* pag = srcSnkDDA->getPAG();
+    SVFIR::SVFVarList &arglist = pag->getCallSiteArgsMap()[openNode->correspondingICFGNode];
+    int pos = 0;
+    for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
+            aeit = arglist.end(); ait != aeit; ++ait)
+    {
+        const PAGNode *pagNode = *ait;
+        // pagNode->dump();
+
+        // 找到读取资源对应的实参数节点
+        if(IsHandleDefParam(openNode->usedFunction, pos)) {
+            const ActualParmVFGNode *obj = srcSnkDDA->getSVFG()->getActualParmVFGNode(pagNode, openNode->correspondingICFGNode);
+            const auto* actual_param = obj->getParam();
+            if (actual_param->getValue()->holdConstant()) {
+                openNode->correspondingResourceNode.push_back(ResourceNode(ObjectType::file, ResourceNode::in_and_out, obj->toString()));
+                std::cout << "source actual_param is constant" << std::endl;
+                std::cout << "open resource actual param: " << obj->toString() << std::endl;
+            }
+        }
+                
+        pos++;
+    }
+
+    
     return true;
 }
 
-bool FileCallFinder::IsRelatedToPolicy(const InfoNodeInCode* openNode){
+bool FileCallFinder::IsRelatedToPolicy(InfoNodeInCode* usageNode){
     // 看看read write操作的句柄是否来自于策略相关 Open
-    static Map<const SVFGNode*, const CallICFGNode*> SVFAcutalParamNodeToOpenSiteMap;
+    static Map<const VFGNode*, const ResourceOpenNode*> SVFAcutalParamNodeToOpenSiteMap;
     // 初始化 打开调用点对应的接收资源句柄的ValVar (实参变量节点)
     if(SVFAcutalParamNodeToOpenSiteMap.size() == 0){
         for (const auto& openNode : allOpenCite) {
-            if (openNode.defsHandleVars != nullptr && openNode.correspondingICFGNode != nullptr) {
-                SVFAcutalParamNodeToOpenSiteMap[openNode.defsHandleVars] = openNode.correspondingICFGNode;
+            if (openNode.defsHandleVars != nullptr) {
+                std::cout << "Open_def_node: " << openNode.defsHandleVars->toString() << std::endl;
+                std::shared_ptr<std::vector<const VFGNode*>> useHandleVars = srcSnkDDA->getValVarByPointer(openNode.defsHandleVars);
+                std::cout << "Open_def_node222: " << (*useHandleVars->begin())->toString() << std::endl;
+
+                SVFAcutalParamNodeToOpenSiteMap[openNode.defsHandleVars] = &openNode;
             }
         }
     }
-    // TODO
-    return true;
 
+
+    SVFIR* pag = srcSnkDDA->getPAG();
+    SVFIR::SVFVarList &arglist = pag->getCallSiteArgsMap()[usageNode->correspondingICFGNode];
+    int pos = 0;
+    for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
+            aeit = arglist.end(); ait != aeit; ++ait){
+        const PAGNode *pagNode = *ait;
+        
+        if(IsHandleUseParam(usageNode->usedFunction, pos)){
+            const ActualParmVFGNode *obj = srcSnkDDA->getSVFG()->getActualParmVFGNode(pagNode, usageNode->correspondingICFGNode);
+
+            std::shared_ptr<std::vector<const VFGNode*>> useHandleVars = srcSnkDDA->getValVarByPointer(obj);
+            if (useHandleVars) {
+                for(const VFGNode* cit : *useHandleVars) {
+                    if(SVFAcutalParamNodeToOpenSiteMap.find(cit) != SVFAcutalParamNodeToOpenSiteMap.end()){
+                        // 将 ResourceOpenNode 中的 correspondingResourceNode 中的元素加入 usageNode 的 correspondingResourceNode
+                        const ResourceOpenNode* openNode = SVFAcutalParamNodeToOpenSiteMap[cit];
+                        usageNode->correspondingResourceNode.insert(usageNode->correspondingResourceNode.end(),
+                                                                    openNode->correspondingResourceNode.begin(), 
+                                                                    openNode->correspondingResourceNode.end());
+                    }
+                }
+            }
+        }
+        pos++;
+    }
+    // for(const ActualParmVFGNode* it : usageNode->defOrUseInfoVars){
+    //     std::shared_ptr<std::vector<const VFGNode*>> useHandleVars = srcSnkDDA->getValVarByPointer(it);
+    //     if (useHandleVars) {
+    //         for(const VFGNode* cit : *useHandleVars) {
+    //             if(SVFAcutalParamNodeToOpenSiteMap.find(cit) != SVFAcutalParamNodeToOpenSiteMap.end()){
+    //                 // 将 ResourceOpenNode 中的 correspondingResourceNode 中的元素加入 usageNode 的 correspondingResourceNode
+    //                 const ResourceOpenNode* openNode = SVFAcutalParamNodeToOpenSiteMap[cit];
+    //                 usageNode->correspondingResourceNode.insert(usageNode->correspondingResourceNode.end(),
+    //                                                             openNode->correspondingResourceNode.begin(), 
+    //                                                             openNode->correspondingResourceNode.end());
+    //             }
+    //         }
+    //     }
+    // }
+    return usageNode->correspondingResourceNode.size() != 0;
 }
 
 
-// // 读写调用点到对应的资源对象 实参节点
-// Map<const CallICFGNode*, const ActualParmVFGNode*> usageToResourceActualParamNodeMap;
-
-// void FileCallFinder::linkReadOrWriteToOpen() {
-//     // 从读写调用点 到资源变量对应的实参
-//     // 反向遍历得到对应的句柄定义点
-//     for(auto it = usageToResourceActualParamNodeMap.begin(), eit = usageToResourceActualParamNodeMap.end(); it != eit; ++it) { 
-//         Set<const CallICFGNode*> openSites;
-//         ContextCond cxt;
-//         DPIm item(it->second->getId(), cxt);
-//         clearWorklist();
-//         pushIntoWorklist(item);
-//         while (!isWorklistEmpty())
-//         {
-//             DPIm item = popFromWorklist();
-//             GNODE* v = getNode(getNodeIDFromItem(item));
-//             inv_child_iterator EI = InvGTraits::child_begin(v);
-//             inv_child_iterator EE = InvGTraits::child_end(v);
-//             int child_no = 0;
-//             for (; EI != EE; ++EI)
-//             {
-//                 child_no++;
-//                 // 只沿着直接边传递
-//                 if((*(EI.getCurrent()))->isIndirectVFGEdge()) {
-//                     continue;
-//                 }
-//                 BWProcessIncomingEdge(item,*(EI.getCurrent()) );  // 共用visitedSet
-//             }
-//             if (child_no == 0) {
-//                 // 句柄定义节点
-//                 const VFGNode* def_node = getNode(getNodeIDFromItem(item));
-//                 std::cout << "def_node: " << def_node->toString() << std::endl;
-//                 if(SVFAcutalParamNodeToOpenSiteMap.find(def_node) != SVFAcutalParamNodeToOpenSiteMap.end()) {
-//                     auto openSite = SVFAcutalParamNodeToOpenSiteMap[def_node];
-//                     std::cout<< "usage site: " << it->first->toString() << std::endl;
-//                     std::cout << "openSite: " << openSite->toString() << std::endl;
-//                     openSites.insert(openSite);
-//                 }
-//             }
-//         }
-//         clearVisitedMap();
-//     }
-// }
 
 
 bool FileCallFinder::isOpenLikeFun(const SVFFunction* fun) {
@@ -230,6 +259,11 @@ bool FileCallFinder::IsInfoInParam(const SVFFunction* fun, int param_idx) {
 bool FileCallFinder::IsInfoOutParam(const SVFFunction* fun, int param_idx) {
     return ResourceFuncClassifier::getInstance().isInterestedSinkParam(fun, param_idx);
 }
-
+bool FileCallFinder::IsHandleDefParam(const SVFFunction* fun, int param_idx) {
+    return ResourceFuncClassifier::getInstance().IsIntrestedOpenResource(fun, param_idx);
+}
+bool FileCallFinder:: IsHandleUseParam(const SVFFunction* fun, int param_idx) {
+    return ResourceFuncClassifier::getInstance().IsIntrestedReadResource(fun, param_idx) ||ResourceFuncClassifier::getInstance().IsIntrestedWriteResource(fun, param_idx);
+}
 
 } // namespace SVF

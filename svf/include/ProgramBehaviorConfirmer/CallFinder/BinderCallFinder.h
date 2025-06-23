@@ -5,7 +5,7 @@
 #include "Util/Options.h"
 #include "Graphs/SVFG.h"
 #include "ProgramBehaviorConfirmer/ObjectType.h"
-#include "ProgramBehaviorConfirmer/infoFlow.h"
+#include "ProgramBehaviorConfirmer/InfoFlow.h"
 #include "CallFinderBase.h"
 
 #include <vector>

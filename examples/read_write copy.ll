@@ -6,8 +6,6 @@ target triple = "x86_64-unknown-linux-gnu"
 @.str = private unnamed_addr constant [2 x i8] c"r\00", align 1, !dbg !0
 @.str.1 = private unnamed_addr constant [11 x i8] c"output.txt\00", align 1, !dbg !7
 @.str.2 = private unnamed_addr constant [2 x i8] c"w\00", align 1, !dbg !12
-@.str.3 = private unnamed_addr constant [11 x i8] c"1input.txt\00", align 1
-
 
 ; Function Attrs: noinline nounwind uwtable
 define dso_local ptr @get_buffer() #0 !dbg !26 {
@@ -41,7 +39,7 @@ entry:
   %arrayidx3 = getelementptr inbounds [100 x i8], ptr %input_filename, i64 0, i64 3, !dbg !49
   store i8 0, ptr %arrayidx3, align 1, !dbg !50
   %arraydecay = getelementptr inbounds [100 x i8], ptr %input_filename, i64 0, i64 0, !dbg !51
-  %call = call noalias ptr @fopen(ptr noundef @.str.3, ptr noundef @.str), !dbg !52
+  %call = call noalias ptr @fopen(ptr noundef %arraydecay, ptr noundef @.str), !dbg !52
   call void @llvm.dbg.value(metadata ptr %call, metadata !53, metadata !DIExpression()), !dbg !114
   %call4 = call noalias ptr @fopen(ptr noundef @.str.1, ptr noundef @.str.2), !dbg !115
   call void @llvm.dbg.value(metadata ptr %call4, metadata !116, metadata !DIExpression()), !dbg !114

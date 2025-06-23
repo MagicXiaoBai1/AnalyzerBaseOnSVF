@@ -4,7 +4,7 @@
 
 
 #include "ProgramBehaviorConfirmer/ObjectType.h"
-#include "ProgramBehaviorConfirmer/infoFlow.h"
+#include "ProgramBehaviorConfirmer/InfoFlow.h"
 
 #include "Graphs/SVFG.h"
 #include "Graphs/SVFGOPT.h"

@@ -296,4 +296,37 @@ bool LiteTaintChecker::analyze(std::shared_ptr<IntraProcessInfoFlowInCode> input
     return srcToSinkMap.size() > 0;
 }
 
+std::shared_ptr<std::vector<const VFGNode*>> LiteTaintChecker::getValVarByPointer(const VFGNode* pointerVar){
+    std::shared_ptr<std::vector<const VFGNode*>> res = std::make_shared<std::vector<const VFGNode*>>();
 
+    ContextCond cxt;
+    DPIm item(pointerVar->getId(), cxt);
+    clearWorklist();
+    pushIntoWorklist(item);
+    while (!isWorklistEmpty())
+    {
+        DPIm item = popFromWorklist();
+        GNODE* v = getNode(getNodeIDFromItem(item));
+        inv_child_iterator EI = InvGTraits::child_begin(v);
+        inv_child_iterator EE = InvGTraits::child_end(v);
+        int child_no = 0;
+        for (; EI != EE; ++EI)
+        {
+            child_no++;
+            // // 只沿着直接边传递
+            // if((*(EI.getCurrent()))->isIndirectVFGEdge()) {
+            //     continue;
+            // }
+
+            BWProcessIncomingEdge(item,*(EI.getCurrent()) );  // 共用visitedSet
+        }
+        if (child_no == 0) {
+            // 句柄定义节点
+            const VFGNode* def_node = getNode(getNodeIDFromItem(item));
+            std::cout << "def_node: " << def_node->toString() << std::endl;
+            res->push_back(def_node);
+        }
+    }
+    clearVisitedMap();
+    return res;
+}

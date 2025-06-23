@@ -37,6 +37,8 @@ public:
         in_and_out,
     } infoDirection;
     std::string resourceInfoForShow;
+    ResourceNode(ObjectType type, InfoDirection dir, const std::string& info)
+        : objectType(type), infoDirection(dir), resourceInfoForShow(info) {};
 };
 
 
@@ -44,11 +46,16 @@ class InfoNodeInCode {
 public:
     InfoNodeInCode() = default;
     virtual ~InfoNodeInCode() = default;
+
     std::string subjectName;
-    const CallICFGNode* correspondingICFGNode;
-    const SVFFunction* usedFunction;
-    std::vector<const ResourceNode*> correspondingResourceNode;
-    std::vector<const ActualParmVFGNode*> defOrUseInfoVars;
+
+    const CallICFGNode* correspondingICFGNode;    // ICFG 节点
+    const SVFFunction* usedFunction;    // 使用的函数（如 fread、fwrite）
+
+    std::vector<ResourceNode> correspondingResourceNode;    // 读写了那个资源
+
+    std::vector<const ActualParmVFGNode*> defOrUseInfoVars;   // 读到or写入的内容
+
     enum InfoDirection {
         in,    // 读 , defOrUseVar中存着def的变量
         out,   // 写 , defOrUseVar中存着use的变量

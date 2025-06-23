@@ -2,7 +2,7 @@
 
 #include "SABER/SrcSnkDDA.h"
 #include "ProgramBehaviorConfirmer/ObjectType.h"
-#include "ProgramBehaviorConfirmer/infoFlow.h"
+#include "ProgramBehaviorConfirmer/InfoFlow.h"
 
     // std::unique_ptr<IntraProcessInfoFlowInCode> infoFlowNeedCheck;
     // /// Constructor
@@ -97,6 +97,7 @@ public:
 
     // void reportBug(ProgSlice* slice) override;
 
+    std::shared_ptr<std::vector<const VFGNode*>> getValVarByPointer(const VFGNode* pointerVar);
 };
 
 

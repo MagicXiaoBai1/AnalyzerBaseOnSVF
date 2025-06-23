@@ -29,7 +29,7 @@ class FileCallFinder : public CallFinderBase {
 public:
     FileCallFinder(SVF::SrcSnkDDA* dda) : srcSnkDDA(dda) {}
     virtual ~FileCallFinder() = default;
-    std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) override;
+    std::shared_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) override;
 
 private:
     template <typename Func>

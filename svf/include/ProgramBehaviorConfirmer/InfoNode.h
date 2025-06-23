@@ -48,7 +48,7 @@ public:
     const CallICFGNode* correspondingICFGNode;
     const SVFFunction* usedFunction;
     std::vector<const ResourceNode*> correspondingResourceNode;
-    std::vector<const SVFGNode*> defOrUseInfoVars;
+    std::vector<const ActualParmVFGNode*> defOrUseInfoVars;
     enum InfoDirection {
         in,    // 读 , defOrUseVar中存着def的变量
         out,   // 写 , defOrUseVar中存着use的变量
@@ -57,7 +57,7 @@ public:
     InfoNodeInCode(
         const SVFFunction* usedFun, 
         const CallICFGNode* icfgNode, 
-        const std::vector<const SVFGNode*>& vars, 
+        const std::vector<const ActualParmVFGNode*>& vars, 
         InfoDirection dir)
         : correspondingICFGNode(icfgNode), usedFunction(usedFun), defOrUseInfoVars(vars), infoDirection(dir) {};
     void showIncode() const{

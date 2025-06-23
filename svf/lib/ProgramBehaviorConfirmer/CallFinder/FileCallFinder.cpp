@@ -2,7 +2,7 @@
 #include "ProgramBehaviorConfirmer/ResourceFuncClassifier.h"
 
 namespace SVF {
-std::unique_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) {
+std::shared_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) {
     // 初始化各种图
 
     findOpen();
@@ -16,7 +16,7 @@ std::unique_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(Int
     }
 
     // 初始化返回值：
-    std::unique_ptr<IntraProcessInfoFlowInCode> infoFlowInCode = std::make_unique<IntraProcessInfoFlowInCode>();
+    std::shared_ptr<IntraProcessInfoFlowInCode> infoFlowInCode = std::make_shared<IntraProcessInfoFlowInCode>();
     allReadCite = &infoFlowInCode->inputNodes;
     allWriteCite = &infoFlowInCode->outputNodes;
     findRead();
@@ -94,7 +94,7 @@ void FileCallFinder::findRead() {
             if (isReadLikeFun(fun)) {
                 SVFIR::SVFVarList &arglist = it->second;
                 assert(!arglist.empty() && "no actual parameter at deallocation site?");
-                std::vector<const SVFGNode*> InfoInVars = {};
+                std::vector<const ActualParmVFGNode*> InfoInVars = {};
                 int pos = 0;
                 for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(), aeit = arglist.end(); ait != aeit; ++ait) {
                     const PAGNode *pagNode = *ait;
@@ -124,7 +124,7 @@ void FileCallFinder::findWrite() {
                 SVFIR::SVFVarList &arglist = it->second;
                 assert(!arglist.empty() && "no actual parameter at deallocation site?");
                 /// we only choose pointer parameters among all the actual parameters
-                std::vector<const SVFGNode*> InfoOutVars = {};
+                std::vector<const ActualParmVFGNode*> InfoOutVars = {};
                 int pos = 0;
                 for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
                         aeit = arglist.end(); ait != aeit; ++ait)

@@ -27,7 +27,7 @@ namespace SVF
 
 class CallFinderBase {
 public:
-    virtual std::unique_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module);
+    virtual std::shared_ptr<IntraProcessInfoFlowInCode> findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module);
 
 
 };

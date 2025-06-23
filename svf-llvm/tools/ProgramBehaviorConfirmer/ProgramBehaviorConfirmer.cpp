@@ -13,6 +13,7 @@
 #include "SABER/TaintChecker.h"
 
 #include "ProgramBehaviorConfirmer/CallFinder/CallFinderFactory.h"
+#include "ProgramBehaviorConfirmer/LiteTaintChecker/LiteTaintChecker.h"
 
 #include "Util/CommandLine.h"
 #include "Util/Options.h"
@@ -50,8 +51,9 @@ int main(int argc, char ** argv)
     SVFIRBuilder builder(svfModule);
     SVFIR* pag = builder.build();
     
-    std::shared_ptr<TaintChecker> saber;
-    saber = std::make_shared<TaintChecker>();
+    // std::shared_ptr<TaintChecker> saber = std::make_shared<TaintChecker>();
+    std::shared_ptr<LiteTaintChecker> saber = std::make_shared<LiteTaintChecker>();
+
 
     
     saber->initialize(pag->getModule());
@@ -61,7 +63,10 @@ int main(int argc, char ** argv)
     CallFinderFactory tmp = CallFinderFactory(saber.get());
     auto tmp2 = tmp.getCallFinder(ObjectType::file);
     IntraProcessInfoFlowInPolicy infoFlowPolicy;
-    tmp2->findInfoFlowNode(infoFlowPolicy, pag->getModule());
+    std::shared_ptr<IntraProcessInfoFlowInCode> tmp_ans = tmp2->findInfoFlowNode(infoFlowPolicy, pag->getModule());
+    saber->analyze(tmp_ans);
+
+
 
     LLVMModuleSet::releaseLLVMModuleSet();
 

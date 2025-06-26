@@ -12,7 +12,7 @@
 namespace SVF
 {
 
-class InfoNodeInPolicy {    // TODO 想个贴切的类名 
+class InfoNodeInPolicy {   
 public:
     InfoNodeInPolicy() = default;
     virtual ~InfoNodeInPolicy() = default;

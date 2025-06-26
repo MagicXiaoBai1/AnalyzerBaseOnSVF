@@ -5,7 +5,7 @@
 #include "Util/Options.h"
 #include "Graphs/SVFG.h"
 #include "ObjectType.h"
-#include "infoFlow.h"
+#include "InfoFlow.h"
 
 #include <vector>
 #include <unordered_map>

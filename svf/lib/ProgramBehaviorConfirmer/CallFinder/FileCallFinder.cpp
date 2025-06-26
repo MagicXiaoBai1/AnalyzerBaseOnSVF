@@ -4,7 +4,10 @@
 
 namespace SVF {
 std::shared_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(IntraProcessInfoFlowInPolicy& inputInfoFlow, SVFModule* module) {
-    // 初始化各种图
+    // 初始化返回值：
+    std::shared_ptr<IntraProcessInfoFlowInCode> infoFlowInCode = std::make_shared<IntraProcessInfoFlowInCode>();
+    allReadCite = &infoFlowInCode->inputNodes;
+    allWriteCite = &infoFlowInCode->outputNodes;
 
     findOpen();
     // 过滤掉和策略无关的 openCite
@@ -15,11 +18,6 @@ std::shared_ptr<IntraProcessInfoFlowInCode> FileCallFinder::findInfoFlowNode(Int
             ++it;
         }
     }
-
-    // 初始化返回值：
-    std::shared_ptr<IntraProcessInfoFlowInCode> infoFlowInCode = std::make_shared<IntraProcessInfoFlowInCode>();
-    allReadCite = &infoFlowInCode->inputNodes;
-    allWriteCite = &infoFlowInCode->outputNodes;
     findRead();
     findWrite();
     // 过滤掉和策略无关的 read write
@@ -173,8 +171,6 @@ bool FileCallFinder::IsRelatedToPolicy(ResourceOpenNode* openNode){
                 
         pos++;
     }
-
-    
     return true;
 }
 

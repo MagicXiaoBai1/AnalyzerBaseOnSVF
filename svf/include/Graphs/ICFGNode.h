@@ -33,6 +33,7 @@
 #include "Util/SVFUtil.h"
 #include "Graphs/GenericGraph.h"
 #include "Graphs/ICFGEdge.h"
+#include "Graphs/ICFG.h"
 
 namespace SVF
 {

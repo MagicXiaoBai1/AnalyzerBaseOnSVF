@@ -44,11 +44,12 @@
 #include "SABER/SaberSVFGBuilder.h"
 #include "Util/GraphReachSolver.h"
 #include "Util/SVFBugReport.h"
+#include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
 
 namespace SVF
 {
 
-typedef GraphReachSolver<ICFG*,CxtDPItem> CFLSolver;
+typedef GraphReachSolver<ICFG*,NeedAnalysisState> CFLSolver;
 
 /*!
  * General source-sink analysis, which serves as a base analysis to be extended for various clients
@@ -58,7 +59,7 @@ class ControlFlowGraphCFLWallker : public CFLSolver
     friend class FileCallFinder;
 protected:
     /// Forward traverse
-    inline void FWProcessCurNode(const CxtDPItem& item) override
+    inline void FWProcessCurNode(const NeedAnalysisState& item) override
     {
         const ICFGNode* node = getNode(item.getCurNodeID());
         std::cout<< "_______________________" << std::endl;
@@ -66,16 +67,16 @@ protected:
 
     }
     /// Backward traverse
-    inline void BWProcessCurNode(const CxtDPItem& item) override
+    inline void BWProcessCurNode(const NeedAnalysisState& item) override
     {
         const ICFGNode* node = getNode(item.getCurNodeID());
         std::cout<< "Backward traverse_______________________" << std::endl;
         std::cout<< node->toString() << std::endl;
     }
     /// Propagate information forward by matching context
-    void FWProcessOutgoingEdge(const CxtDPItem& item, ICFGEdge* edge) override;
+    void FWProcessOutgoingEdge(const NeedAnalysisState& item, ICFGEdge* edge) override;
     /// Propagate information backward without matching context, as forward analysis already did it
-    void BWProcessIncomingEdge(const CxtDPItem& item, ICFGEdge* edge) override;
+    void BWProcessIncomingEdge(const NeedAnalysisState& item, ICFGEdge* edge) override;
     /// Whether has been visited or not, in order to avoid recursion on SVFG
 };
 

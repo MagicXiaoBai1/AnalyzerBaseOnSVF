@@ -29,10 +29,11 @@
 
 
 #include "Util/Options.h"
-#include "VarsBuildingTreeGenerator/ICFG_CFL_Walker.h"
+#include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/ICFG_CFL_Walker.h"
 #include "Graphs/SVFGStat.h"
 #include "Util/Options.h"
 #include "WPA/Andersen.h"
+#include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
 
 using namespace SVF;
 using namespace SVFUtil;
@@ -40,7 +41,7 @@ using namespace SVFUtil;
 /*!
  * Propagate information forward by matching context
  */
-void ControlFlowGraphCFLWallker::FWProcessOutgoingEdge(const CxtDPItem& item, ICFGEdge* edge)
+void ControlFlowGraphCFLWallker::FWProcessOutgoingEdge(const NeedAnalysisState& item, ICFGEdge* edge)
 {
     DBOUT(DSaber,outs() << "\n##processing source: " << getCurSlice()->getSource()->getId() <<" forward propagate from (" << edge->getSrcID());
 
@@ -48,15 +49,13 @@ void ControlFlowGraphCFLWallker::FWProcessOutgoingEdge(const CxtDPItem& item, IC
     // points-to on the edge indicate whether the object of source node can be propagated
 
     const ICFGNode* dstNode = edge->getDstNode();
-    CxtDPItem newItem(dstNode->getId(),item.getContexts());
+    NeedAnalysisState newItem(dstNode->getId(),item.getContexts());
     newItem.setParentNodeID(edge->getSrcID());
 
     /// perform context sensitive reachability
     // push context for calling
     if (edge->isCallCFGEdge())
     {
-
-
         CallSiteID csId = 0;
 
         CallCFGEdge* dirCall = SVFUtil::dyn_cast<CallCFGEdge>(edge);
@@ -96,12 +95,12 @@ void ControlFlowGraphCFLWallker::FWProcessOutgoingEdge(const CxtDPItem& item, IC
 /*!
  * Propagate information backward without matching context, as forward analysis already did it
  */
-void ControlFlowGraphCFLWallker::BWProcessIncomingEdge(const CxtDPItem& item, ICFGEdge* edge)
+void ControlFlowGraphCFLWallker::BWProcessIncomingEdge(const NeedAnalysisState& item, ICFGEdge* edge)
 {
     DBOUT(DSaber,outs() << "backward propagate from (" << edge->getDstID() << " --> " << edge->getSrcID() << ")\n");
 
     const ICFGNode* srcNode = edge->getSrcNode();
-    CxtDPItem newItem(srcNode->getId(),item.getContexts());
+    NeedAnalysisState newItem(srcNode->getId(),item.getContexts());
     newItem.setParentNodeID(edge->getSrcID());
 
     /// perform context sensitive reachability
@@ -133,17 +132,12 @@ void ControlFlowGraphCFLWallker::BWProcessIncomingEdge(const CxtDPItem& item, IC
         }
         DBOUT(DSaber, outs() << " pop cxt [" << csId << "] ");
     }
-
-    // /// whether this dstNode has been visited or not
-    // if(forwardVisited(dstNode,newItem))
-    // {
-    //     DBOUT(DSaber,outs() << " node "<< dstNode->getId() <<" has been visited\n");
-    //     return;
-    // }
-    // else
-    //     addForwardVisited(dstNode, newItem);
+    /// 循环退避
+    if (newItem.cyclicBackoff.isCanWalk(edge))
+    {
+        newItem.cyclicBackoff.walk(edge);
+    } else return;
 
     if(pushIntoWorklist(newItem))
         DBOUT(DSaber,outs() << " --> " << edge->getDstID() << ", cxt size: " << newItem.getContexts().cxtSize() <<")\n");
-
 }

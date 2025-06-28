@@ -25,15 +25,22 @@ bool CyclicBackoff::isCanWalk(const ICFGEdge* wellWalkEdge) const {
     }
     // for while 循环退避
     if(allBackEdges.count(wellWalkEdge) != 0){
-        const auto& topMap = backEdgeWalkCount.top();
-        auto it = topMap.find(wellWalkEdge);
-        if (it != topMap.end() && it->second >= 1) {
-            return false; // 超过最大back edge遍历次数，不能继续遍历
+        if(isInimbalanceCallStack){
+            auto it = backEdgeWalkCountInimbalanceCallStack.find(wellWalkEdge);
+            if (it != backEdgeWalkCountInimbalanceCallStack.end() && it->second >= 1) {
+                return false; // 超过最大back edge遍历次数，不能继续遍历
+            }
+        }else {
+            const auto& topMap = backEdgeWalkCount.top();
+            auto it = topMap.find(wellWalkEdge);
+            if (it != topMap.end() && it->second >= 1) {
+                return false; // 超过最大back edge遍历次数，不能继续遍历
+            }
         }
     }
-
     return true;
 }
+
 void CyclicBackoff::walk(const ICFGEdge* wellWalkEdge){
      // 递归循环退避
     if (wellWalkEdge->isRetCFGEdge()){
@@ -57,14 +64,27 @@ void CyclicBackoff::walk(const ICFGEdge* wellWalkEdge){
     // for while 循环退避
     if (wellWalkEdge->isRetCFGEdge()){
         backEdgeWalkCount.push(std::unordered_map<const ICFGEdge*, unsigned>());
+        isInimbalanceCallStack = false;
     }
     else if (wellWalkEdge->isCallCFGEdge())
     {
-        backEdgeWalkCount.pop(); 
+        if(backEdgeWalkCount.size() > 0){
+            backEdgeWalkCount.top().clear(); // 清空当前栈顶的back edge遍历次数
+            backEdgeWalkCount.pop(); 
+
+        } else {
+            isInimbalanceCallStack = true; // 进入不平衡调用栈
+            backEdgeWalkCountInimbalanceCallStack.clear(); // 清空不平衡调用栈的back edge遍历次数
+        }
     }
     if(allBackEdges.count(wellWalkEdge) != 0){
-        backEdgeWalkCount.top()[wellWalkEdge]++;
-
+        if(isInimbalanceCallStack){
+            // 在不平衡调用栈中，增加back edge遍历次数
+            backEdgeWalkCountInimbalanceCallStack[wellWalkEdge]++;
+        } else {
+            // 在平衡调用栈中，增加back edge遍历次数
+            backEdgeWalkCount.top()[wellWalkEdge]++;
+        }
     }
 
 }

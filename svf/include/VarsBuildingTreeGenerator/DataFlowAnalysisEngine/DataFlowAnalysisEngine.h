@@ -25,16 +25,17 @@ public:
     typedef typename InvGTraits::ChildIteratorType inv_child_iterator;
 private:
     std::queue<std::unique_ptr<Walker>> workList;
+    GraphType _graph;
+
     bool (*stateTransitionFunction)(const Walker& walker);
-    GNODE* _graph;
 public:
 
-    DataFlowAnalysisEngine(GNODE* graph, bool (*stateTransitionFunction)(const Walker&))
+    DataFlowAnalysisEngine(GraphType graph, bool (*stateTransitionFunction)(const Walker&))
         : _graph(graph), stateTransitionFunction(stateTransitionFunction)
     {
 
     }
-    analysis(std::unique_ptr<Walker> startPoint)
+    void analysis(std::unique_ptr<Walker> startPoint)
     {
         // Initialize the worklist with the starting point
         workList.push(std::move(startPoint));
@@ -43,12 +44,12 @@ public:
             workList.pop();
             if (stateTransitionFunction(*walker)) {
                 // Process the walker
-                GNODE* v = getNode(walker.getCurNodeID());
+                GNODE* v = getNode(walker->getCurNodeID());
                 inv_child_iterator EI = InvGTraits::child_begin(v);
                 inv_child_iterator EE = InvGTraits::child_end(v);
                 if(EI == EE) continue;
                 // 先处理第一条之外的其他边
-                EI++
+                EI++;
                 for (; EI != EE; ++EI)
                 {
                     if(walker->isCanWalk(*(EI.getCurrent()))){

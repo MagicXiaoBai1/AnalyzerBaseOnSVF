@@ -18,7 +18,7 @@ bool NeedAnalysisState::isCanWalk(const ICFGEdge* wellWalkEdge) const{
     return false;
 }
 void NeedAnalysisState::walk(const ICFGEdge* wellWalkEdge){
-
+    cur = wellWalkEdge->getSrcID();
     callStack.walk(wellWalkEdge);
     cyclicBackoff.walk(wellWalkEdge);
 }

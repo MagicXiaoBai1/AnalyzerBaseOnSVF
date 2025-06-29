@@ -2,6 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "build and Debug VarsBuildingTreeGenerator ",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/VarsBuildingTreeGenerator",
+      "args": [
+        "str_para2.ll"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/sdemoservice",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "CMake Build" // 添加这一行
+    },
+    {
       "name": "build and Debug ProgramBehaviorConfirmer",
       "type": "cppdbg",
       "request": "launch",

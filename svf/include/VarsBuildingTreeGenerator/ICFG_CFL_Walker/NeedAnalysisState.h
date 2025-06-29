@@ -17,6 +17,9 @@ protected:
     CallStack callStack;
     CyclicBackoff cyclicBackoff;
 public:
+    NeedAnalysisState(NodeID startNodeID)
+        : cur(startNodeID), callStack(), cyclicBackoff() {}
+
 
     NeedAnalysisState(const NeedAnalysisState& other)
         : callStack(other.callStack), cyclicBackoff(other.cyclicBackoff) {}

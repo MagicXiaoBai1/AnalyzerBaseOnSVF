@@ -1,4 +1,4 @@
 find_package(yaml-cpp REQUIRED)
 
-add_llvm_executable(VarsBuildingTreeGenerator VarsBuildingTreeGenerator.cpp)
-target_link_libraries(VarsBuildingTreeGenerator PUBLIC ${llvm_libs} SvfLLVM yaml-cpp)
+add_llvm_executable(ProgramBehaviorConfirmer ProgramBehaviorConfirmer.cpp)
+target_link_libraries(ProgramBehaviorConfirmer PUBLIC ${llvm_libs} SvfLLVM yaml-cpp)

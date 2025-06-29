@@ -15,7 +15,7 @@ public:
 
     std::stack<std::unordered_map<const ICFGEdge*, unsigned>> backEdgeWalkCount; // Edge walk count
     std::unordered_map<const ICFGEdge*, unsigned> backEdgeWalkCountInimbalanceCallStack;
-    bool isInimbalanceCallStack = false; // 是否在不平衡调用栈中
+    bool isInimbalanceCallStack = true; // 是否在不平衡调用栈中
     std::unordered_map<NodeID, unsigned int> callNodeWalkCount; // Edge walk count
 
     CyclicBackoff(){

@@ -18,7 +18,7 @@ public:
     VarsBuildingTreeGenerator(/* args */){
 
     }
-    ~VarsBuildingTreeGenerator(){
+    virtual ~VarsBuildingTreeGenerator(){
 
     }
 
@@ -27,6 +27,8 @@ public:
 
     /// Initialize analysis
     virtual void initialize(SVFModule* module);
+
+    void initOpens();
 
 
 };

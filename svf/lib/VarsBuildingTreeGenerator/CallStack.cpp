@@ -9,7 +9,6 @@ using namespace SVF;
 using namespace SVFUtil;
 
 bool CallStack::isCanWalk(const ICFGEdge* wellWalkEdge) const {
-    const ICFGNode* srcNode = wellWalkEdge->getSrcNode();
 
     /// perform context sensitive reachability
     // match context for calling
@@ -44,7 +43,7 @@ void CallStack::walk(const ICFGEdge* wellWalkEdge){
         CallSiteID csId = 0;
         const RetCFGEdge* dirRet = SVFUtil::dyn_cast<RetCFGEdge>(wellWalkEdge);
         RetICFGNode* ret = SVFUtil::dyn_cast<RetICFGNode>(dirRet->getDstNode());
-        CallSiteID csId = ret->getCallICFGNode()->getId();
+        csId = ret->getCallICFGNode()->getId();
         push(csId, false);
     }
 }

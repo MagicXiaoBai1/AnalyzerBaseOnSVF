@@ -12,7 +12,7 @@ namespace SVF
 
 class NeedAnalysisState
 {
-private:
+protected:
     NodeID cur;
     CallStack callStack;
     CyclicBackoff cyclicBackoff;

@@ -25,11 +25,11 @@ public:
     typedef typename InvGTraits::ChildIteratorType inv_child_iterator;
 private:
     std::queue<std::unique_ptr<Walker>> workList;
-    bool (*stateTransitionFunction)(Walker& walker);
+    bool (*stateTransitionFunction)(const Walker& walker);
     GNODE* _graph;
 public:
 
-    DataFlowAnalysisEngine(GNODE* graph, bool (*stateTransitionFunction)(Walker&))
+    DataFlowAnalysisEngine(GNODE* graph, bool (*stateTransitionFunction)(const Walker&))
         : _graph(graph), stateTransitionFunction(stateTransitionFunction)
     {
 

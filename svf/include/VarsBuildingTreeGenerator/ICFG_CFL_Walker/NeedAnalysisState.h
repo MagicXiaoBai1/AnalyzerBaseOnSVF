@@ -13,7 +13,8 @@ namespace SVF
 class NeedAnalysisState
 {
 protected:
-    NodeID cur;
+    NodeID cur;    // ICFG node ID of the current node
+    NodeID pre;    // TODO
     CallStack callStack;
     CyclicBackoff cyclicBackoff;
 public:

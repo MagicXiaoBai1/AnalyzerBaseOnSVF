@@ -14,6 +14,7 @@ private:
     SVFG* svfg;
     ICFG* icfg;
     PTACallGraph* callgraph;
+    BVDataPTAImpl* pta;
 public:
     VarsBuildingTreeGenerator(/* args */){
 

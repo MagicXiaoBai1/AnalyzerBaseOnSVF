@@ -3,7 +3,12 @@
 
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
+
 #include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
+
+#include "VarsBuildingTreeGenerator/StateTransitionHandler/DataFlowAnalysisState.h"
+#include "VarsBuildingTreeGenerator/StateTransitionHandler/StateHolder.h"
+#include "VarsBuildingTreeGenerator/StateTransitionHandler/StateMerge.h"
 
 namespace SVF
 {
@@ -19,7 +24,7 @@ public:
     }
     
     // 实现函数调用操作符，使类对象可以像函数一样被调用
-    bool operator()(const NeedAnalysisState& walker) const;
+    virtual bool operator()(const NeedAnalysisState& walker) const;
     
     
 };

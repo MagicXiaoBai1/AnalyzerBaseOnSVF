@@ -18,8 +18,19 @@ bool simpleStateTransitionFunction(const NeedAnalysisState& walker){
     SVFIR* pag = PAG::getPAG();
     ICFG* icfg = pag->getICFG();
     const ICFGNode* node = icfg->getICFGNode(walker.getCurNodeID());
-    std::cout<< "_______________________" << std::endl;
+    if (!(isa<CallICFGNode>(node) || isa<RetICFGNode>(node))) {
+        return true;
+    }
+    std::cout<< "______________________________________________" << std::endl;
     std::cout<< node->toString() << std::endl;
+    std::cout<< "*********************************" << std::endl;
+    // 遍历并打印该ICFG节点关联的所有VFG节点
+    const ICFGNode::VFGNodeList& vfgNodes = node->getVFGNodes();
+    for (const VFGNode* vfgNode : vfgNodes) {
+        std::cout << vfgNode->toString() << std::endl;
+    }
+    std::cout<< "______________________________________________" << std::endl;
+
     return true;
 }
 
@@ -29,7 +40,7 @@ void VarsBuildingTreeGenerator::initialize(SVFModule* module)
 
     
     SVFIR* pag = PAG::getPAG();
-    BVDataPTAImpl* pta = nullptr;
+    pta = nullptr;
     // AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
     if(Options::PASelected(PointerAnalysis::FSSPARSE_WPA)) {
         FlowSensitive* fs_pta = new FlowSensitive(pag);

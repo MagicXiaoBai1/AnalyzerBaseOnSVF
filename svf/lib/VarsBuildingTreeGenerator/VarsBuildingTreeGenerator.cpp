@@ -4,12 +4,12 @@
 #include "Util/Options.h"
 #include "Graphs/ICFG.h"
 #include "Util/Options.h"
-#include "VarsBuildingTreeGenerator/DataFlowAnalysisEngine/DataFlowAnalysisEngine.h"
-
-
-#include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
-
 #include "WPA/Andersen.h"
+
+#include "VarsBuildingTreeGenerator/DataFlowAnalysisEngine/DataFlowAnalysisEngine.h"
+#include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
+#include "VarsBuildingTreeGenerator/StateTransitionHandler/StateTransitionHandler.h"
+
 
 
 using namespace SVF;
@@ -51,6 +51,10 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
 {
 
     initialize(module);
+
+    StateTransitionHandler handler;
+    DataFlowAnalysisEngine<ICFG*, NeedAnalysisState, StateTransitionHandler> engine1(icfg, handler);
+
     DataFlowAnalysisEngine<ICFG*, NeedAnalysisState> dfaEngine(icfg, &simpleStateTransitionFunction);
     // 找Open调用
     const CallICFGNode* OpenCite = nullptr;

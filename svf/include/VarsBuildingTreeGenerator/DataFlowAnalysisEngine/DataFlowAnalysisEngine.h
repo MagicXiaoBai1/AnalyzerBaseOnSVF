@@ -8,7 +8,7 @@
 namespace SVF
 {
 
-template<class GraphType, class Walker>
+template<class GraphType, class Walker, class StateTransitionFunc = bool(*)(const Walker&)>
 class DataFlowAnalysisEngine 
 {
     
@@ -27,10 +27,10 @@ private:
     std::queue<std::unique_ptr<Walker>> workList;
     GraphType _graph;
 
-    bool (*stateTransitionFunction)(const Walker& walker);
+    StateTransitionFunc stateTransitionFunction;
 public:
 
-    DataFlowAnalysisEngine(GraphType graph, bool (*stateTransitionFunction)(const Walker&))
+    DataFlowAnalysisEngine(GraphType graph, StateTransitionFunc stateTransitionFunction)
         : _graph(graph), stateTransitionFunction(stateTransitionFunction)
     {
 

@@ -143,10 +143,12 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
     // 用 OpenCite 和 构建树叶子节点，构建 NeedAnalysisState
     // 用 VarsBuildingTree，构建 StateTransitionHandler
     // 用上面的信息，构建 DataFlowAnalysisEngine
-    std::unordered_set<VarNode*> curLeafNodes;
 
     VarsBuildingTree tmp1;
     tmp1.setRootNode(std::make_unique<PointedVarNode>(OpenParam));
+
+    std::unordered_set<VarNode*> curLeafNodes;
+    curLeafNodes.insert(tmp1.getRootNode());
 
     StateTransitionHandler handler(tmp1);
     

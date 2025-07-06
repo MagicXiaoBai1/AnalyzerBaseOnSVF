@@ -26,6 +26,9 @@ public:
     void setRootNode(std::unique_ptr<VarNode> node) {
         rootNode = std::move(node);
     }
+    VarNode* getRootNode() const {
+        return rootNode.get();
+    }
 
     StmtNode& getStmtNode(std::size_t id) {
         auto it = allStmtNodes.find(id);

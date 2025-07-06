@@ -4,7 +4,7 @@
 #include "SVFIR/SVFStatements.h"
 
 #include "VarsBuildingTreeGenerator/DefUseParser/PointedVarParser.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/TopVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
 #include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
 
 using namespace SVF;
@@ -50,8 +50,8 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* no
                         if(it->second.find(paramIndex) != it->second.end()) {
                             const ActualParmVFGNode* actualParmNode = static_cast<const ActualParmVFGNode*>(vfgNode);
                             const PAGNode* nowInputParam = actualParmNode->getParam();
-                            // 创建一个新的 TopVarNode 加入result
-                            auto varNode = std::make_unique<TopVarNode>(nowInputParam);
+                            // 创建一个新的 PointedVarNode 加入result
+                            auto varNode = std::make_unique<PointedVarNode>(nowInputParam);
                             result.push_back(std::move(varNode));
                         }
                         
@@ -68,8 +68,8 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* no
         for (const SVFStmt* stmt : node->getSVFStmts()){
             if(isa<StoreStmt>(stmt)){
                 const StoreStmt* storeStmt = static_cast<const StoreStmt*>(stmt);
-                // 创建一个新的 TopVarNode 加入result
-                auto varNode = std::make_unique<TopVarNode>(storeStmt->getLHSVar());
+                // 创建一个新的 PointedVarNode 加入result
+                auto varNode = std::make_unique<PointedVarNode>(storeStmt->getLHSVar());
                 result.push_back(std::move(varNode));
             }
         }
@@ -101,8 +101,8 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
                         if(it->second.find(paramIndex) != it->second.end()) {
                             const ActualParmVFGNode* actualParmNode = static_cast<const ActualParmVFGNode*>(vfgNode);
                             const PAGNode* nowInputParam = actualParmNode->getParam();
-                            // 创建一个新的 TopVarNode 加入result
-                            auto varNode = std::make_unique<TopVarNode>(nowInputParam);
+                            // 创建一个新的 PointedVarNode 加入result
+                            auto varNode = std::make_unique<PointedVarNode>(nowInputParam);
                             result.push_back(std::move(varNode));
                         }
                         
@@ -118,8 +118,8 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
         for (const SVFStmt* stmt : node->getSVFStmts()){
             if(isa<LoadStmt>(stmt)){
                 const LoadStmt* loadStmt = static_cast<const LoadStmt*>(stmt);
-                // 创建一个新的 TopVarNode 加入result - Load的右侧是被使用的变量
-                auto varNode = std::make_unique<TopVarNode>(loadStmt->getRHSVar());
+                // 创建一个新的 PointedVarNode 加入result - Load的右侧是被使用的变量
+                auto varNode = std::make_unique<PointedVarNode>(loadStmt->getRHSVar());
                 result.push_back(std::move(varNode));
             }
         }

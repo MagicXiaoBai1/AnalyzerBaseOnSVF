@@ -3,10 +3,12 @@
 
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode.h"
 
 namespace SVF
 {
+
+// 前向声明，避免循环依赖
+class VarNode;
 
 class StmtNode
 {

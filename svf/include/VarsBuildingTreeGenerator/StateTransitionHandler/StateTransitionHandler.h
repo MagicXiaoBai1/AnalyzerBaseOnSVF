@@ -9,14 +9,16 @@
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/DataFlowAnalysisState.h"
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/StateHolder.h"
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/StateMerge.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
 
 namespace SVF
 {
 class StateTransitionHandler
 {
 public:
+    VarsBuildingTree& varsBuildingTree; // 用于存储构建树
 
-    StateTransitionHandler(){
+    StateTransitionHandler(VarsBuildingTree& tree) : varsBuildingTree(tree) {
 
     }
     ~StateTransitionHandler(){
@@ -24,7 +26,7 @@ public:
     }
     
     // 实现函数调用操作符，使类对象可以像函数一样被调用
-    virtual bool operator()(const NeedAnalysisState& walker) const;
+    virtual bool operator()(NeedAnalysisState& walker);
     
     
 };

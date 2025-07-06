@@ -54,7 +54,7 @@ public:
         }
         return seed;
     }
-    std::size_t getId(){
+    std::size_t getId() const{
         return hash();
     }
     // 对外接口

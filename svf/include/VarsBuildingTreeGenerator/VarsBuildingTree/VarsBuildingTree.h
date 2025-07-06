@@ -22,6 +22,11 @@ public:
 
     std::unordered_map<std::size_t, std::unique_ptr<StmtNode>> allStmtNodes;
     std::unique_ptr<VarNode> rootNode;
+
+    void setRootNode(std::unique_ptr<VarNode> node) {
+        rootNode = std::move(node);
+    }
+
     StmtNode& getStmtNode(std::size_t id) {
         auto it = allStmtNodes.find(id);
         if (it != allStmtNodes.end()) {

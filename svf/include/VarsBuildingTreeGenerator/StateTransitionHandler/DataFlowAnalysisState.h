@@ -13,7 +13,6 @@ public:
     // 可以根据需要添加状态的成员变量
     // 例如：std::set<NodeID> visitedNodes;
     // 或者其他需要跟踪的状态信息
-    std::unordered_set<VarNode*> leafNodes;
     std::unordered_set<VarNode*> nowDefNodes;
     DataFlowAnalysisState() {
         // 初始化状态

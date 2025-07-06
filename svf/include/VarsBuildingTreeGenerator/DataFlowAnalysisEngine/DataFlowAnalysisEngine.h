@@ -8,7 +8,7 @@
 namespace SVF
 {
 
-template<class GraphType, class Walker, class StateTransitionFunc = bool(*)(const Walker&)>
+template<class GraphType, class Walker, class StateTransitionFunc = bool(*)(Walker&)>
 class DataFlowAnalysisEngine 
 {
     

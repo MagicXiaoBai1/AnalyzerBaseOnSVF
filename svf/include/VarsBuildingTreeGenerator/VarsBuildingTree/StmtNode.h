@@ -36,8 +36,7 @@ public:
     const std::vector<std::unique_ptr<VarNode>>& getInputVarNodes() const
     {
         return inputVarNodes;
-    }
-    
+    }    
 
 };
 

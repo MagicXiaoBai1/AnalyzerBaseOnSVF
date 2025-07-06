@@ -106,21 +106,49 @@ std::string TreeVisualizer::getVarNodeLabel(const VarNode* node)
         return "NULL";
     }
     
-    std::string label = node->toString();
+    std::string nodeInfo = node->toString();
     
+    // 对特殊字符进行转义，以便在DOT格式中正确显示
+    std::string escapedInfo;
+    for (char c : nodeInfo) {
+        switch (c) {
+            case '"':
+                escapedInfo += "\\\"";
+                break;
+            case '\n':
+                escapedInfo += "\\n";
+                break;
+            case '\t':
+                escapedInfo += "\\t";
+                break;
+            case '\\':
+                escapedInfo += "\\\\";
+                break;
+            default:
+                escapedInfo += c;
+                break;
+        }
+    }
+    
+    // 如果内容太长，进行截断
+    if (escapedInfo.length() > 80) {
+        escapedInfo = escapedInfo.substr(0, 77) + "...";
+    }
+    
+    std::string label;
     // 根据节点类型添加类型标识
     switch (node->getNodeType()) {
         case VarNode::TopVar:
-            label = "Top: " + label;
+            label = "Top: " + escapedInfo;
             break;
         case VarNode::PointedVar:
-            label = "Ptr: " + label;
+            label = "Ptr: " + escapedInfo;
             break;
         case VarNode::ConstVar:
-            label = "Const: " + label;
+            label = "Const: " + escapedInfo;
             break;
         default:
-            label = "Var: " + label;
+            label = "Var: " + escapedInfo;
             break;
     }
     
@@ -135,7 +163,37 @@ std::string TreeVisualizer::getStmtNodeLabel(const StmtNode* node)
     
     ICFGNode* icfgNode = node->getICFGNode();
     if (icfgNode) {
-        return "Stmt: " + std::to_string(icfgNode->getId());
+        // 使用ICFGNode的toString()方法获取详细信息
+        std::string nodeInfo = icfgNode->toString();
+        
+        // 对特殊字符进行转义，以便在DOT格式中正确显示
+        std::string escapedInfo;
+        for (char c : nodeInfo) {
+            switch (c) {
+                case '"':
+                    escapedInfo += "\\\"";
+                    break;
+                case '\n':
+                    escapedInfo += "\\n";
+                    break;
+                case '\t':
+                    escapedInfo += "\\t";
+                    break;
+                case '\\':
+                    escapedInfo += "\\\\";
+                    break;
+                default:
+                    escapedInfo += c;
+                    break;
+            }
+        }
+        
+        // 如果内容太长，进行截断
+        if (escapedInfo.length() > 100) {
+            escapedInfo = escapedInfo.substr(0, 97) + "...";
+        }
+        
+        return "Stmt[" + std::to_string(icfgNode->getId()) + "]: " + escapedInfo;
     }
     
     return "Stmt: Unknown";

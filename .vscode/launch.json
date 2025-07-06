@@ -7,7 +7,8 @@
       "request": "launch",
       "program": "${workspaceFolder}/Debug-build/bin/VarsBuildingTreeGenerator",
       "args": [
-        "str_para.ll"
+        //"str_para.ll"
+        "i_sdemo_service.ll"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/sdemoservice",

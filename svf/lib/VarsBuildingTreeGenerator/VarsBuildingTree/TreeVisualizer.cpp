@@ -20,8 +20,14 @@ std::string TreeVisualizer::generateDot(const VarsBuildingTree* tree)
     // 开始生成DOT内容
     dotContent << "digraph VarsBuildingTree {\n";
     dotContent << "  rankdir=TB;\n";
-    dotContent << "  node [shape=box, style=filled];\n";
-    dotContent << "  edge [color=black];\n\n";
+    dotContent << "  node [shape=box, style=filled, fontsize=9, margin=0.1];\n";
+    dotContent << "  edge [color=black, fontsize=8];\n";
+    dotContent << "  graph [fontsize=12, labelloc=\"t\", label=\"VarsBuildingTree Visualization\"];\n";
+    dotContent << "  // 设置节点间距和图形布局\n";
+    dotContent << "  nodesep=0.8;\n";
+    dotContent << "  ranksep=1.2;\n";
+    dotContent << "  // 允许节点自动调整大小\n";
+    dotContent << "  node [fixedsize=false];\n\n";
     
     // 从根节点开始DFS遍历
     VarNode* rootNode = tree->getRootNode();
@@ -124,35 +130,40 @@ std::string TreeVisualizer::getVarNodeLabel(const VarNode* node)
             case '\\':
                 escapedInfo += "\\\\";
                 break;
+            case '{':
+            case '}':
+                // 跳过花括号，减少视觉混乱
+                break;
             default:
                 escapedInfo += c;
                 break;
         }
     }
     
-    // 如果内容太长，进行截断
-    if (escapedInfo.length() > 80) {
-        escapedInfo = escapedInfo.substr(0, 77) + "...";
+    // 更严格的长度限制，适合图形显示
+    if (escapedInfo.length() > 40) {
+        escapedInfo = escapedInfo.substr(0, 37) + "...";
     }
     
-    std::string label;
+    std::string typePrefix;
     // 根据节点类型添加类型标识
     switch (node->getNodeType()) {
         case VarNode::TopVar:
-            label = "Top: " + escapedInfo;
+            typePrefix = "Top";
             break;
         case VarNode::PointedVar:
-            label = "Ptr: " + escapedInfo;
+            typePrefix = "Ptr";
             break;
         case VarNode::ConstVar:
-            label = "Const: " + escapedInfo;
+            typePrefix = "Const";
             break;
         default:
-            label = "Var: " + escapedInfo;
+            typePrefix = "Var";
             break;
     }
     
-    return label;
+    // 格式化为多行显示，提高可读性
+    return typePrefix + "\\n" + escapedInfo;
 }
 
 std::string TreeVisualizer::getStmtNodeLabel(const StmtNode* node)
@@ -182,18 +193,20 @@ std::string TreeVisualizer::getStmtNodeLabel(const StmtNode* node)
                 case '\\':
                     escapedInfo += "\\\\";
                     break;
+                case '{':
+                case '}':
+                    // 跳过花括号，减少视觉混乱
+                    break;
                 default:
                     escapedInfo += c;
                     break;
             }
         }
         
-        // 如果内容太长，进行截断
-        if (escapedInfo.length() > 100) {
-            escapedInfo = escapedInfo.substr(0, 97) + "...";
-        }
-        
-        return "Stmt[" + std::to_string(icfgNode->getId()) + "]: " + escapedInfo;
+        // 不进行截断，保留完整的toString()内容
+        // 格式化为多行显示，提高可读性
+        std::string result = "Stmt[" + std::to_string(icfgNode->getId()) + "]\\n" + escapedInfo;
+        return result;
     }
     
     return "Stmt: Unknown";
@@ -202,25 +215,25 @@ std::string TreeVisualizer::getStmtNodeLabel(const StmtNode* node)
 std::string TreeVisualizer::getVarNodeStyle(const VarNode* node)
 {
     if (!node) {
-        return "fillcolor=gray";
+        return "fillcolor=gray, fontsize=9";
     }
     
     // 根据节点类型设置不同颜色
     switch (node->getNodeType()) {
         case VarNode::TopVar:
-            return "fillcolor=lightgreen, shape=ellipse";
+            return "fillcolor=lightgreen, shape=ellipse, fontsize=9, style=\"filled,bold\", width=0, height=0";
         case VarNode::PointedVar:
-            return "fillcolor=lightblue, shape=diamond";
+            return "fillcolor=lightblue, shape=diamond, fontsize=9, style=\"filled,bold\", width=0, height=0";
         case VarNode::ConstVar:
-            return "fillcolor=lightyellow, shape=hexagon";
+            return "fillcolor=lightyellow, shape=hexagon, fontsize=9, style=\"filled,bold\", width=0, height=0";
         default:
-            return "fillcolor=lightgray";
+            return "fillcolor=lightgray, fontsize=9, style=\"filled\", width=0, height=0";
     }
 }
 
 std::string TreeVisualizer::getStmtNodeStyle()
 {
-    return "fillcolor=lightcoral, shape=box";
+    return "fillcolor=lightcoral, shape=box, fontsize=9, style=\"filled,rounded\", width=0, height=0";
 }
 
 bool TreeVisualizer::saveAsDot(const VarsBuildingTree* tree, const std::string& filename)

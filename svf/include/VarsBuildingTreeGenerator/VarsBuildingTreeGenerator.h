@@ -25,6 +25,7 @@ public:
 
     /// Start analysis here
     virtual void analyze(SVFModule* module);
+    virtual void analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, std::string ouputFilePath);
 
     /// Initialize analysis
     virtual void initialize(SVFModule* module);

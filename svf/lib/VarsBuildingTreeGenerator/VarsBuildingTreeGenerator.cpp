@@ -14,6 +14,9 @@
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/TreeVisualizer.h"
 
+#include <vector>
+#include <string>
+
 
 
 using namespace SVF;
@@ -93,9 +96,8 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
 
     initialize(module);
 
-    // 找Open调用和我们关注的参数
-    const CallICFGNode* OpenCite = nullptr;
-    const SVFVar* OpenParam = nullptr;
+    // 收集所有fopen调用点和对应的参数
+    std::vector<std::pair<const CallICFGNode*, const SVFVar*>> fopenCallSites;
 
     // 获取程序的PAG（指针分析图）
     SVFIR* pag = PAG::getPAG();
@@ -109,10 +111,9 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
         for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
         {
             const SVFFunction* fun = *cit;
-            // 判断该函数是否为“open”类函数（即资源获取/打开函数）
-            if (fun->getName() == "open")
+            // 判断该函数是否为“fopen”类函数（即资源获取/打开函数）
+            if (fun->getName() == "fopen")
             {
-                OpenCite = it->first;
                 // 获取该调用点的实参列表
                 SVFIR::SVFVarList &arglist = it->second;
                 assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
@@ -128,11 +129,16 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
                     if(pos == 0) {
                         const ActualParmVFGNode *obj = svfg->getActualParmVFGNode(pagNode, it->first);
                         const PAGNode* actual_param = obj->getParam();
-                        OpenParam = actual_param;
+                        const SVFVar* OpenParam = actual_param;
+                        
+                        // 将找到的fopen调用点和参数添加到集合中
+                        fopenCallSites.push_back(std::make_pair(it->first, OpenParam));
+                        
                         if (actual_param->getValue()->holdConstant()) {
                             std::cout << "source actual_param is constant" << std::endl;
                             std::cout << "open resource actual param: " << obj->toString() << std::endl;
                         }
+                        break; // 只关注第一个参数
                     }
                             
                     pos++;
@@ -140,6 +146,24 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
             }
         }
     }
+    
+    // 输出找到的fopen调用点数量
+    std::cout << "Found " << fopenCallSites.size() << " fopen call sites." << std::endl;
+    
+    // 分析所有找到的fopen调用点
+    for (size_t i = 0; i < fopenCallSites.size(); ++i) {
+        const CallICFGNode* OpenCite = fopenCallSites[i].first;
+        const SVFVar* OpenParam = fopenCallSites[i].second;
+        
+        std::cout << "Analyzing fopen call site " << (i + 1) << "/" << fopenCallSites.size() << std::endl;
+        
+        // 为每个调用点生成唯一的输出文件名
+        std::string outputFilePath = "vars_building_tree_fopen_" + std::to_string(i + 1);
+        analyze_one_var(OpenCite, OpenParam, outputFilePath);
+    }
+}
+
+void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, std::string ouputFilePath){
     // 以 OpenParam 为根节点，构建VarsBuildingTree
     // 用 OpenCite 和 构建树叶子节点，构建 NeedAnalysisState
     // 用 VarsBuildingTree，构建 StateTransitionHandler
@@ -170,30 +194,26 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
     std::cout << "=====================================================" << std::endl;
     
     // 保存为DOT文件
-    if (visualizer.saveAsDot(&tmp1, "vars_building_tree")) {
-        std::cout << "VarsBuildingTree DOT file saved successfully!" << std::endl;
-    } else {
-        std::cout << "Failed to save DOT file." << std::endl;
-    }
+    // if (visualizer.saveAsDot(&tmp1, ouputFilePath)) {
+    //     std::cout << "VarsBuildingTree DOT file saved successfully!" << std::endl;
+    // } else {
+    //     std::cout << "Failed to save DOT file." << std::endl;
+    // }
     
     // 生成PNG图片（如果Graphviz可用）
-    if (visualizer.saveAsImage(&tmp1, "vars_building_tree", "png")) {
-        std::cout << "VarsBuildingTree PNG image generated successfully!" << std::endl;
-    } else {
-        std::cout << "Failed to generate PNG image. Make sure Graphviz is installed." << std::endl;
-    }
+    // if (visualizer.saveAsImage(&tmp1, ouputFilePath, "png")) {
+    //     std::cout << "VarsBuildingTree PNG image generated successfully!" << std::endl;
+    // } else {
+    //     std::cout << "Failed to generate PNG image. Make sure Graphviz is installed." << std::endl;
+    // }
     
     // 同时生成SVG格式（矢量图，适合放大查看）
-    if (visualizer.saveAsImage(&tmp1, "vars_building_tree", "svg")) {
+    if (visualizer.saveAsImage(&tmp1, ouputFilePath, "svg")) {
         std::cout << "VarsBuildingTree SVG image generated successfully!" << std::endl;
     } else {
         std::cout << "Failed to generate SVG image." << std::endl;
     }
-    
-
 }
-
-
 
 void VarsBuildingTreeGenerator::initOpens() {
     // 获取程序的PAG（指针分析图）

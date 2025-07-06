@@ -39,6 +39,7 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* no
             // 遍历每个可能被调用的函数
             const SVFFunction* fun = *cit;
             const std::string& funcName =fun->getName();
+            std::cout<< "Processing function: " << funcName << std::endl;
             // 检查函数名是否在 funcNameToDefParam 中
             auto it = funcNameToDefParam.find(funcName);
             if (it != funcNameToDefParam.end()) {
@@ -115,12 +116,22 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
         
     } else if(isa<IntraICFGNode>(node)) {
         // 处理 IntraICFGNode 类型 - 对于 Use，我们关注 Load 语句
+        // for (const SVFStmt* stmt : node->getSVFStmts()){
+        //     if(isa<LoadStmt>(stmt)){
+        //         const LoadStmt* loadStmt = static_cast<const LoadStmt*>(stmt);
+        //         // 创建一个新的 PointedVarNode 加入result - Load的右侧是被使用的变量
+        //         auto varNode = std::make_unique<PointedVarNode>(loadStmt->getRHSVar());
+        //         result.push_back(std::move(varNode));
+        //     }
+        // }
         for (const SVFStmt* stmt : node->getSVFStmts()){
-            if(isa<LoadStmt>(stmt)){
-                const LoadStmt* loadStmt = static_cast<const LoadStmt*>(stmt);
-                // 创建一个新的 PointedVarNode 加入result - Load的右侧是被使用的变量
-                auto varNode = std::make_unique<PointedVarNode>(loadStmt->getRHSVar());
+            if(isa<StoreStmt>(stmt)){
+                const StoreStmt* storeStmt = static_cast<const StoreStmt*>(stmt);
+                // 创建一个新的 PointedVarNode 加入result
+                auto varNode = std::make_unique<PointedVarNode>(storeStmt->getLHSVar());
                 result.push_back(std::move(varNode));
+                auto varNode1 = std::make_unique<PointedVarNode>(storeStmt->getRHSVar());
+                result.push_back(std::move(varNode1));
             }
         }
     }

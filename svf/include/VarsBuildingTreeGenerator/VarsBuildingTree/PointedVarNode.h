@@ -30,7 +30,10 @@ public:
     }
     
     virtual std::string toString() const override {
-        return "PointedVarNode"; 
+        if (!pointer) {
+            return "PointedVarNode: null pointer";
+        }
+        return "PointedVarNode: " + pointer->toString() ; 
     }
 
     bool operator==(const VarNode& other) const override {

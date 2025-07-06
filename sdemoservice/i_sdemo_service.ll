@@ -1146,7 +1146,7 @@ define noundef i32 @_Z27innerTureIllegalInforFlow_ci(i32 noundef %0) #0 !dbg !36
   store ptr %25, ptr %6, align 4, !dbg !3637
   call void @llvm.dbg.declare(metadata ptr %7, metadata !3640, metadata !DIExpression()), !dbg !3641
   store ptr null, ptr %7, align 4, !dbg !3641, !annotation !3270
-  %26 = call ptr @fopen(ptr noundef @.str.3, ptr noundef @.str.10), !dbg !3642
+  %26 = call ptr @fopen555(ptr noundef @.str.3, ptr noundef @.str.10), !dbg !3642
   store ptr %26, ptr %7, align 4, !dbg !3641
   call void @llvm.dbg.declare(metadata ptr %8, metadata !3643, metadata !DIExpression()), !dbg !3647
   call void @llvm.memset.p0.i32(ptr align 1 %8, i8 0, i32 1024, i1 false), !dbg !3647
@@ -1206,6 +1206,7 @@ declare ptr @strncpy(ptr noundef, ptr noundef, i32 noundef) #5
 
 declare i32 @strlen(ptr noundef) #5
 
+declare ptr @fopen555(ptr noundef, ptr noundef) #5
 declare ptr @fopen(ptr noundef, ptr noundef) #5
 
 declare ptr @fgets(ptr noundef, i32 noundef, ptr noundef) #5
@@ -1224,11 +1225,11 @@ define noundef i32 @_Z26innerMayIllegalInforFlow_ci(i32 noundef %0) #0 !dbg !367
   call void @llvm.dbg.declare(metadata ptr %2, metadata !3680, metadata !DIExpression()), !dbg !3681
   call void @llvm.dbg.declare(metadata ptr %3, metadata !3682, metadata !DIExpression()), !dbg !3683
   store ptr null, ptr %3, align 4, !dbg !3683, !annotation !3270
-  %6 = call ptr @fopen(ptr noundef @.str.4, ptr noundef @.str.9), !dbg !3684
+  %6 = call ptr @fopen555(ptr noundef @.str.4, ptr noundef @.str.9), !dbg !3684
   store ptr %6, ptr %3, align 4, !dbg !3683
   call void @llvm.dbg.declare(metadata ptr %4, metadata !3685, metadata !DIExpression()), !dbg !3686
   store ptr null, ptr %4, align 4, !dbg !3686, !annotation !3270
-  %7 = call ptr @fopen(ptr noundef @.str.3, ptr noundef @.str.10), !dbg !3687
+  %7 = call ptr @fopen555(ptr noundef @.str.3, ptr noundef @.str.10), !dbg !3687
   store ptr %7, ptr %4, align 4, !dbg !3686
   call void @llvm.dbg.declare(metadata ptr %5, metadata !3688, metadata !DIExpression()), !dbg !3689
   call void @llvm.memset.p0.i32(ptr align 1 %5, i8 0, i32 1024, i1 false), !dbg !3689
@@ -1293,7 +1294,7 @@ define noundef i32 @_Z28innerFalseIllegalInforFlow_ci(i32 noundef %0) #0 !dbg !3
   call void @llvm.dbg.declare(metadata ptr %2, metadata !3722, metadata !DIExpression()), !dbg !3723
   call void @llvm.dbg.declare(metadata ptr %3, metadata !3724, metadata !DIExpression()), !dbg !3725
   store ptr null, ptr %3, align 4, !dbg !3725, !annotation !3270
-  %5 = call ptr @fopen(ptr noundef @.str.4, ptr noundef @.str.9), !dbg !3726
+  %5 = call ptr @fopen555(ptr noundef @.str.4, ptr noundef @.str.9), !dbg !3726
   store ptr %5, ptr %3, align 4, !dbg !3725
   call void @llvm.dbg.declare(metadata ptr %4, metadata !3727, metadata !DIExpression()), !dbg !3728
   call void @llvm.memset.p0.i32(ptr align 1 %4, i8 0, i32 1024, i1 false), !dbg !3728
@@ -5802,7 +5803,7 @@ define linkonce_odr noundef ptr @_ZNSt3__h13basic_filebufIcNS_11char_traitsIcEEE
   store ptr %9, ptr %7, align 4, !dbg !6522
   %19 = load ptr, ptr %5, align 4, !dbg !6524
   %20 = load ptr, ptr %8, align 4, !dbg !6525
-  %21 = call ptr @fopen(ptr noundef %19, ptr noundef %20), !dbg !6526
+  %21 = call ptr @fopen555(ptr noundef %19, ptr noundef %20), !dbg !6526
   %22 = getelementptr inbounds %"class.std::__h::basic_filebuf", ptr %9, i32 0, i32 8, !dbg !6527
   store ptr %21, ptr %22, align 4, !dbg !6528
   %23 = getelementptr inbounds %"class.std::__h::basic_filebuf", ptr %9, i32 0, i32 8, !dbg !6529

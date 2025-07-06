@@ -42,6 +42,11 @@ public:
 
     bool isCanWalk(const ICFGEdge* wellWalkEdge) const;
     void walk(const ICFGEdge* wellWalkEdge);
+    std::size_t getId(){
+        std::size_t callStackHash = callStack.getId();
+        std::size_t curHash = std::hash<NodeID>()(cur);
+        return callStackHash ^ (curHash << 1);
+    }
 
     inline NodeID getCurNodeID() const
     {

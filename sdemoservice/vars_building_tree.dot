@@ -1,0 +1,43 @@
+digraph VarsBuildingTree {
+  rankdir=TB;
+  node [shape=box, style=filled];
+  edge [color=black];
+
+  var_94424320694192 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  stmt_94424320681168 [label="Stmt: 46", fillcolor=lightcoral, shape=box];
+  var_94424320706496 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320706496 -> stmt_94424320681168 [color=red, label="input"];
+  var_94424320706560 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  stmt_94424320681120 [label="Stmt: 40", fillcolor=lightcoral, shape=box];
+  var_94424320706688 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  stmt_94424320698112 [label="Stmt: 16", fillcolor=lightcoral, shape=box];
+  var_94424320697168 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320697168 -> stmt_94424320698112 [color=red, label="input"];
+  var_94424320698544 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320698544 -> stmt_94424320698112 [color=red, label="input"];
+  stmt_94424320698112 -> var_94424320706688 [color=blue, label="defines"];
+  var_94424320706688 -> stmt_94424320681120 [color=red, label="input"];
+  var_94424320689760 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  stmt_94424320688528 [label="Stmt: 21", fillcolor=lightcoral, shape=box];
+  var_94424320690960 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  stmt_94424320698320 [label="Stmt: 14", fillcolor=lightcoral, shape=box];
+  var_94424320698256 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320698256 -> stmt_94424320698320 [color=red, label="input"];
+  var_94424320689856 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320689856 -> stmt_94424320698320 [color=red, label="input"];
+  stmt_94424320698320 -> var_94424320690960 [color=blue, label="defines"];
+  var_94424320690960 -> stmt_94424320688528 [color=red, label="input"];
+  stmt_94424320688528 -> var_94424320689760 [color=blue, label="defines"];
+  var_94424320689760 -> stmt_94424320681120 [color=red, label="input"];
+  stmt_94424320681120 -> var_94424320706560 [color=blue, label="defines"];
+  var_94424320706560 -> stmt_94424320681168 [color=red, label="input"];
+  var_94424320706624 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  stmt_94424320687840 [label="Stmt: 28", fillcolor=lightcoral, shape=box];
+  var_94424320698048 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320698048 -> stmt_94424320687840 [color=red, label="input"];
+  var_94424320689504 [label="Ptr: PointedVarNode", fillcolor=lightblue, shape=diamond];
+  var_94424320689504 -> stmt_94424320687840 [color=red, label="input"];
+  stmt_94424320687840 -> var_94424320706624 [color=blue, label="defines"];
+  var_94424320706624 -> stmt_94424320681168 [color=red, label="input"];
+  stmt_94424320681168 -> var_94424320694192 [color=blue, label="defines"];
+}

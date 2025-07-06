@@ -1,11 +1,16 @@
 # Define the core library
 add_library(SvfCore)
 
+# Find Graphviz libraries
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GRAPHVIZ REQUIRED libcgraph libgvc)
+
 # Add the public headers as an include directory
 target_include_directories(SvfCore
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SVF_INSTALL_INCLUDE_DIR}>
+    ${GRAPHVIZ_INCLUDE_DIRS}
 )
 
 set_target_properties(SvfCore PROPERTIES
@@ -18,6 +23,10 @@ set_target_properties(SvfCore PROPERTIES
 file(GLOB_RECURSE SVF_CORE_SOURCES lib/*.cpp)
 message(STATUS "SVF_CORE_SOURCES: ${SVF_CORE_SOURCES}")
 target_sources(SvfCore PRIVATE ${SVF_CORE_SOURCES})
+
+# Link Graphviz libraries
+target_link_libraries(SvfCore PUBLIC ${GRAPHVIZ_LIBRARIES})
+target_compile_options(SvfCore PUBLIC ${GRAPHVIZ_CFLAGS_OTHER})
 
 # Get all of the public header files (i.e. all *.h/*.hpp files) for SVF's subprojects and add them
 file(GLOB_RECURSE SVF_CORE_HEADERS include/*.h include/*.hpp)

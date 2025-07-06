@@ -12,6 +12,7 @@
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/StateTransitionHandler.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/TreeVisualizer.h"
 
 
 
@@ -158,7 +159,37 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
     // 使用简单函数
     // DataFlowAnalysisEngine<ICFG*, NeedAnalysisState> dfaEngine(icfg, &simpleStateTransitionFunction);
     // dfaEngine.analysis(std::make_unique<NeedAnalysisState>(OpenCite->getId(), curLeafNodes));
-
+    
+    // 使用TreeVisualizer可视化构建的VarsBuildingTree
+    TreeVisualizer visualizer;
+    
+    // 生成DOT格式输出到控制台
+    std::string dotContent = visualizer.generateDot(&tmp1);
+    std::cout << "========== VarsBuildingTree Visualization ==========" << std::endl;
+    std::cout << dotContent << std::endl;
+    std::cout << "=====================================================" << std::endl;
+    
+    // 保存为DOT文件
+    if (visualizer.saveAsDot(&tmp1, "vars_building_tree")) {
+        std::cout << "VarsBuildingTree DOT file saved successfully!" << std::endl;
+    } else {
+        std::cout << "Failed to save DOT file." << std::endl;
+    }
+    
+    // 生成PNG图片（如果Graphviz可用）
+    if (visualizer.saveAsImage(&tmp1, "vars_building_tree", "png")) {
+        std::cout << "VarsBuildingTree PNG image generated successfully!" << std::endl;
+    } else {
+        std::cout << "Failed to generate PNG image. Make sure Graphviz is installed." << std::endl;
+    }
+    
+    // 同时生成SVG格式（矢量图，适合放大查看）
+    if (visualizer.saveAsImage(&tmp1, "vars_building_tree", "svg")) {
+        std::cout << "VarsBuildingTree SVG image generated successfully!" << std::endl;
+    } else {
+        std::cout << "Failed to generate SVG image." << std::endl;
+    }
+    
 
 }
 

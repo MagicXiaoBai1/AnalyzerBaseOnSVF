@@ -34,10 +34,10 @@ public:
     //     return pointer ? reinterpret_cast<std::size_t>(pointer) : 0;
     // }
 
-    bool operator==(const VarNode* other) const {
-        if (other && other->isTopVarNode()) {
-            const TopVarNode* otherTop = other->dyn_cast<TopVarNode>();
-            return otherTop && (this->pointer == otherTop->pointer);
+    bool operator==(const VarNode& other) const override{
+        if (other.isTopVarNode()) {
+            const TopVarNode* otherTop = static_cast<const TopVarNode*>(&other);
+            return this->pointer == otherTop->pointer;
         }
         return false;
     }

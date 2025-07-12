@@ -140,10 +140,6 @@ std::string TreeVisualizer::getVarNodeLabel(const VarNode* node)
         }
     }
     
-    // 更严格的长度限制，适合图形显示
-    if (escapedInfo.length() > 40) {
-        escapedInfo = escapedInfo.substr(0, 37) + "...";
-    }
     
     std::string typePrefix;
     // 根据节点类型添加类型标识

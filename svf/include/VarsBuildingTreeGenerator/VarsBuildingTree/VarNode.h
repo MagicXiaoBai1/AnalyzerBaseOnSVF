@@ -51,22 +51,9 @@ public:
         return nodeType == ConstVar;
     }
     
-    // 模板类型判断函数，类似于SVF中的isa<T>()
-    template<typename T>
-    bool isa() const {
-        return dynamic_cast<const T*>(this) != nullptr;
-    }
-    
-    // 模板类型转换函数，类似于SVF中的dyn_cast<T>()
-    template<typename T>
-    T* dyn_cast() {
-        return dynamic_cast<T*>(this);
-    }
-    
-    template<typename T>
-    const T* dyn_cast() const {
-        return dynamic_cast<const T*>(this);
-    }
+    // 推荐：类型判断请直接用 isTopVarNode/isPointedVarNode/isConstVarNode
+    // 类型转换请用 static_cast<目标类型*>(this)（在类型判断后）
+    // 已移除 isa/dyn_cast 模板方法，避免 dynamic_cast 带来的问题
     
     virtual std::string toString() const {
         return "VarNode"; // 可以根据需要返回更详细的信息

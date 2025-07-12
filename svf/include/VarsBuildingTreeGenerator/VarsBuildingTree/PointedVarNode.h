@@ -20,6 +20,9 @@ private:
     const SVFVar* pointer;
 
 public:
+    std::string constInfo; // 用于存储指向的常量信息，如果有的话
+
+
     PointedVarNode(const SVFVar* var, VarNode* base = nullptr) 
         : VarNode(PointedVar), pointer(var) {
         // 初始化状态
@@ -33,18 +36,27 @@ public:
         if (!pointer) {
             return "PointedVarNode: null pointer";
         }
-        return "PointedVarNode: " + pointer->toString() ; 
+        if (constInfo.empty()) {
+            return "PointedVarNode: " + pointer->toString() ; 
+        }else{
+            return "PointedVarNode: " + constInfo;
+        }
+        
     }
 
     bool operator==(const VarNode& other) const override {
         if (other.isPointedVarNode()) {
-            const PointedVarNode* otherPointed = other.dyn_cast<PointedVarNode>();
+            const PointedVarNode* otherPointed = static_cast<const PointedVarNode*>(&other);
             BVDataPTAImpl* pta = AnalysisGraphManager::getInstance().getPTA();
             // 使用PTA来比较指针是否相同
             AliasResult result = pta->alias(this->pointer->getId(), otherPointed->pointer->getId());
             return result != AliasResult::NoAlias;
         }
         return false;
+    }
+
+    const SVFVar* getPointer() const {
+        return pointer;
     }
     
     

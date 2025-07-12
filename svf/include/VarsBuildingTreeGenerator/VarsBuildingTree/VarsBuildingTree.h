@@ -42,6 +42,19 @@ public:
         }
     }
 
+    std::vector<VarNode*> get_all_leaf_nodes() const {
+        std::vector<VarNode*> leafNodes;
+        for (const auto& pair : allStmtNodes) {
+            const StmtNode* stmtNode = pair.second.get();
+            for (const auto& varNode : stmtNode->getInputVarNodes()) {
+                if (varNode->isPointedVarNode()) {
+                    leafNodes.push_back(varNode.get());
+                }
+            }
+        }
+        return leafNodes;
+    }
+
 };
 
 } // namespace SVF

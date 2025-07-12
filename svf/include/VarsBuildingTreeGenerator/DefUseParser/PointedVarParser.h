@@ -22,8 +22,8 @@ public:
         funcNameToUseParam = {
             // 字符串拷贝函数
             {"strcat", {0, 1}},
-            {"strcpy", {1}},
-            {"strncpy", {1}},
+            {"strcpy", {0, 1}},
+            {"strncpy", {0, 1}},
             {"strncat", {0, 1}},
             
             // 格式化输出函数

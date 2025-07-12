@@ -4,9 +4,10 @@
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
 #include "SABER/SaberSVFGBuilder.h"
-
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
 namespace SVF
 {
+class VarNode;
 class VarsBuildingTreeGenerator
 {
 private:
@@ -26,6 +27,7 @@ public:
     /// Start analysis here
     virtual void analyze(SVFModule* module);
     virtual void analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, std::string ouputFilePath);
+    void linkLeafNodeToConstVar(PointedVarNode* leafNode);
 
     /// Initialize analysis
     virtual void initialize(SVFModule* module);

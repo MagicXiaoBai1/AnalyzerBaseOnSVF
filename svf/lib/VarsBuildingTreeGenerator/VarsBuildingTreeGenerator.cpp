@@ -70,7 +70,7 @@ void VarsBuildingTreeGenerator::initialize(SVFModule* module)
     SVFIR* pag = PAG::getPAG();
     pta = nullptr;
     // AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
-    if(Options::PASelected(PointerAnalysis::FSSPARSE_WPA)) {
+    if(true) {  //Options::PASelected(PointerAnalysis::FSSPARSE_WPA)
         FlowSensitive* fs_pta = new FlowSensitive(pag);
         fs_pta->analyze();
         pta = fs_pta;
@@ -164,6 +164,14 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
 }
 
 void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, std::string ouputFilePath){
+    /**
+     * 1. 构建 数据流分析器
+     * 2. 执行数据流分析
+     * 3. 分析构建树的叶子节点
+     * 4. 可视化 VarsBuildingTree
+     * 
+     */
+    // 1. 构建 数据流分析器
     // 以 OpenParam 为根节点，构建VarsBuildingTree
     // 用 OpenCite 和 构建树叶子节点，构建 NeedAnalysisState
     // 用 VarsBuildingTree，构建 StateTransitionHandler
@@ -179,12 +187,21 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, co
     
     DataFlowAnalysisEngine<ICFG*, NeedAnalysisState, decltype(handler)> dfaEngine(icfg, handler);
 
+    // 2. 执行数据流分析
     dfaEngine.analysis(std::make_unique<NeedAnalysisState>(OpenCite->getId(), curLeafNodes));
     // 使用简单函数
     // DataFlowAnalysisEngine<ICFG*, NeedAnalysisState> dfaEngine(icfg, &simpleStateTransitionFunction);
     // dfaEngine.analysis(std::make_unique<NeedAnalysisState>(OpenCite->getId(), curLeafNodes));
     
-    // 使用TreeVisualizer可视化构建的VarsBuildingTree
+    // 3. 分析构建树的叶子节点
+    // 遍历所有叶子节点（pointedVar）,节点中的指针可能与全局的字符串常量是别名
+    for (VarNode* leafNode : tmp1.get_all_leaf_nodes()) {
+        // 进行叶子节点的分析
+        linkLeafNodeToConstVar((PointedVarNode*)leafNode);
+
+    }
+
+    // 4. 可视化 VarsBuildingTree
     TreeVisualizer visualizer;
     
     // 生成DOT格式输出到控制台
@@ -256,6 +273,34 @@ void VarsBuildingTreeGenerator::initOpens() {
                     pos++;
                 }
             }
+        }
+    }
+}
+
+
+void VarsBuildingTreeGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
+    // 检查叶子节点是否为指向常量的变量节点
+    GlobalICFGNode* globalICFGNode = AnalysisGraphManager::getInstance().getICFG()->getGlobalICFGNode();
+    const std::list<const SVFStmt*>& stmtsInGlobalNode = globalICFGNode->getSVFStmts();
+    // 遍历全局节点中的所有语句
+    BVDataPTAImpl* pta = AnalysisGraphManager::getInstance().getPTA();
+            
+        
+    for (const SVFStmt* stmt : stmtsInGlobalNode) {
+        // 检查语句是否为常量声明
+        if (stmt->getEdgeKind() == SVFStmt::Addr) {
+            // 使用PTA来比较指针是否相同
+            const AssignStmt* assignStmt = SVFUtil::dyn_cast<AssignStmt>(stmt);
+            if (!assignStmt)
+                continue;
+            AliasResult result = pta->alias(leafNode->getPointer()->getId(), assignStmt->getLHSVar()->getId());
+            if(result != AliasResult::MayAlias) {
+                continue; // 如果没有别名关系，跳过
+            }
+            
+            // 如果是指向常量的变量节点，链接到对应的常量变量节点
+            leafNode->constInfo += assignStmt->toString() + "\n";
+
         }
     }
 }

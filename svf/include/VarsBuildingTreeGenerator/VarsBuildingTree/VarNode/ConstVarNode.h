@@ -29,15 +29,15 @@ private:
 public:
     // 整型常量构造函数
     ConstVarNode(int intValue)
-        : type(ConstType::Integer), constantValue(std::to_string(intValue)), constantIntValue(intValue) {}
+        : VarNode(), type(ConstType::Integer), constantValue(std::to_string(intValue)), constantIntValue(intValue) {}
 
     // 字符串常量构造函数
     ConstVarNode(const std::string& strValue)
-        : type(ConstType::String), constantValue(strValue), constantIntValue(0) {}
+        : VarNode(), type(ConstType::String), constantValue(strValue), constantIntValue(0) {}
 
     // 可选：默认构造函数
     ConstVarNode()
-        : type(ConstType::Unknown), constantValue(""), constantIntValue(0) {}
+        : VarNode(), type(ConstType::Unknown), constantValue(""), constantIntValue(0) {}
 
     virtual std::string toString() const override {
         if (type == ConstType::Integer)

@@ -17,6 +17,7 @@ public:
         TopVar,      // 顶层变量节点
         PointedVar,  // 指针指向的变量节点
         ConstVar,    // 常量变量节点
+        UnKnow
         // 可以根据需要添加更多类型
     };
 
@@ -25,7 +26,7 @@ private:
     VarNodeType nodeType; // 节点类型
 
 public:
-    VarNode(VarNodeType type) : nodeType(type) {
+    VarNode(VarNodeType type = VarNodeType::UnKnow) : nodeType(type) {
         // 初始化状态
     }
 

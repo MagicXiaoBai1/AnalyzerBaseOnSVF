@@ -41,7 +41,6 @@ public:
         }
         if (isConstantPointer()) {
             return "PointedVarNode: " + constNode->toString();
-        }
         }else{
             return "PointedVarNode: " + pointer->toString() ; 
         }

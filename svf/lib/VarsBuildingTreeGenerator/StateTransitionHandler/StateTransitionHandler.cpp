@@ -55,7 +55,7 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
     }
 
     if(needInsert) {
-        std::cout<< node->toString() << " 需要插入叶子节点" << std::endl;
+        std::cout << "————————当前节点 " << node->toString() << " 需要插入构建树" << std::endl;
         // 1. 获取该语句对应的构建树中语句节点
         StmtNode& nowStmtNode = varsBuildingTree.getStmtNode(walker.getId());
         nowStmtNode.setICFGNode(const_cast<ICFGNode*>(node)); // 设置当前语句节点的ICFG节点

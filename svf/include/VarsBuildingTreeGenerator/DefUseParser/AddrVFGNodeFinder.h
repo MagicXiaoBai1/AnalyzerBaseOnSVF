@@ -9,6 +9,7 @@
 #include "Graphs/SVFGOPT.h"
 #include "Util/GraphReachSolver.h"
 #include "Util/Options.h"
+#include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
 
 #include <vector>
 
@@ -25,6 +26,7 @@ public:
 
     AddrVFGNodeFinder() {
         // 初始化状态
+        setGraph(AnalysisGraphManager::getInstance().getSVFG());
     }
 
     virtual ~AddrVFGNodeFinder() {
@@ -33,7 +35,7 @@ public:
 
     std::vector<std::pair<const AddrVFGNode*, int>> getPointAddrVFGNode(const SVFGNode* inputNode);
 
-    void backwardTraverse(const VFGNode& inputNode, std::vector<std::pair<const AddrVFGNode*, int>>& ans);
+    void backwardTraverseCtx(const VFGNode& inputNode, std::vector<std::pair<const AddrVFGNode*, int>>& ans);
     void BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* edge);
 
     inline bool isVisited(const SVFGNode* node, const CxtDPItem& item)

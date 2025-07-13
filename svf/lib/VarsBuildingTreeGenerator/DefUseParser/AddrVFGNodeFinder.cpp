@@ -1,4 +1,3 @@
-#include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
 #include "VarsBuildingTreeGenerator/DefUseParser/AddrVFGNodeFinder.h"
  
 
@@ -8,7 +7,7 @@ using namespace SVFUtil;
 
 
 
-void AddrVFGNodeFinder::backwardTraverse(const VFGNode& inputNode, std::vector<std::pair<const AddrVFGNode*, int>>& ans)
+void AddrVFGNodeFinder::backwardTraverseCtx(const VFGNode& inputNode, std::vector<std::pair<const AddrVFGNode*, int>>& ans)
 {   
     ContextCond cxt;
     CxtDPItem cxtItem(inputNode.getId(),cxt);
@@ -20,6 +19,12 @@ void AddrVFGNodeFinder::backwardTraverse(const VFGNode& inputNode, std::vector<s
         CxtDPItem item = popFromWorklist();
 
         GNODE* v = getNode(getNodeIDFromItem(item));
+        const SVFGNode* node = AnalysisGraphManager::getInstance().getSVFG()->getSVFGNode(v->getId());
+        std::cout << "Processing node: " << node->toString() << std::endl;
+        std::cout << "___________________________" << std::endl;
+        if( v->getId() == 3215){
+            std::cout<<"debug"<< v->getId() << std::endl;
+        }
         inv_child_iterator EI = InvGTraits::child_begin(v);
         inv_child_iterator EE = InvGTraits::child_end(v);
         int child_no = 0;
@@ -42,7 +47,7 @@ void AddrVFGNodeFinder::BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* e
 
     const SVFGNode* srcNode = edge->getSrcNode();
     CxtDPItem newItem(srcNode->getId(),item.getContexts());
-    newItem.setParentNodeID(edge->getSrcID());
+    newItem.setParentNodeID(edge->getDstID());
 
     /// perform context sensitive reachability
     // match context for calling
@@ -86,9 +91,9 @@ void AddrVFGNodeFinder::BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* e
     }
     else if (StoreVFGNode::classof(dstNode))
     {
-        if(edge->isIndirectVFGEdge()){    // 不考虑虚边
-            return;
-        }
+        // if(edge->isIndirectVFGEdge()){    // 不考虑虚边
+        //     return;
+        // }
         // store node
         const StoreVFGNode* storeNode = SVFUtil::dyn_cast<StoreVFGNode>(dstNode);
         if (!storeNode)
@@ -96,8 +101,9 @@ void AddrVFGNodeFinder::BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* e
             return;
         }
         auto usedVarID = storeNode->getPAGEdge()->getSrcID();
-        if(const StmtVFGNode* srcStmtNode = SVFUtil::dyn_cast<StmtVFGNode>(dstNode)){
-            auto defedVarID = storeNode->getPAGEdge()->getDstID();
+        if(const StmtVFGNode* srcStmtNode = SVFUtil::dyn_cast<StmtVFGNode>(srcNode)){
+            auto defedVarID = srcStmtNode->getPAGEdge()->getDstID();
+            std::cout<<"DEGUB: usedVarID: " << usedVarID << ", defedVarID: " << defedVarID << std::endl;
             if(usedVarID != defedVarID)
             {
                 // store node is not used for pointer analysis
@@ -120,7 +126,12 @@ void AddrVFGNodeFinder::BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* e
 
 
 std::vector<std::pair<const AddrVFGNode*, int>> AddrVFGNodeFinder::getPointAddrVFGNode(const SVFGNode* inputNode){
+    std::cout << "AddrVFGNodeFinder::getPointAddrVFGNode++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout << "Pointed VFG Node FROM ICFG: " << inputNode->toString() << std::endl;
+    // 程序中有两个 VFG 一个是构建mssa前构建的（记为A），一个是基于mssa结果重构的（记为B）。
+    // inputNode 属于A，要找B中的inputNode
+    const SVFGNode* stmtNode = AnalysisGraphManager::getInstance().getSVFG()->getStmtVFGNode(((const StmtVFGNode*)inputNode)->getPAGEdge());
     std::vector<std::pair<const AddrVFGNode*, int>> ans;
-    backwardTraverse(*inputNode, ans);
+    backwardTraverseCtx(*stmtNode, ans);
     return ans;
 }

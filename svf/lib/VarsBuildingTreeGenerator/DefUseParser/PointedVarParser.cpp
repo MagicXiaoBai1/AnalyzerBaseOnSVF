@@ -97,6 +97,7 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
             auto it = funcNameToUseParam.find(funcName);
             if (it != funcNameToUseParam.end()) {
                 int paramIndex = 0;
+                // AnalysisGraphManager::getInstance().getSVFG()
                 const ICFGNode::VFGNodeList& vfgNodes = node->getVFGNodes();
                 for (const VFGNode* vfgNode : vfgNodes) {
                     // 遍历函数的每个入参
@@ -112,6 +113,43 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
                         paramIndex++;
                     }
                 }
+
+                // 注意：SVF会预处理有些函数（如strncpy等函数），SVF会将这些函数调用语句转换为 SVFStmt（记为 convered）。
+                // VFG中没有相关的边与这种函数的ActualParmVFGNode，因此要找converd对应的VFGNode
+                bool isConvertedFun = false;
+                for(const VFGNode* vfgNode : vfgNodes){
+                    if(!isa<ActualParmVFGNode>(vfgNode)){
+                        isConvertedFun = true;
+                    }
+                }
+                if(isConvertedFun){    // 是被预处理的函数
+                    std::vector<std::unique_ptr<VarNode>> newResult;
+
+                    // 遍历result
+                    for (std::unique_ptr<VarNode>& varNode : result) {
+                        // 如果是 PointedVarNode，则需要将其指向的 VFGNode 也加入到 result 中
+                        auto pointedVarNode = (PointedVarNode*)varNode.get();
+                        NodeID pointedNodeId = pointedVarNode->getPointer()->getId();
+                        for(const VFGNode* vfgNode : vfgNodes){
+                            if(const StmtVFGNode* stmtNode = SVFUtil::dyn_cast<StmtVFGNode>(vfgNode)){
+                                if(stmtNode->getPAGSrcNodeID() == pointedNodeId){
+                                // 创建一个新的 PointedVarNode 加入 newResult
+                                auto newVarNode = std::make_unique<PointedVarNode>(pointedVarNode->getPointer(), vfgNode);
+                                newResult.push_back(std::move(newVarNode));
+                                break;
+                            }
+                            }
+                            
+                        }
+                        
+                    }
+                    // 将 newResult 中的所有元素移动到 result 中
+                    result.clear();
+                    for (auto& newVarNode : newResult) {
+                        result.push_back(std::move(newVarNode));
+                    }
+                }
+
                 break; // TODO 目前：找到一个匹配的函数名后跳出循环，后面可处理函数指针的情况
             }
         }

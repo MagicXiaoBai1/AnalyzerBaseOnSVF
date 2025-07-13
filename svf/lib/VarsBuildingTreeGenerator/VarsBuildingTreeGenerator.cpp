@@ -13,14 +13,14 @@
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/TreeVisualizer.h"
+#include "VarsBuildingTreeGenerator/DefUseParser/AddrVFGNodeFinder.h"
 
 #include <vector>
 #include <string>
 
-
-
 using namespace SVF;
 using namespace SVFUtil;
+
 bool simpleStateTransitionFunction(const NeedAnalysisState& walker){
     SVFIR* pag = PAG::getPAG();
     ICFG* icfg = pag->getICFG();
@@ -279,28 +279,46 @@ void VarsBuildingTreeGenerator::initOpens() {
 
 
 void VarsBuildingTreeGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
-    // 检查叶子节点是否为指向常量的变量节点
-    GlobalICFGNode* globalICFGNode = AnalysisGraphManager::getInstance().getICFG()->getGlobalICFGNode();
-    const std::list<const SVFStmt*>& stmtsInGlobalNode = globalICFGNode->getSVFStmts();
-    // 遍历全局节点中的所有语句
-    BVDataPTAImpl* pta = AnalysisGraphManager::getInstance().getPTA();
-            
-        
-    for (const SVFStmt* stmt : stmtsInGlobalNode) {
-        // 检查语句是否为常量声明
-        if (stmt->getEdgeKind() == SVFStmt::Addr) {
-            // 使用PTA来比较指针是否相同
-            const AssignStmt* assignStmt = SVFUtil::dyn_cast<AssignStmt>(stmt);
-            if (!assignStmt)
-                continue;
-            AliasResult result = pta->alias(leafNode->getPointer()->getId(), assignStmt->getLHSVar()->getId());
-            if(result != AliasResult::MayAlias) {
-                continue; // 如果没有别名关系，跳过
-            }
-            
-            // 如果是指向常量的变量节点，链接到对应的常量变量节点
-            leafNode->constInfo += assignStmt->toString() + "\n";
+    std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout<< "Linking leaf node to constant variable: " << leafNode->toString() << std::endl;
+    std::cout << "Pointed VFG Node: " << leafNode->getPointedVFGNode()->toString() << std::endl;
 
-        }
+    AddrVFGNodeFinder addrVFGNodeFinder;
+    std::vector<std::pair<const AddrVFGNode*, int>> addrVFGNodes = addrVFGNodeFinder.getPointAddrVFGNode(leafNode->getPointedVFGNode());
+    for (const auto& addrVFGNodePair : addrVFGNodes) {
+        const AddrVFGNode* addrVFGNode = addrVFGNodePair.first;
+        int offset = addrVFGNodePair.second;
+        
+        leafNode->constInfo += "Offset: " + std::to_string(offset) + ", Value: " + addrVFGNode->toString() + "\n";
+
     }
 }
+
+
+
+// void VarsBuildingTreeGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
+//     // 检查叶子节点是否为指向常量的变量节点
+//     GlobalICFGNode* globalICFGNode = AnalysisGraphManager::getInstance().getICFG()->getGlobalICFGNode();
+//     const std::list<const SVFStmt*>& stmtsInGlobalNode = globalICFGNode->getSVFStmts();
+//     // 遍历全局节点中的所有语句
+//     BVDataPTAImpl* pta = AnalysisGraphManager::getInstance().getPTA();
+            
+        
+//     for (const SVFStmt* stmt : stmtsInGlobalNode) {
+//         // 检查语句是否为常量声明
+//         if (stmt->getEdgeKind() == SVFStmt::Addr) {
+//             // 使用PTA来比较指针是否相同
+//             const AssignStmt* assignStmt = SVFUtil::dyn_cast<AssignStmt>(stmt);
+//             if (!assignStmt)
+//                 continue;
+//             AliasResult result = pta->alias(leafNode->getPointer()->getId(), assignStmt->getLHSVar()->getId());
+//             if(result != AliasResult::MayAlias) {
+//                 continue; // 如果没有别名关系，跳过
+//             }
+            
+//             // 如果是指向常量的变量节点，链接到对应的常量变量节点
+//             leafNode->constInfo += assignStmt->toString() + "\n";
+
+//         }
+//     }
+// }

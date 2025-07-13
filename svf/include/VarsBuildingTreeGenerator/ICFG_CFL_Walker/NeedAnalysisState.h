@@ -5,7 +5,7 @@
 #include "Graphs/ICFGNode.h"
 #include "VarsBuildingTreeGenerator/CallStack.h"
 #include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/CyclicBackoff.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/VarNode.h"
 #include "Util/GraphReachSolver.h"
 
 namespace SVF

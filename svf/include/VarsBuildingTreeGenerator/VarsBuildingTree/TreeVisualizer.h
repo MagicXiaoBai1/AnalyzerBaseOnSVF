@@ -7,10 +7,10 @@
 #include <sstream>
 #include <fstream>
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/VarNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/StmtNode.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/TopVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/TopVarNode.h"
 
 namespace SVF
 {

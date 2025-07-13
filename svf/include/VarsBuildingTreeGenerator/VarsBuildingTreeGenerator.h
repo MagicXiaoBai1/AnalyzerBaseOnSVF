@@ -4,7 +4,7 @@
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
 #include "SABER/SaberSVFGBuilder.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
 namespace SVF
 {
 class VarNode;

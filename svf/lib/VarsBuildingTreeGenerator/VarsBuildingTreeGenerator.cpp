@@ -11,7 +11,7 @@
 #include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/StateTransitionHandler.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/TreeVisualizer.h"
 
 #include <vector>

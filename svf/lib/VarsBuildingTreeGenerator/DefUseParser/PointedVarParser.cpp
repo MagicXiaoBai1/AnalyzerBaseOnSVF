@@ -4,7 +4,7 @@
 #include "SVFIR/SVFStatements.h"
 
 #include "VarsBuildingTreeGenerator/DefUseParser/PointedVarParser.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/PointedVarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
 #include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
 
 using namespace SVF;

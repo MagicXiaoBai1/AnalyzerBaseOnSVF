@@ -41,8 +41,6 @@ protected:
     // Process string modification operations (substring, replace, etc.)
     virtual std::string processStringModification(const StmtNode* stmtNode);
     
-    // Process string comparison operations
-    virtual std::string processStringComparison(const StmtNode* stmtNode);
     
     // Process string allocation or initialization
     virtual std::string processStringInitialization(const StmtNode* stmtNode);

@@ -17,6 +17,8 @@
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/ConstVarNode.h"
 
+#include "VarsBuildingTreeGenerator/BuildingTreeToRegularExpression/BuildingTreeToRegularExpression.h"
+
 #include <vector>
 #include <string>
 
@@ -203,6 +205,11 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, co
 
     }
 
+    std::string varRegularExpression = BuildingTreeToRegularExpression().convert(&tmp1);
+    std::cout << "=====================================================" << std::endl;
+    std::cout << "Regular Expression for the variable: " << varRegularExpression << std::endl;
+    std::cout << "=====================================================" << std::endl;
+
     // 4. 可视化 VarsBuildingTree
     TreeVisualizer visualizer;
     
@@ -217,13 +224,6 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, co
     //     std::cout << "VarsBuildingTree DOT file saved successfully!" << std::endl;
     // } else {
     //     std::cout << "Failed to save DOT file." << std::endl;
-    // }
-    
-    // 生成PNG图片（如果Graphviz可用）
-    // if (visualizer.saveAsImage(&tmp1, ouputFilePath, "png")) {
-    //     std::cout << "VarsBuildingTree PNG image generated successfully!" << std::endl;
-    // } else {
-    //     std::cout << "Failed to generate PNG image. Make sure Graphviz is installed." << std::endl;
     // }
     
     // 同时生成SVG格式（矢量图，适合放大查看）

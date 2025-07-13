@@ -17,6 +17,7 @@ private:
     std::vector<std::unique_ptr<VarNode>> inputVarNodes; // 存储该语句入参的变量节点
 
 public:
+    std::string funcName = "";
     StmtNode() : icfgNode(nullptr) {
         // 初始化状态
     }

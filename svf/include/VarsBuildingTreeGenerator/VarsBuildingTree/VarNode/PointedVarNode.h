@@ -29,6 +29,7 @@ public:
     PointedVarNode(const SVFVar* var, const VFGNode* pointedNode = nullptr) 
         : VarNode(PointedVar), pointer(var), pointedVFGNode(pointedNode) {
         // 初始化状态
+        isConstant = false;
     }
 
     ~PointedVarNode() {

@@ -3,7 +3,7 @@
 
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/VarNode.h"
 #include "SVFIR/SVFValue.h"
 
 namespace SVF

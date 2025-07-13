@@ -1,12 +1,15 @@
 #include "VarsBuildingTreeGenerator/BuildingTreeToRegularExpression/BuildingTreeToRegularExpression.h"
+#include "VarsBuildingTreeGenerator/DefUseParser/PointedVarParser.h"
+
+
 #include "Graphs/ICFGNode.h"
 #include <queue>
 #include <set>
 #include <regex>
 #include <sstream>
 
-namespace SVF
-{
+using namespace SVF;
+using namespace SVFUtil;
 
 std::string BuildingTreeToRegularExpression::convert(const VarsBuildingTree* tree)
 {
@@ -102,18 +105,18 @@ std::string BuildingTreeToRegularExpression::processPointedVarNode(const Pointed
     if (!pointedVarNode) {
         return ".*";
     }
-    
+    std::cout << "Processing PointedVarNode: " << pointedVarNode->toString() << std::endl;
     // Check if it has constant string info
-    // if (!pointedVarNode->constInfo.empty()) {
-    //     return escapeRegexSpecialChars(pointedVarNode->constInfo);
-    // }
+    if (pointedVarNode->isConstantPointer()) {
+        return escapeRegexSpecialChars(pointedVarNode->getConstNode()->getStringValue());
+    }
     
     // Get statement nodes that define this variable
     const auto& stmtNodes = pointedVarNode->getStmtNodesDefThisVar();
     
     // If no statement defines this variable, it's external or undefined
     if (stmtNodes.empty()) {
-        return ".*"; // Any string
+        return "";
     }
     
     // Process each statement and combine the results
@@ -150,7 +153,8 @@ std::string BuildingTreeToRegularExpression::processStmtNode(const StmtNode* stm
     if (!stmtNode) {
         return ".*";
     }
-    
+
+
     // Determine the type of statement and process accordingly
     return determineAndProcessStmtNode(stmtNode);
 }
@@ -165,7 +169,22 @@ std::string BuildingTreeToRegularExpression::determineAndProcessStmtNode(const S
     if (!icfgNode) {
         return ".*";
     }
-    
+    std::cout << "Processing StmtNode: " << icfgNode->toString() << std::endl;
+    if (isa<CallICFGNode>(icfgNode)) {
+        PTACallGraph::FunctionSet callees;
+        std::unordered_set<std::string> catFunctionNames = {"strcpy", "strncpy", "strcat", "strncat", "memcpy", "memmove"};
+        AnalysisGraphManager::getInstance().getPTA()->getCallGraph()->getCallees(static_cast<const CallICFGNode*>(icfgNode), callees);
+        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
+        {
+            // 遍历每个可能被调用的函数
+            const SVFFunction* fun = *cit;
+            const std::string& funcName = fun->getName();
+            if (catFunctionNames.count(funcName)) {
+                // 如果函数名在关注的函数列表中，进行处理
+                return processStringConcatenation(stmtNode);
+            }
+        }
+    }
     // This is where you would analyze the ICFG node to determine the operation type
     // For now, we'll just return a default implementation
     return processOtherStringOperation(stmtNode);
@@ -174,20 +193,29 @@ std::string BuildingTreeToRegularExpression::determineAndProcessStmtNode(const S
 // Virtual methods that will be implemented by the user
 std::string BuildingTreeToRegularExpression::processStringConcatenation(const StmtNode* stmtNode)
 {
-    // Default implementation - to be overridden
-    return ".*";
+    std::string ans = "";
+    for (const auto& inputVars : stmtNode->getInputVarNodes())
+    {
+        std::string tmpAns = concatenateRegexes(ans, processVarNode(inputVars.get()));
+        if (tmpAns.size() >= 4 && tmpAns.substr(tmpAns.size() - 4) == "\\\\00") {
+            tmpAns.erase(tmpAns.size() - 4);
+        }
+        ans += tmpAns;
+
+    }
+    return ans;
 }
 
 std::string BuildingTreeToRegularExpression::processStringModification(const StmtNode* stmtNode)
 {
     // Default implementation - to be overridden
-    return ".*";
-}
+    std::string ans = "";
+    for (const auto& inputVars : stmtNode->getInputVarNodes())
+    {
+        ans = concatenateRegexes(ans, processVarNode(inputVars.get()));
 
-std::string BuildingTreeToRegularExpression::processStringComparison(const StmtNode* stmtNode)
-{
-    // Default implementation - to be overridden
-    return ".*";
+    }
+    return ans;
 }
 
 std::string BuildingTreeToRegularExpression::processStringInitialization(const StmtNode* stmtNode)
@@ -198,8 +226,14 @@ std::string BuildingTreeToRegularExpression::processStringInitialization(const S
 
 std::string BuildingTreeToRegularExpression::processOtherStringOperation(const StmtNode* stmtNode)
 {
-    // Default implementation - to be overridden
-    return ".*";
+    std::string ans = "";
+    for (const auto& inputVars : stmtNode->getInputVarNodes())
+    {
+        ans = concatenateRegexes(ans, processVarNode(inputVars.get()));
+        break;
+
+    }
+    return ans;
 }
 
 // Helper methods for building regular expressions
@@ -241,6 +275,9 @@ std::string BuildingTreeToRegularExpression::repeatRegex(const std::string& rege
 
 std::string BuildingTreeToRegularExpression::escapeRegexSpecialChars(const std::string& str)
 {
+    if(str.empty()) {
+        return str; // Return empty string as is
+    }
     // Escape special regex characters: . ^ $ * + ? ( ) [ ] { } \ | 
     std::string result;
     for (char c : str) {
@@ -254,4 +291,3 @@ std::string BuildingTreeToRegularExpression::escapeRegexSpecialChars(const std::
     return result;
 }
 
-} // namespace SVF

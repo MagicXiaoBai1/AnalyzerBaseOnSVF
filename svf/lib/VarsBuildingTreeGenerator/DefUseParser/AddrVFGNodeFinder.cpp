@@ -36,7 +36,9 @@ void AddrVFGNodeFinder::backwardTraverseCtx(const VFGNode& inputNode, std::vecto
         if (child_no == 0) {
             const SVFGNode* node = AnalysisGraphManager::getInstance().getSVFG()->getSVFGNode(v->getId());
             if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
-                ans.push_back(std::make_pair(addr_node, 0));
+                if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
+                    ans.push_back(std::make_pair(addr_node, 0));
+                }
             }
         }
     }

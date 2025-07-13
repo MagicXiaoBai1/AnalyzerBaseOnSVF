@@ -10,10 +10,12 @@
 #include "VarsBuildingTreeGenerator/DataFlowAnalysisEngine/DataFlowAnalysisEngine.h"
 #include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/StateTransitionHandler.h"
+#include "VarsBuildingTreeGenerator/DefUseParser/AddrVFGNodeFinder.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/TreeVisualizer.h"
+
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
-#include "VarsBuildingTreeGenerator/VarsBuildingTree/TreeVisualizer.h"
-#include "VarsBuildingTreeGenerator/DefUseParser/AddrVFGNodeFinder.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/ConstVarNode.h"
 
 #include <vector>
 #include <string>
@@ -277,6 +279,23 @@ void VarsBuildingTreeGenerator::initOpens() {
     }
 }
 
+std::string __getStrFromAddrVFGNode(const AddrVFGNode* addrVFGNode) {
+    if (!addrVFGNode) {
+        return "null";
+    }
+    std::string str =  addrVFGNode->toString();
+    // 倒着遍历字符串
+    std::string result = "";
+    // 查找最后一对双引号之间的内容
+    size_t last_quote_end = str.rfind('\"');
+    if (last_quote_end == std::string::npos || last_quote_end == 0)
+        return result;
+    size_t last_quote_start = str.rfind('\"', last_quote_end - 1);
+    if (last_quote_start == std::string::npos)
+        return result;
+    result = str.substr(last_quote_start + 1, last_quote_end - last_quote_start - 1);
+    return result;
+}
 
 void VarsBuildingTreeGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
     std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
@@ -287,10 +306,10 @@ void VarsBuildingTreeGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode)
     std::vector<std::pair<const AddrVFGNode*, int>> addrVFGNodes = addrVFGNodeFinder.getPointAddrVFGNode(leafNode->getPointedVFGNode());
     for (const auto& addrVFGNodePair : addrVFGNodes) {
         const AddrVFGNode* addrVFGNode = addrVFGNodePair.first;
-        int offset = addrVFGNodePair.second;
-        
-        leafNode->constInfo += "Offset: " + std::to_string(offset) + ", Value: " + addrVFGNode->toString() + "\n";
-
+        // int offset = addrVFGNodePair.second;
+        std::string addrStr = __getStrFromAddrVFGNode(addrVFGNode);
+        ConstVarNode constNode = ConstVarNode(addrStr);
+        leafNode->setConstNode(std::make_unique<ConstVarNode>(constNode));
     }
 }
 

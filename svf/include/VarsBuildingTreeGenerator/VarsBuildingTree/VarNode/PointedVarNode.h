@@ -6,6 +6,7 @@
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/VarNode.h"
+#include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/ConstVarNode.h"
 #include "SVFIR/SVFVariables.h"
 
 namespace SVF
@@ -19,9 +20,10 @@ class PointedVarNode : public VarNode
 private:
     const SVFVar* pointer;
     const VFGNode* pointedVFGNode; // 用于存储指向的VFG节点，如果有的话
+    bool isConstant = false; // 是否是常量指针
+    std::unique_ptr<ConstVarNode> constNode; // 如果是常量指针，存储对应的常量节点
 
 public:
-    std::string constInfo; // 用于存储指向的常量信息，如果有的话
 
 
     PointedVarNode(const SVFVar* var, const VFGNode* pointedNode = nullptr) 
@@ -37,10 +39,11 @@ public:
         if (!pointer) {
             return "PointedVarNode: null pointer";
         }
-        if (constInfo.empty()) {
-            return "PointedVarNode: " + pointer->toString() ; 
+        if (isConstantPointer()) {
+            return "PointedVarNode: " + constNode->toString();
+        }
         }else{
-            return "PointedVarNode: " + constInfo;
+            return "PointedVarNode: " + pointer->toString() ; 
         }
         
     }
@@ -63,8 +66,19 @@ public:
     const VFGNode* getPointedVFGNode() const {
         return pointedVFGNode;
     }
-    
-    
+
+    bool isConstantPointer() const {
+        return isConstant;
+    }
+    const ConstVarNode* getConstNode() const {
+        return constNode.get();
+    }
+
+    void setConstNode(std::unique_ptr<ConstVarNode> node) {
+        constNode = std::move(node);
+        isConstant = true;
+    }
+
 };
 
 } // namespace SVF

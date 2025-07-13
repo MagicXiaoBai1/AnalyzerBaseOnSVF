@@ -14,40 +14,54 @@ class StmtNode;
 
 class ConstVarNode : public VarNode
 {
+public:
+    enum class ConstType {
+        Integer,
+        String,
+        Unknown
+    };
+
 private:
-    const SVFValue* constantValue; // 常量值
+    ConstType type;
+    std::string constantValue; // 存储常量值（字符串或整型的字符串表示）
+    int constantIntValue;      // 存储整数常量值（如果适用）
 
 public:
-    ConstVarNode(const SVFValue* value) 
-        : VarNode(ConstVar), constantValue(value) {
-        // 初始化状态
-    }
+    // 整型常量构造函数
+    ConstVarNode(int intValue)
+        : type(ConstType::Integer), constantValue(std::to_string(intValue)), constantIntValue(intValue) {}
 
-    ~ConstVarNode() {
-        // 清理状态
-    }
-    
+    // 字符串常量构造函数
+    ConstVarNode(const std::string& strValue)
+        : type(ConstType::String), constantValue(strValue), constantIntValue(0) {}
+
+    // 可选：默认构造函数
+    ConstVarNode()
+        : type(ConstType::Unknown), constantValue(""), constantIntValue(0) {}
+
     virtual std::string toString() const override {
-        return "ConstVarNode"; 
+        if (type == ConstType::Integer)
+            return "ConstVarNode(Int: " + std::to_string(constantIntValue) + ")";
+        else if (type == ConstType::String)
+            return "ConstVarNode(Str: " + constantValue + ")";
+        else
+            return "ConstVarNode(Unknown)";
     }
-    
-    // std::size_t getVarHash() const override {
-    //     // 基于常量值计算哈希值
-    //     return constantValue ? reinterpret_cast<std::size_t>(constantValue) : 0;
-    // }
 
-    const SVFValue* getConstantValue() const {
-        return constantValue;
-    }
-    
     bool isIntegerConstant() const {
-        return constantValue && constantValue->isConstDataOrAggData();
+        return type == ConstType::Integer;
     }
-    
+
     bool isStringConstant() const {
-        // 可以根据SVFValue的具体API来判断是否为字符串常量
-        // 这里提供一个基本框架
-        return constantValue && constantValue->isConstDataOrAggData();
+        return type == ConstType::String;
+    }
+
+    int getIntValue() const {
+        return constantIntValue;
+    }
+
+    const std::string& getStringValue() const {
+        return constantValue;
     }
 };
 

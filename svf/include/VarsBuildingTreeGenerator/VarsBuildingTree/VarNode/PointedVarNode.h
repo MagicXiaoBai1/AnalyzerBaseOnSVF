@@ -18,13 +18,14 @@ class PointedVarNode : public VarNode
 {
 private:
     const SVFVar* pointer;
+    const VFGNode* pointedVFGNode; // 用于存储指向的VFG节点，如果有的话
 
 public:
     std::string constInfo; // 用于存储指向的常量信息，如果有的话
 
 
-    PointedVarNode(const SVFVar* var, VarNode* base = nullptr) 
-        : VarNode(PointedVar), pointer(var) {
+    PointedVarNode(const SVFVar* var, const VFGNode* pointedNode = nullptr) 
+        : VarNode(PointedVar), pointer(var), pointedVFGNode(pointedNode) {
         // 初始化状态
     }
 
@@ -57,6 +58,10 @@ public:
 
     const SVFVar* getPointer() const {
         return pointer;
+    }
+
+    const VFGNode* getPointedVFGNode() const {
+        return pointedVFGNode;
     }
     
     

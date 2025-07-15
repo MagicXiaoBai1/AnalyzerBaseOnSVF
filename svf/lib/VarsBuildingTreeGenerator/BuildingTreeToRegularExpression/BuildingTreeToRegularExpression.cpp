@@ -169,6 +169,7 @@ std::string BuildingTreeToRegularExpression::determineAndProcessStmtNode(const S
     if (!icfgNode) {
         return ".*";
     }
+    std::cout << "_______________________________________________" << std::endl;
     std::cout << "Processing StmtNode: " << icfgNode->toString() << std::endl;
     if (isa<CallICFGNode>(icfgNode)) {
         PTACallGraph::FunctionSet callees;
@@ -193,16 +194,19 @@ std::string BuildingTreeToRegularExpression::determineAndProcessStmtNode(const S
 // Virtual methods that will be implemented by the user
 std::string BuildingTreeToRegularExpression::processStringConcatenation(const StmtNode* stmtNode)
 {
+    std::cout << "Processing String Concatenation for StmtNode: " << std::endl;
     std::string ans = "";
     for (const auto& inputVars : stmtNode->getInputVarNodes())
     {
-        std::string tmpAns = concatenateRegexes(ans, processVarNode(inputVars.get()));
+        std::string tmpAns = processVarNode(inputVars.get());
         if (tmpAns.size() >= 4 && tmpAns.substr(tmpAns.size() - 4) == "\\\\00") {
             tmpAns.erase(tmpAns.size() - 4);
         }
-        ans += tmpAns;
+        ans =  concatenateRegexes(ans, tmpAns);
+        std::cout<< "processStringConcatenation"<< tmpAns << std::endl;
 
     }
+    std::cout << "processStringConcatenation Concatenated regex: " << ans << std::endl;
     return ans;
 }
 

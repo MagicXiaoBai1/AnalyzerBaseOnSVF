@@ -18,7 +18,7 @@ class CallStack
 {
 public:
     // 构造函数
-    CallStack() {}
+    CallStack() {push(-1, true);}
     ~CallStack() {}
     // 拷贝构造函数
     CallStack(const CallStack& other) : callStack(other.callStack) {}

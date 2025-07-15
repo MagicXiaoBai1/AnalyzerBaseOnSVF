@@ -7,6 +7,7 @@
 
 #include "VarsBuildingTreeGenerator/ICFG_CFL_Walker/NeedAnalysisState.h"
 #include "VarsBuildingTreeGenerator/DefUseParser/PointedVarParser.h"
+#include "VarsBuildingTreeGenerator/StateTransitionHandler/DataFlowAnalysisState.h"
 
 using namespace SVF;
 using namespace SVFUtil;
@@ -14,14 +15,39 @@ using namespace SVFUtil;
 
 /*
 状态转移处理
-1. 调用各种 defuseParser
-2. 收集 usedVarNodes和defVarNodes
-3. 判断defVarNodes是否为叶子节点
-4. 如果是叶子节点，将该节点加入 构建树
+0. 看看本状态中需找def语句的叶子节点在该节点是否已经被分析过
+1. 将已经分析过的叶子节点删掉
+2. 如果所有叶子节点都已经分析过就返回false
+3. 将本状态中的叶子节点在该节点的状态标记为已经分析过
+
+4. 调用各种 defuseParser
+5. 收集 usedVarNodes和defVarNodes
+6. 判断defVarNodes是否为叶子节点
+7. 如果是叶子节点，将该节点加入 构建树
 */
 bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
 {
-    
+    DataFlowAnalysisState& nowState = stateHolder.getState(walker.getId());
+    // 检查当前状态中的叶子节点是否已经被分析过
+    std::vector<VarNode*> nodesToErase;
+    for (VarNode* leafNode : walker.getCurLeafNodes()) {
+        if (nowState.alreadyAnalyzedNodes.find(leafNode) != nowState.alreadyAnalyzedNodes.end()) {
+            nodesToErase.push_back(leafNode);
+        }
+    }
+    for (VarNode* node : nodesToErase) {
+        walker.getCurLeafNodes().erase(node);
+    }
+    // 如果所有叶子节点都已经分析过，返回 false
+    if (walker.getCurLeafNodes().empty()) {
+        return false;
+    }
+    // 将当前状态中的叶子节点标记为已分析
+    for (VarNode* leafNode : walker.getCurLeafNodes()) {
+        nowState.alreadyAnalyzedNodes.insert(leafNode);
+    }
+
+
     SVFIR* pag = PAG::getPAG();
     ICFG* icfg = pag->getICFG();
     const ICFGNode* node = icfg->getICFGNode(walker.getCurNodeID());
@@ -70,6 +96,8 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
             nowStmtNode.addInputVarNode(std::move(useVarNode));
         }
     }
+
+
     return true; // 临时返回 true，请根据实际需求修改
 }
 

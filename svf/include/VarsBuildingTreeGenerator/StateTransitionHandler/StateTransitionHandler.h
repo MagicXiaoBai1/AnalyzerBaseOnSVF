@@ -15,6 +15,8 @@ namespace SVF
 {
 class StateTransitionHandler
 {
+private:
+    StateHolder stateHolder;
 public:
     VarsBuildingTree& varsBuildingTree; // 用于存储构建树
 

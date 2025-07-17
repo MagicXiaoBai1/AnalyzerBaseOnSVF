@@ -34,12 +34,16 @@ public:
     void setPTA(BVDataPTAImpl* pta) { this->pta = pta; }
     BVDataPTAImpl* getPTA() const { return pta; }
 
+    void setCallGraph(PTACallGraph* callgraph) { this->callgraph = callgraph; }
+    PTACallGraph* getCallGraph() const { return callgraph; }
+
 private:
-    AnalysisGraphManager() : pag(nullptr), icfg(nullptr), svfg(nullptr), pta(nullptr) {}
+    AnalysisGraphManager() : pag(nullptr), icfg(nullptr), svfg(nullptr), pta(nullptr), callgraph(nullptr) {}
     SVF::SVFIR* pag;
     ICFG* icfg;
     SVFG* svfg;
     BVDataPTAImpl* pta;
+    PTACallGraph* callgraph;
     
 };
 

@@ -8,7 +8,6 @@
 
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/DataFlowAnalysisState.h"
 #include "VarsBuildingTreeGenerator/StateTransitionHandler/StateHolder.h"
-#include "VarsBuildingTreeGenerator/StateTransitionHandler/StateMerge.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarsBuildingTree.h"
 
 namespace SVF

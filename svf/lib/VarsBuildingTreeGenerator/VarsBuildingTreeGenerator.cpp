@@ -19,58 +19,20 @@
 
 #include "VarsBuildingTreeGenerator/BuildingTreeToRegularExpression/BuildingTreeToRegularExpression.h"
 
+#include "VarsBuildingTreeGenerator/OpenReadWriteFuncInfo.h"
+
+
 #include <vector>
 #include <string>
 
 using namespace SVF;
 using namespace SVFUtil;
 
-bool simpleStateTransitionFunction(const NeedAnalysisState& walker){
-    SVFIR* pag = PAG::getPAG();
-    ICFG* icfg = pag->getICFG();
-    const ICFGNode* node = icfg->getICFGNode(walker.getCurNodeID());
-    // if (!(isa<CallICFGNode>(node) || isa<RetICFGNode>(node))) {
-    //     return true;
-    // }
-    // std::cout<< "______________________________________________" << std::endl;
-    // std::cout<< node->toString() << std::endl;
-    // std::cout<< "*********************************" << std::endl;
-    // // 遍历并打印该ICFG节点关联的所有VFG节点
-    // const ICFGNode::VFGNodeList& vfgNodes = node->getVFGNodes();
-    // for (const VFGNode* vfgNode : vfgNodes) {
-    //     std::cout << vfgNode->toString() << std::endl;
-    // }
-    // std::cout<< "______________________________________________" << std::endl;
-    std::cout<< "______________________________________________" << std::endl;
-    if (isa<CallICFGNode>(node)) {
-        // 遍历并打印该ICFG节点关联的所有VFG节点
-        const ICFGNode::VFGNodeList& vfgNodes = node->getVFGNodes();
-        for (const VFGNode* vfgNode : vfgNodes) {
-            if(isa<ActualParmVFGNode>(vfgNode)){
-                const ActualParmVFGNode* actualParmNode = static_cast<const ActualParmVFGNode*>(vfgNode);
-                const PAGNode* nowInputParam = actualParmNode->getParam();
-                std::cout << nowInputParam->toString() << std::endl;
-            }
-        }
-    } else if(isa<IntraICFGNode>(node)) {
-        // 处理 IntraICFGNode 类型
-        for (const SVFStmt* stmt : node->getSVFStmts()){
-            std::cout << stmt->toString() << std::endl;
-            if(isa<StoreStmt>(stmt)){
-                const StoreStmt* storeStmt = static_cast<const StoreStmt*>(stmt);
-                std::cout << "Store address: " << storeStmt->toString() << std::endl;
-            }
-            
-        }
-    }
-    return true;
-}
-
 /// Initialize analysis
+/// 运行指针分析等算法，生成各种图并保存
 void VarsBuildingTreeGenerator::initialize(SVFModule* module)
 {
 
-    
     SVFIR* pag = PAG::getPAG();
     pta = nullptr;
     // AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
@@ -93,7 +55,9 @@ void VarsBuildingTreeGenerator::initialize(SVFModule* module)
     AnalysisGraphManager::getInstance().setICFG(icfg);
     AnalysisGraphManager::getInstance().setSVFG(svfg);
     AnalysisGraphManager::getInstance().setPTA(pta);
+    AnalysisGraphManager::getInstance().setCallGraph(callgraph);
 }
+
 
 void VarsBuildingTreeGenerator::analyze(SVFModule* module)
 {
@@ -101,55 +65,8 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
     initialize(module);
 
     // 收集所有fopen调用点和对应的参数
-    std::vector<std::pair<const CallICFGNode*, const SVFVar*>> fopenCallSites;
+    std::vector<std::pair<const CallICFGNode*, const SVFVar*>> fopenCallSites = initOpens();
 
-    // 获取程序的PAG（指针分析图）
-    SVFIR* pag = PAG::getPAG();
-    // 遍历所有调用点及其参数列表
-    for(SVFIR::CSToArgsListMap::iterator it = pag->getCallSiteArgsMap().begin(),
-            eit = pag->getCallSiteArgsMap().end(); it!=eit; ++it)
-    {
-        // 获取该调用点可能调用的所有函数（支持间接调用）
-        PTACallGraph::FunctionSet callees;
-        callgraph->getCallees(it->first,callees);
-        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
-        {
-            const SVFFunction* fun = *cit;
-            // 判断该函数是否为“fopen”类函数（即资源获取/打开函数）
-            if (fun->getName() == "fopen")
-            {
-                // 获取该调用点的实参列表
-                SVFIR::SVFVarList &arglist = it->second;
-                assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
-
-                // 遍历所有实参，处理感兴趣的参数
-                int pos = 0;
-                for (SVFIR::SVFVarList::const_iterator ait = arglist.begin(),
-                        aeit = arglist.end(); ait != aeit; ++ait)
-                {
-                    const PAGNode *pagNode = *ait;
-
-                    // 找到读取资源对应的实参数节点
-                    if(pos == 0) {
-                        const ActualParmVFGNode *obj = svfg->getActualParmVFGNode(pagNode, it->first);
-                        const PAGNode* actual_param = obj->getParam();
-                        const SVFVar* OpenParam = actual_param;
-                        
-                        // 将找到的fopen调用点和参数添加到集合中
-                        fopenCallSites.push_back(std::make_pair(it->first, OpenParam));
-                        
-                        if (actual_param->getValue()->holdConstant()) {
-                            std::cout << "source actual_param is constant" << std::endl;
-                            std::cout << "open resource actual param: " << obj->toString() << std::endl;
-                        }
-                        break; // 只关注第一个参数
-                    }
-                            
-                    pos++;
-                }
-            }
-        }
-    }
     
     // 输出找到的fopen调用点数量
     std::cout << "Found " << fopenCallSites.size() << " fopen call sites." << std::endl;
@@ -167,7 +84,8 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
     }
 }
 
-void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, std::string ouputFilePath){
+
+void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* targetCallCite, const SVFVar* targetParam, std::string ouputFilePath){
     /**
      * 1. 构建 数据流分析器
      * 2. 执行数据流分析
@@ -176,13 +94,13 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, co
      * 
      */
     // 1. 构建 数据流分析器
-    // 以 OpenParam 为根节点，构建VarsBuildingTree
-    // 用 OpenCite 和 构建树叶子节点，构建 NeedAnalysisState
+    // 以 targetParam 为根节点，构建VarsBuildingTree
+    // 用 targetCallCite 和 构建树叶子节点，构建 NeedAnalysisState
     // 用 VarsBuildingTree，构建 StateTransitionHandler
     // 用上面的信息，构建 DataFlowAnalysisEngine
 
     VarsBuildingTree tmp1;
-    tmp1.setRootNode(std::make_unique<PointedVarNode>(OpenParam));
+    tmp1.setRootNode(std::make_unique<PointedVarNode>(targetParam));
 
     std::unordered_set<VarNode*> curLeafNodes;
     curLeafNodes.insert(tmp1.getRootNode());
@@ -192,10 +110,10 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, co
     DataFlowAnalysisEngine<ICFG*, NeedAnalysisState, decltype(handler)> dfaEngine(icfg, handler);
 
     // 2. 执行数据流分析
-    dfaEngine.analysis(std::make_unique<NeedAnalysisState>(OpenCite->getId(), curLeafNodes));
+    dfaEngine.analysis(std::make_unique<NeedAnalysisState>(targetCallCite->getId(), curLeafNodes));
     // 使用简单函数
     // DataFlowAnalysisEngine<ICFG*, NeedAnalysisState> dfaEngine(icfg, &simpleStateTransitionFunction);
-    // dfaEngine.analysis(std::make_unique<NeedAnalysisState>(OpenCite->getId(), curLeafNodes));
+    // dfaEngine.analysis(std::make_unique<NeedAnalysisState>(targetCallCite->getId(), curLeafNodes));
     
     // 3. 分析构建树的叶子节点
     // 遍历所有叶子节点（pointedVar）,节点中的指针可能与全局的字符串常量是别名
@@ -234,7 +152,11 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* OpenCite, co
     }
 }
 
-void VarsBuildingTreeGenerator::initOpens() {
+
+std::vector<std::pair<const CallICFGNode*, const SVFVar*>> VarsBuildingTreeGenerator::initOpens() {
+
+    std::vector<std::pair<const CallICFGNode*, const SVFVar*>> fopenCallSites;
+
     // 获取程序的PAG（指针分析图）
     SVFIR* pag = PAG::getPAG();
     // 遍历所有调用点及其参数列表
@@ -247,8 +169,9 @@ void VarsBuildingTreeGenerator::initOpens() {
         for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
         {
             const SVFFunction* fun = *cit;
-            // 判断该函数是否为“open”类函数（即资源获取/打开函数）
-            if (fun->getName() == "open")
+            // 判断该函数是否为“fopen”类函数（即资源获取/打开函数）
+            auto isOpenFunc = OPEN_FUNC_NAME_TO_PATH_PARAM.find(fun->getName());
+            if (isOpenFunc != OPEN_FUNC_NAME_TO_PATH_PARAM.end())
             {
                 // 获取该调用点的实参列表
                 SVFIR::SVFVarList &arglist = it->second;
@@ -260,16 +183,21 @@ void VarsBuildingTreeGenerator::initOpens() {
                         aeit = arglist.end(); ait != aeit; ++ait)
                 {
                     const PAGNode *pagNode = *ait;
-                    // pagNode->dump();
 
                     // 找到读取资源对应的实参数节点
-                    if(pos == 0) {
+                    if(isOpenFunc->second.find(pos) != isOpenFunc->second.end()) {
                         const ActualParmVFGNode *obj = svfg->getActualParmVFGNode(pagNode, it->first);
                         const PAGNode* actual_param = obj->getParam();
+                        const SVFVar* OpenParam = actual_param;
+                        
+                        // 将找到的fopen调用点和参数添加到集合中
+                        fopenCallSites.push_back(std::make_pair(it->first, OpenParam));
+                        
                         if (actual_param->getValue()->holdConstant()) {
                             std::cout << "source actual_param is constant" << std::endl;
                             std::cout << "open resource actual param: " << obj->toString() << std::endl;
                         }
+                        break; // 只关注第一个参数
                     }
                             
                     pos++;
@@ -277,6 +205,7 @@ void VarsBuildingTreeGenerator::initOpens() {
             }
         }
     }
+    return fopenCallSites;
 }
 
 std::string __getStrFromAddrVFGNode(const AddrVFGNode* addrVFGNode) {

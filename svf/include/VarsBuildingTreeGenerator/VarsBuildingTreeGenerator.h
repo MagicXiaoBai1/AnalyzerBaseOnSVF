@@ -32,7 +32,7 @@ public:
     /// Initialize analysis
     virtual void initialize(SVFModule* module);
 
-    void initOpens();
+    std::vector<std::pair<const CallICFGNode*, const SVFVar*>> initOpens();
 
 
 };

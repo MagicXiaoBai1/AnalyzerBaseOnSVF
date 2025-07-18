@@ -85,7 +85,7 @@ void VarsBuildingTreeGenerator::analyze(SVFModule* module)
 }
 
 
-void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* targetCallCite, const SVFVar* targetParam, std::string ouputFilePath){
+std::string VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* targetCallCite, const SVFVar* targetParam, std::string ouputFilePath){
     /**
      * 1. 构建 数据流分析器
      * 2. 执行数据流分析
@@ -150,6 +150,7 @@ void VarsBuildingTreeGenerator::analyze_one_var(const CallICFGNode* targetCallCi
     } else {
         std::cout << "Failed to generate SVG image." << std::endl;
     }
+    return varRegularExpression;
 }
 
 

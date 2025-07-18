@@ -15,12 +15,7 @@ struct OpenCite{
     const SVFVar* openModeParam;
 
     std::string openPathRex;
-    enum {
-    only_read,
-    only_write,
-    read_write,
-    append,
-    } mode;
+    std::string mode;
 };
 
 class ResourcesOpenArgumentAnalyzer

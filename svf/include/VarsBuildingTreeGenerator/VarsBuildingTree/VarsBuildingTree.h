@@ -44,6 +44,11 @@ public:
 
     std::vector<VarNode*> get_all_leaf_nodes() const {
         std::vector<VarNode*> leafNodes;
+        if (rootNode->getStmtNodesDefThisVar().empty()) {
+            // 如果根节点没有定义语句，则直接返回
+            leafNodes.push_back(rootNode.get());
+            return leafNodes;
+        }
         for (const auto& pair : allStmtNodes) {
             const StmtNode* stmtNode = pair.second.get();
             for (const auto& varNode : stmtNode->getInputVarNodes()) {

@@ -4,6 +4,7 @@
 
 
 #include "VarsBuildingTreeGenerator/VarsBuildingTreeGenerator.h"
+#include "VarsBuildingTreeGenerator/ResourcesOpenArgumentAnalyzer.h"
 
 #include "Util/CommandLine.h"
 #include "Util/Options.h"
@@ -40,11 +41,11 @@ int main(int argc, char ** argv)
     SVFIRBuilder builder(svfModule);
     SVFIR* pag = builder.build();
     
-    // std::shared_ptr<TaintChecker> saber = std::make_shared<TaintChecker>();
-    std::shared_ptr<VarsBuildingTreeGenerator> varsBuildingTreeGenerator = std::make_shared<VarsBuildingTreeGenerator>();
-
-
-    varsBuildingTreeGenerator->analyze(pag->getModule());
+    // std::shared_ptr<VarsBuildingTreeGenerator> varsBuildingTreeGenerator = std::make_shared<VarsBuildingTreeGenerator>();
+    // varsBuildingTreeGenerator->analyze(pag->getModule());
+    
+    std::shared_ptr<ResourcesOpenArgumentAnalyzer> resourcesOpenArgumentAnalyzer = std::make_shared<ResourcesOpenArgumentAnalyzer>();
+    resourcesOpenArgumentAnalyzer->analyze(pag->getModule());
 
 
     LLVMModuleSet::releaseLLVMModuleSet();

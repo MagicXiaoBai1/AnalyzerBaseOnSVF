@@ -14,15 +14,26 @@ using namespace SVFUtil;
 
 void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
 {
-
+    varsBuildingTreeGenerator.initialize(module);
+    
+    std::vector<OpenCite> opens = initOpens();
+    for (const OpenCite& openCite : opens) {
+        OpenCite result = analyze_one_var(openCite);
+        // 处理分析结果
+        // 例如，打印或存储结果
+        std::cout << "Function: " << result.funcionName << ", Path Param: " 
+                  << (result.openPathParam ? result.openPathRex : "null")
+                  << (result.openModeParam ? result.mode : "null")
+                  << ", Mode Param: " 
+                  << std::endl;
+    }
 }
 
 OpenCite ResourcesOpenArgumentAnalyzer::analyze_one_var(const OpenCite& openCite)
 {
     OpenCite result = openCite;
-
-    // 在这里添加对单个fopen调用点的分析逻辑
-    // 例如，提取文件路径、打开模式等信息
+    result.openPathRex = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, openCite.openPathParam, "outputFilePath");
+    result.mode = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, openCite.openModeParam, "outputFilePath");
 
     return result;
 }

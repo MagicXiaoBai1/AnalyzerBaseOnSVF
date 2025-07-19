@@ -138,11 +138,11 @@ public:
     {
         return icfgNodeToSVFLoopVec;
     }
+    ICFGEdge* addIntraEdge(ICFGNode* srcNode, ICFGNode* dstNode);
 
 protected:
     /// Add intraprocedural and interprocedural control-flow edges.
     //@{
-    ICFGEdge* addIntraEdge(ICFGNode* srcNode, ICFGNode* dstNode);
     ICFGEdge* addConditionalIntraEdge(ICFGNode* srcNode, ICFGNode* dstNode, s64_t branchCondVal);
     ICFGEdge* addCallEdge(ICFGNode* srcNode, ICFGNode* dstNode);
     ICFGEdge* addRetEdge(ICFGNode* srcNode, ICFGNode* dstNode);

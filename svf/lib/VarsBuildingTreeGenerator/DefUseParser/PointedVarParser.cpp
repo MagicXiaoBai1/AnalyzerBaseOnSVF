@@ -39,7 +39,7 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* no
             // 遍历每个可能被调用的函数
             const SVFFunction* fun = *cit;
             const std::string& funcName =fun->getName();
-            std::cout<< "Processing function: " << funcName << std::endl;
+            std::cout<< "PointedVarParser: Processing function: " << funcName << std::endl;
             // 检查函数名是否在 funcNameToDefParam 中
             auto it = funcNameToDefParam.find(funcName);
             if (it != funcNameToDefParam.end()) {
@@ -118,8 +118,10 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
                 // VFG中没有相关的边与这种函数的ActualParmVFGNode，因此要找converd对应的VFGNode
                 bool isConvertedFun = false;
                 for(const VFGNode* vfgNode : vfgNodes){
-                    if(!isa<ActualParmVFGNode>(vfgNode)){
+                    std::cout<<vfgNode->toString()<<std::endl;
+                    if(!isa<ActualParmVFGNode>(vfgNode) && !isa<ActualINSVFGNode>(vfgNode)){
                         isConvertedFun = true;
+                        break;
                     }
                 }
                 if(isConvertedFun){    // 是被预处理的函数

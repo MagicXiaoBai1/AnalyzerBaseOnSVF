@@ -24,7 +24,7 @@ void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
         OpenCite result = analyze_one_var(openCite, outputFilePath);
         // 处理分析结果
         // 例如，打印或存储结果
-        std::cout << "Function: " << result.functionName << ", Path Param: " 
+        std::cout << i << "th Open Function: " << result.functionName << ", Path Param: " 
                   << (result.openPathParam ? result.openPathRex : "null")
                   << ", Mode Param: " 
                   << (result.openModeParam ? result.mode : "null")
@@ -40,11 +40,14 @@ OpenCite ResourcesOpenArgumentAnalyzer::analyze_one_var(const OpenCite& openCite
         openCite.openPathParam, 
         openCite.openPathParamNode, 
         outputFilePath+ "_open_path");
-    result.mode = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
-        openCite.openModeParam, 
-        openCite.openModeParamNode, 
-        outputFilePath+ "_open_mode");
-
+    if(openCite.openModeParam == nullptr) {
+        result.mode = "null";
+    } else {
+        result.mode = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
+            openCite.openModeParam, 
+            openCite.openModeParamNode, 
+            outputFilePath+ "_open_mode");
+    }
     return result;
 }
 
@@ -66,6 +69,7 @@ std::vector<OpenCite> ResourcesOpenArgumentAnalyzer::initOpens() {
         for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
         {
             const SVFFunction* fun = *cit;
+            std::cout << "initOpen: Function: " << fun->getName() << std::endl;
             // 判断该函数是否为“fopen”类函数（即资源获取/打开函数）
             auto isOpenFunc = OPEN_FUNC_NAME_TO_PATH_PARAM.find(fun->getName());
             if (isOpenFunc != OPEN_FUNC_NAME_TO_PATH_PARAM.end())

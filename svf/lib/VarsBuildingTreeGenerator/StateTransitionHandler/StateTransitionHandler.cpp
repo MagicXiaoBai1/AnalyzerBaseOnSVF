@@ -27,6 +27,13 @@ using namespace SVFUtil;
 */
 bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
 {
+    
+    SVFIR* pag = PAG::getPAG();
+    ICFG* icfg = pag->getICFG();
+    const ICFGNode* node = icfg->getICFGNode(walker.getCurNodeID());
+    std::cout << "————————————————————————————————————————————" << std::endl;
+    std::cout << "Processing ICFGNode: " << node->toString() << std::endl;
+
     DataFlowAnalysisState& nowState = stateHolder.getState(walker.getId());
     // 检查当前状态中的叶子节点是否已经被分析过
     std::vector<VarNode*> nodesToErase;
@@ -48,16 +55,13 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
     }
 
 
-    SVFIR* pag = PAG::getPAG();
-    ICFG* icfg = pag->getICFG();
-    const ICFGNode* node = icfg->getICFGNode(walker.getCurNodeID());
     static PointedVarParser pointedVarParser;
 
     std::vector<std::unique_ptr<VarNode>> defVarNodes = pointedVarParser.parseDefVar(const_cast<ICFGNode*>(node));
     std::vector<std::unique_ptr<VarNode>> useVarNodes = pointedVarParser.parseUseVar(const_cast<ICFGNode*>(node));
 
     // 打印 defVarNodes 和 useVarNodes
-    std::cout << "————————————————————————————————————————————" << std::endl;
+
     std::cout << "Def Var Nodes:" << std::endl;
     for (const auto& defVarNode : defVarNodes) {
         std::cout << defVarNode->toString() << std::endl;

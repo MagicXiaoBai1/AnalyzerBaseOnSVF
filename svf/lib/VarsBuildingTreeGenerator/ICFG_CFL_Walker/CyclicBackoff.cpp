@@ -48,17 +48,17 @@ void CyclicBackoff::walk(const ICFGEdge* wellWalkEdge){
         NodeID srcNodeId = ret->getCallICFGNode()->getId();
         callNodeWalkCount[srcNodeId]++; // 增加调用节点遍历次数
     }
-    else if (wellWalkEdge->isCallCFGEdge())
-    {
-        const CallCFGEdge* dirCall = SVFUtil::dyn_cast<CallCFGEdge>(wellWalkEdge);
-        NodeID srcNodeId = dirCall->getSrcNode()->getId();
-        auto it = callNodeWalkCount.find(srcNodeId);
-        if (it != callNodeWalkCount.end()) {
-            it->second++; // 增加调用节点遍历次数
-        } else {
-            callNodeWalkCount[srcNodeId] = 1; // 初始化调用节点遍历次数
-        }
-    }
+    // else if (wellWalkEdge->isCallCFGEdge())
+    // {
+    //     const CallCFGEdge* dirCall = SVFUtil::dyn_cast<CallCFGEdge>(wellWalkEdge);
+    //     NodeID srcNodeId = dirCall->getSrcNode()->getId();
+    //     auto it = callNodeWalkCount.find(srcNodeId);
+    //     if (it != callNodeWalkCount.end()) {
+    //         it->second++; // 增加调用节点遍历次数
+    //     } else {
+    //         callNodeWalkCount[srcNodeId] = 1; // 初始化调用节点遍历次数
+    //     }
+    // }
 
     // for while 循环退避
     if (wellWalkEdge->isRetCFGEdge()){

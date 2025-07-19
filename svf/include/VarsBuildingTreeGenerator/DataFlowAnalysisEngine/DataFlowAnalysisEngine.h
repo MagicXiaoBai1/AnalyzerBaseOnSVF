@@ -47,6 +47,8 @@ public:
                 GNODE* v = getNode(walker->getCurNodeID());
                 inv_child_iterator EI = InvGTraits::child_begin(v);
                 inv_child_iterator EE = InvGTraits::child_end(v);
+                
+
                 if(EI == EE) continue;
                 // 先处理第一条之外的其他边
                 EI++;

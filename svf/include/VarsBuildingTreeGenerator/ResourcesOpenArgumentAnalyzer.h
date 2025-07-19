@@ -9,10 +9,12 @@ namespace SVF
 {
 
 struct OpenCite{
-    std::string funcionName;
+    std::string functionName;
     const CallICFGNode* callCite;
     const SVFVar* openPathParam;
+    const VFGNode* openPathParamNode;
     const SVFVar* openModeParam;
+    const VFGNode* openModeParamNode;
 
     std::string openPathRex;
     std::string mode;
@@ -24,7 +26,7 @@ private:
     VarsBuildingTreeGenerator varsBuildingTreeGenerator;
 
     /// 分析单个fopen调用点
-    OpenCite analyze_one_var(const OpenCite& openCite);
+    OpenCite analyze_one_var(const OpenCite& openCite, std::string outputFilePath);
 
 public:
     ResourcesOpenArgumentAnalyzer(/* args */){

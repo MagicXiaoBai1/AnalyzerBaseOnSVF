@@ -17,23 +17,33 @@ void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
     varsBuildingTreeGenerator.initialize(module);
     
     std::vector<OpenCite> opens = initOpens();
+    
+    int i = 0;
     for (const OpenCite& openCite : opens) {
-        OpenCite result = analyze_one_var(openCite);
+        std::string outputFilePath = "vars_building_tree_fopen_" + std::to_string(i + 1);
+        OpenCite result = analyze_one_var(openCite, outputFilePath);
         // 处理分析结果
         // 例如，打印或存储结果
-        std::cout << "Function: " << result.funcionName << ", Path Param: " 
+        std::cout << "Function: " << result.functionName << ", Path Param: " 
                   << (result.openPathParam ? result.openPathRex : "null")
-                  << (result.openModeParam ? result.mode : "null")
                   << ", Mode Param: " 
+                  << (result.openModeParam ? result.mode : "null")
                   << std::endl;
+        ++i;
     }
 }
 
-OpenCite ResourcesOpenArgumentAnalyzer::analyze_one_var(const OpenCite& openCite)
+OpenCite ResourcesOpenArgumentAnalyzer::analyze_one_var(const OpenCite& openCite, std::string outputFilePath)
 {
     OpenCite result = openCite;
-    result.openPathRex = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, openCite.openPathParam, "outputFilePath");
-    result.mode = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, openCite.openModeParam, "outputFilePath");
+    result.openPathRex = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
+        openCite.openPathParam, 
+        openCite.openPathParamNode, 
+        outputFilePath+ "_open_path");
+    result.mode = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
+        openCite.openModeParam, 
+        openCite.openModeParamNode, 
+        outputFilePath+ "_open_mode");
 
     return result;
 }
@@ -65,10 +75,12 @@ std::vector<OpenCite> ResourcesOpenArgumentAnalyzer::initOpens() {
                 assert(!arglist.empty()	&& "no actual parameter at deallocation site?");
                 
                 OpenCite openCite;
-                openCite.funcionName = fun->getName();
+                openCite.functionName = fun->getName();
                 openCite.callCite = it->first;
                 openCite.openPathParam = nullptr;
                 openCite.openModeParam = nullptr;
+                openCite.openPathParamNode = nullptr;
+                openCite.openModeParamNode = nullptr;
 
                 // 遍历所有实参，处理感兴趣的参数
                 int pos = 0;
@@ -84,6 +96,7 @@ std::vector<OpenCite> ResourcesOpenArgumentAnalyzer::initOpens() {
                         const SVFVar* OpenParam = actual_param;
                 
                         openCite.openPathParam = OpenParam;
+                        openCite.openPathParamNode = obj;
 
                         if (actual_param->getValue()->holdConstant()) {
                             std::cout << "source actual_param is constant" << std::endl;
@@ -99,6 +112,7 @@ std::vector<OpenCite> ResourcesOpenArgumentAnalyzer::initOpens() {
                                     const PAGNode* actual_param = obj->getParam();
                                     const SVFVar* openModeParam = actual_param;
                                     openCite.openModeParam = openModeParam;
+                                    openCite.openModeParamNode = obj;
                             }
                         }
                     }

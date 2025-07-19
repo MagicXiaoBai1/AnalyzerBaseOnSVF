@@ -132,7 +132,15 @@ std::vector<std::pair<const AddrVFGNode*, int>> AddrVFGNodeFinder::getPointAddrV
     std::cout << "Pointed VFG Node FROM ICFG: " << inputNode->toString() << std::endl;
     // 程序中有两个 VFG 一个是构建mssa前构建的（记为A），一个是基于mssa结果重构的（记为B）。
     // inputNode 属于A，要找B中的inputNode
-    const SVFGNode* stmtNode = AnalysisGraphManager::getInstance().getSVFG()->getStmtVFGNode(((const StmtVFGNode*)inputNode)->getPAGEdge());
+    const SVFGNode* stmtNode = nullptr;
+    if (SVFUtil::isa<StmtVFGNode>(inputNode)) {
+        stmtNode = AnalysisGraphManager::getInstance().getSVFG()->getStmtVFGNode(((const StmtVFGNode*)inputNode)->getPAGEdge());
+    } else if (SVFUtil::isa<ActualParmVFGNode>(inputNode)) {
+        const ActualParmVFGNode* actualParmNode = SVFUtil::cast<ActualParmVFGNode>(inputNode);
+        stmtNode = AnalysisGraphManager::getInstance().getSVFG()->getActualParmVFGNode(actualParmNode->getParam(), actualParmNode->getCallSite());
+    } else {
+        assert(false && "Unsupported VFGNode type for AddrVFGNodeFinder");
+    }
     std::vector<std::pair<const AddrVFGNode*, int>> ans;
     backwardTraverseCtx(*stmtNode, ans);
     return ans;

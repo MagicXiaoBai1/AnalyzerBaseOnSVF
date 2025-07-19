@@ -25,12 +25,11 @@ public:
     }
 
     /// Start analysis here
-    virtual void analyze(SVFModule* module);
-    virtual std::string analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, std::string ouputFilePath);
+    std::string analyze_one_var(const CallICFGNode* OpenCite, const SVFVar* OpenParam, const VFGNode* targetParamNode, std::string ouputFilePath);
     void linkLeafNodeToConstVar(PointedVarNode* leafNode);
 
     /// Initialize analysis
-    virtual void initialize(SVFModule* module);
+    void initialize(SVFModule* module);
 
     std::vector<std::pair<const CallICFGNode*, const SVFVar*>> initOpens();
 

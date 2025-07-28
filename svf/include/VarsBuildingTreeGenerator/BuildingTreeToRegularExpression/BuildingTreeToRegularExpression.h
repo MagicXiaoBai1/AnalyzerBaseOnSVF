@@ -48,6 +48,9 @@ protected:
     // Process any other string operations not covered above
     virtual std::string processOtherStringOperation(const StmtNode* stmtNode);
     
+    // Process Sprint类字符串格式化操作
+    virtual std::string processStringSprint(const StmtNode* stmtNode);
+    
     // Helper method to determine the type of string operation
     virtual std::string determineAndProcessStmtNode(const StmtNode* stmtNode);
     

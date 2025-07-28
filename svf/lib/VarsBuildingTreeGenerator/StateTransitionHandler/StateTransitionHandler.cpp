@@ -54,7 +54,7 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
         nowState.alreadyAnalyzedNodes.insert(leafNode);
     }
 
-
+    // 调用各种 defuseParser
     static PointedVarParser pointedVarParser;
 
     std::vector<std::unique_ptr<VarNode>> defVarNodes = pointedVarParser.parseDefVar(const_cast<ICFGNode*>(node));
@@ -96,7 +96,9 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
         }
         // 3. 将语句入参加入构建树，加入叶子节点
         for (auto& useVarNode : useVarNodes) {
-            walker.getCurLeafNodes().insert(useVarNode.get()); // 将 useVarNode 添加到当前叶子节点中
+            if ( ! useVarNode->isHoldConstVar()){
+                walker.getCurLeafNodes().insert(useVarNode.get()); // 将 useVarNode 添加到当前叶子节点中
+            }
             nowStmtNode.addInputVarNode(std::move(useVarNode));
         }
     }

@@ -3,6 +3,7 @@
 #include "VarsBuildingTreeGenerator/OpenReadWriteFuncInfo.h"
 
 #include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
+#include "VarsBuildingTreeGenerator/Util/getStrFromAddrVFGNode.h"
 
 #include <vector>
 #include <string>
@@ -18,30 +19,48 @@ void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
     
     std::vector<OpenCite> opens = initOpens();
     
+    std::vector<OpenCite> allResults;
     int i = 0;
     for (const OpenCite& openCite : opens) {
         std::string outputFilePath = "vars_building_tree_fopen_" + std::to_string(i + 1);
         OpenCite result = analyze_one_var(openCite, outputFilePath);
+        allResults.push_back(result);
         // 处理分析结果
         // 例如，打印或存储结果
-        std::cout << i << "th Open Function: " << result.functionName << ", Path Param: " 
+
+        ++i;
+    }
+    std::cout << "Total Open Function Calls: " << allResults.size() << std::endl;
+    i = 1;
+    for(const OpenCite& result : allResults) {
+        std::cout << i << "th Open Function: " << result.functionName << ", location: " << result.callCite->getSourceLoc() << ", Path Param: " 
                   << (result.openPathParam ? result.openPathRex : "null")
                   << ", Mode Param: " 
                   << (result.openModeParam ? result.mode : "null")
                   << std::endl;
-        ++i;
+        i++;
     }
 }
 
 OpenCite ResourcesOpenArgumentAnalyzer::analyze_one_var(const OpenCite& openCite, std::string outputFilePath)
 {
     OpenCite result = openCite;
-    result.openPathRex = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
+    // 检查是否为常量
+    if (openCite.openPathParam->getValue()->holdConstant()) {
+        std::string openPathParamStr = __getStrFromPAGNode(openCite.openPathParam);
+        result.openPathRex = openPathParamStr;
+    } else {
+        result.openPathRex = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
         openCite.openPathParam, 
         openCite.openPathParamNode, 
         outputFilePath+ "_open_path");
+    }
+
     if(openCite.openModeParam == nullptr) {
         result.mode = "null";
+    } else if (openCite.openModeParam->getValue()->holdConstant()) {
+        std::string openModeParamStr = __getStrFromPAGNode(openCite.openModeParam);
+        result.mode = openModeParamStr;
     } else {
         result.mode = varsBuildingTreeGenerator.analyze_one_var(openCite.callCite, 
             openCite.openModeParam, 

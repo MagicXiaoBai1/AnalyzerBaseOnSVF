@@ -102,9 +102,14 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
                 for (const VFGNode* vfgNode : vfgNodes) {
                     // 遍历函数的每个入参
                     if(isa<ActualParmVFGNode>(vfgNode)){
+
                         if(it->second.find(paramIndex) != it->second.end()) {
-                            const ActualParmVFGNode* actualParmNode = static_cast<const ActualParmVFGNode*>(vfgNode);
+                            const ActualParmVFGNode* actualParmNode = static_cast<const ActualParmVFGNode*>(vfgNode);                            
                             const PAGNode* nowInputParam = actualParmNode->getParam();
+                            if (nowInputParam->getValue()->holdConstant()) {
+                                std::cout << "source actual_param is constant" << std::endl;   // todo
+                                std::cout << "open resource actual param: " << nowInputParam->toString() << std::endl;
+                            }
                             // 创建一个新的 PointedVarNode 加入result
                             auto varNode = std::make_unique<PointedVarNode>(nowInputParam, vfgNode);
                             result.push_back(std::move(varNode));
@@ -170,7 +175,6 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
             }
         }
     }
-
     return result;
 }
 

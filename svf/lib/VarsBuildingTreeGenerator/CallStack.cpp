@@ -23,21 +23,19 @@ bool CallStack::isCanWalk(const ICFGEdge* wellWalkEdge) const {
             ans = false;
         }
     }
-    if (ans == false){
-        std::cout << "5555555555555555555"<<std::endl;
-    }
+ 
 
     return ans;
 }
 
 void CallStack::walk(const ICFGEdge* wellWalkEdge){
     // match context for calling
-    std::cout << "CallStack: [";
-    for (size_t i = 0; i < callStack.size(); ++i) {
-        std::cout << "(" << callStack[i].getId() << ", " << (callStack[i].isCallSite ? "call" : "ret") << ")";
-        if (i != callStack.size() - 1) std::cout << ", ";
-    }
-    std::cout << "]" << std::endl;
+    // std::cout << "CallStack: [";
+    // for (size_t i = 0; i < callStack.size(); ++i) {
+    //     std::cout << "(" << callStack[i].getId() << ", " << (callStack[i].isCallSite ? "call" : "ret") << ")";
+    //     if (i != callStack.size() - 1) std::cout << ", ";
+    // }
+    // std::cout << "]" << std::endl;
     if (wellWalkEdge->isCallCFGEdge())
     {
         const CallCFGEdge* dirCall = SVFUtil::dyn_cast<CallCFGEdge>(wellWalkEdge);

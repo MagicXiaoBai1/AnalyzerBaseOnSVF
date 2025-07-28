@@ -79,6 +79,9 @@ public:
         isConstant = true;
     }
 
+    bool isHoldConstVar() const override {
+        return isConstant;
+    }
 };
 
 } // namespace SVF

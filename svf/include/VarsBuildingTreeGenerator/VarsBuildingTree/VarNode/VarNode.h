@@ -74,6 +74,10 @@ public:
         return nodeType == other.nodeType && StmtNodesDefThisVar == other.StmtNodesDefThisVar;
     }
 
+    virtual bool isHoldConstVar() const {
+        return false; // 默认情况下不持有常量变量
+    }
+
 };
 
 } // namespace SVF

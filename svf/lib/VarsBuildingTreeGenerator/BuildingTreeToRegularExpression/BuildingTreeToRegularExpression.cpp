@@ -1,6 +1,6 @@
 #include "VarsBuildingTreeGenerator/BuildingTreeToRegularExpression/BuildingTreeToRegularExpression.h"
+#include "VarsBuildingTreeGenerator/BuildingTreeToRegularExpression/editFunctionConfig.h"
 #include "VarsBuildingTreeGenerator/DefUseParser/PointedVarParser.h"
-
 
 #include "Graphs/ICFGNode.h"
 #include <queue>
@@ -173,7 +173,6 @@ std::string BuildingTreeToRegularExpression::determineAndProcessStmtNode(const S
     std::cout << "Processing StmtNode: " << icfgNode->toString() << std::endl;
     if (isa<CallICFGNode>(icfgNode)) {
         PTACallGraph::FunctionSet callees;
-        std::unordered_set<std::string> catFunctionNames = {"strcpy", "strncpy", "strcat", "strncat", "memcpy", "memmove"};
         AnalysisGraphManager::getInstance().getPTA()->getCallGraph()->getCallees(static_cast<const CallICFGNode*>(icfgNode), callees);
         for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
         {
@@ -183,6 +182,10 @@ std::string BuildingTreeToRegularExpression::determineAndProcessStmtNode(const S
             if (catFunctionNames.count(funcName)) {
                 // 如果函数名在关注的函数列表中，进行处理
                 return processStringConcatenation(stmtNode);
+            }
+            if (sPrintFunctionNames.count(funcName)) {
+                // 如果函数名在Sprint类函数列表中，进行处理
+                return processStringSprint(stmtNode);
             }
         }
     }
@@ -214,11 +217,6 @@ std::string BuildingTreeToRegularExpression::processStringModification(const Stm
 {
     // Default implementation - to be overridden
     std::string ans = "";
-    for (const auto& inputVars : stmtNode->getInputVarNodes())
-    {
-        ans = concatenateRegexes(ans, processVarNode(inputVars.get()));
-
-    }
     return ans;
 }
 
@@ -237,6 +235,64 @@ std::string BuildingTreeToRegularExpression::processOtherStringOperation(const S
         break;
 
     }
+    return ans;
+}
+
+// 新增 Sprint 类函数处理
+std::string BuildingTreeToRegularExpression::processStringSprint(const StmtNode* stmtNode)
+{
+    std::cout << "Processing Sprint Function for StmtNode: " << std::endl;
+    std::string ans = "";
+    // Sprint类函数通常第一个参数是目标，第二个参数是格式串，后续是参数
+    // 这里只简单拼接所有输入变量的正则表达式，后续可根据格式串进一步细化
+    std::string formatStr = "";
+    std::vector<std::string> formatArgs;
+    bool first = true;
+    for (const auto& inputVars : stmtNode->getInputVarNodes())
+    {
+        std::string tmpAns = processVarNode(inputVars.get());
+        if (first) {
+            if(tmpAns.size() > 2) {
+                formatStr = tmpAns;
+                first = false;
+            }
+        } else {
+            formatArgs.push_back(tmpAns);
+        }
+    }
+    try {
+        // 假设 formatStr 是格式串，formatArgs 是参数列表
+        // 构造参数列表（这里只支持最多 8 个参数，实际可扩展）
+        // 这里只简单处理为 const char*，实际应根据参数类型处理
+        const char* args[8] = {nullptr};
+        size_t argCount = std::min(formatArgs.size(), size_t(8));
+        for (size_t i = 0; i < argCount; ++i) {
+            args[i] = formatArgs[i].c_str();
+        }
+        // 使用 vsnprintf 需要 va_list，不适合直接用 std::vector
+        // 这里用 snprintf 拼接参数（仅支持 %s）
+        // 仅支持格式串中有 argCount 个 %s
+        std::string fmt = formatStr;
+        size_t pos = 0;
+        ans = fmt;
+        for (size_t i = 0; i < argCount; ++i) {
+            pos = ans.find("%s", pos);
+            if (pos == std::string::npos) break;
+            ans.replace(pos, 2, args[i]);
+            pos += strlen(args[i]);
+        }
+        // 若还有未替换的 %s，替换为 .*
+        while ((pos = ans.find("%s")) != std::string::npos) {
+            ans.replace(pos, 2, ".*");
+        }
+        // 将 %d, %f 等格式化为 .*
+        std::regex specialFormatRegex("%[df]");
+        ans = std::regex_replace(ans, specialFormatRegex, ".*");
+    } catch (const std::exception& e) {
+        std::cerr << "Error formatting string in processStringSprint: " << e.what() << std::endl;
+        ans = ".*";
+    }
+    std::cout << "processStringSprint Concatenated regex: " << ans << std::endl;
     return ans;
 }
 

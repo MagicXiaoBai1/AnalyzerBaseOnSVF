@@ -323,7 +323,7 @@ std::shared_ptr<std::vector<const VFGNode*>> LiteTaintChecker::getValVarByPointe
         if (child_no == 0) {
             // 句柄定义节点
             const VFGNode* def_node = getNode(getNodeIDFromItem(item));
-            std::cout << "def_node: " << def_node->toString() << std::endl;
+            // std::cout << "def_node: " << def_node->toString() << std::endl;
             res->push_back(def_node);
         }
     }

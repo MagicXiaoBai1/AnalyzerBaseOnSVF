@@ -88,6 +88,8 @@
         "queue": "cpp",
         "stack": "cpp",
         "regex": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "any": "cpp",
+        "forward_list": "cpp"
     }
 }

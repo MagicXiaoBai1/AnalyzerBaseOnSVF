@@ -8,6 +8,7 @@
 namespace SVF {
 
 /*
+ * -1代表函数返回值
 */
 inline const std::unordered_map<std::string, std::unordered_set<int>> FUNC_NAME_TO_USE_PARAM = {
     // 字符串拷贝函数
@@ -33,6 +34,8 @@ inline const std::unordered_map<std::string, std::unordered_set<int>> FUNC_NAME_
     // 字符串分割函数
     {"strtok", {0, 1}},
     {"strtok_r", {0, 1}},
+    // .c_str()
+    {"_ZNKSt3__h12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE5c_strB6v15004Ev", {0}},
 };
 
 inline const std::unordered_map<std::string, std::unordered_set<int>> FUNC_NAME_TO_DEF_PARAM = {
@@ -59,6 +62,8 @@ inline const std::unordered_map<std::string, std::unordered_set<int>> FUNC_NAME_
     // 字符串分割函数（可能修改源字符串）
     {"strtok", {0}},
     {"strtok_r", {0}},
+    // .c_str()
+    {"_ZNKSt3__h12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE5c_strB6v15004Ev", {-1}},
 };
 
 inline const std::unordered_map<std::string, std::unordered_set<int>> OPEN_FUNC_NAME_TO_PATH_PARAM = {
@@ -70,11 +75,11 @@ inline const std::unordered_map<std::string, std::unordered_set<int>> OPEN_FUNC_
     // {"fopen64", {0}},
     // {"freopen", {1}},  // First param is stream pointer
     // {"fopen_s", {1}},  // First param is file pointer output
-    // {
-    //     "_ZNSt3__h14basic_ifstreamIcNS_11char_traitsIcEEEC1ERKNS_12basic_stringIcS2_NS_9allocatorIcEEEEj",
-    //     {1}
-    // },
-    // {"_ZNSt3__h14basic_ofstreamIcNS_11char_traitsIcEEEC1EPKcj", {1}},
+    {
+        "_ZNSt3__h14basic_ifstreamIcNS_11char_traitsIcEEEC1ERKNS_12basic_stringIcS2_NS_9allocatorIcEEEEj",
+        {1}
+    },
+    {"_ZNSt3__h14basic_ofstreamIcNS_11char_traitsIcEEEC1EPKcj", {1}},
 };
 
 inline const std::unordered_map<std::string, std::unordered_set<int>> OPEN_FUNC_NAME_TO_MODE_PARAM = {

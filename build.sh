@@ -278,8 +278,7 @@ cmake --build "${BUILD_DIR}" -j ${jobs}
 ########
 # Set up environment variables of SVF
 ########
-source ${SVFHOME}/setup.sh ${BUILD_TYPE}
-
+# source ${SVFHOME}/setup.sh ${BUILD_TYPE}
 #########
 # Optionally, you can also specify a CXX_COMPILER and your $LLVM_HOME for your build
 # cmake -DCMAKE_CXX_COMPILER=$LLVM_DIR/bin/clang++ -DLLVM_DIR=$LLVM_DIR

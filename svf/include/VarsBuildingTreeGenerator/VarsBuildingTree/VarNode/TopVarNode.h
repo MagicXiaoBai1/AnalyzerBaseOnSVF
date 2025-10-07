@@ -1,7 +1,7 @@
 #ifndef VARSBUILDINGTREEGENERATOR_TOPVARNODE_H
 #define VARSBUILDINGTREEGENERATOR_TOPVARNODE_H
 
-#include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
+#include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"

@@ -455,6 +455,12 @@ const Option<std::string> Options::ReadTaintConfig(
     ""
 );
 
+const Option<std::string> Options::HandleApiConfig(
+    "handle-api-config",
+    "handle api config from a file",
+    ""
+);
+
 
 const Option<bool> Options::IntraLock(
     "intra-lock-td-edge",

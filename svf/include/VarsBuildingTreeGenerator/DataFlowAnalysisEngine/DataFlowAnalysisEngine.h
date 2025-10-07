@@ -7,7 +7,13 @@
 
 namespace SVF
 {
-
+/**
+ * @brief 数据流分析框架
+ * 其依赖：
+ * - SVF提供的一些访问图的 Util，用于遍历一个CFG Node 的入边
+ * - 状态转移函数：负责分析单个语句（CFG Node）
+ * - Walker：在分析完一个语句后，求接下来要分析那个语句
+ */
 template<class GraphType, class Walker, class StateTransitionFunc = bool(*)(Walker&)>
 class DataFlowAnalysisEngine 
 {
@@ -37,7 +43,7 @@ public:
     }
     void analysis(std::unique_ptr<Walker> startPoint)
     {
-        // Initialize the worklist with the starting point
+        // 工作集算法
         workList.push(std::move(startPoint));
         while (!workList.empty()) {
             auto walker = std::move(workList.front());

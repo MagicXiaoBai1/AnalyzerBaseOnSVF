@@ -151,6 +151,7 @@ public:
     static const Option<std::string> WriteSVFG;
     static const Option<std::string> ReadSVFG;
     static const Option<std::string> ReadTaintConfig;
+    static const Option<std::string> HandleApiConfig;
 
     // LockAnalysis.cpp
     static const Option<bool> IntraLock;

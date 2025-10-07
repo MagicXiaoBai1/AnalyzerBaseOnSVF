@@ -29,7 +29,6 @@ bool CallStack::isCanWalk(const ICFGEdge* wellWalkEdge) const {
 }
 
 void CallStack::walk(const ICFGEdge* wellWalkEdge){
-    // match context for calling
     // std::cout << "CallStack: [";
     // for (size_t i = 0; i < callStack.size(); ++i) {
     //     std::cout << "(" << callStack[i].getId() << ", " << (callStack[i].isCallSite ? "call" : "ret") << ")";

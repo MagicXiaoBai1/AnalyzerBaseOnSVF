@@ -18,15 +18,16 @@ protected:
     CallStack callStack;
     CyclicBackoff cyclicBackoff;
     std::unordered_set<VarNode*> curLeafNodes;
+    int stepUse;
 public:
     NeedAnalysisState(NodeID startNodeID, std::unordered_set<VarNode*> leafNodes)
-        : cur(startNodeID), callStack(), cyclicBackoff(), curLeafNodes(leafNodes) {}
+        : cur(startNodeID), callStack(), cyclicBackoff(), curLeafNodes(leafNodes),stepUse(0) {}
 
 
     NeedAnalysisState(const NeedAnalysisState& other)
-        : callStack(other.callStack), cyclicBackoff(other.cyclicBackoff), curLeafNodes(other.curLeafNodes) {}
+        : callStack(other.callStack), cyclicBackoff(other.cyclicBackoff), curLeafNodes(other.curLeafNodes),stepUse(other.stepUse) {}
     NeedAnalysisState(NeedAnalysisState&& other) noexcept
-        : callStack(std::move(other.callStack)), cyclicBackoff(std::move(other.cyclicBackoff)), curLeafNodes(std::move(other.curLeafNodes)) {}
+        : callStack(std::move(other.callStack)), cyclicBackoff(std::move(other.cyclicBackoff)), curLeafNodes(std::move(other.curLeafNodes)),stepUse(other.stepUse) {}
 
     NeedAnalysisState& operator=(NeedAnalysisState&& other) noexcept
     {
@@ -35,6 +36,7 @@ public:
             callStack = std::move(other.callStack);
             cyclicBackoff = std::move(other.cyclicBackoff);
             curLeafNodes = std::move(other.curLeafNodes);
+            stepUse = other.stepUse;
         }
         return *this;
     }

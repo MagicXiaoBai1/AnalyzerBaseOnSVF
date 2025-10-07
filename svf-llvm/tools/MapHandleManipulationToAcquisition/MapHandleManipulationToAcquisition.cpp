@@ -5,6 +5,7 @@
 
 #include "VarsBuildingTreeGenerator/VarsBuildingTreeGenerator.h"
 #include "VarsBuildingTreeGenerator/ResourcesOpenArgumentAnalyzer.h"
+#include "Util/HandleApiSettingManager.h"
 
 #include "Util/CommandLine.h"
 #include "Util/Options.h"
@@ -17,7 +18,6 @@ using namespace SVF;
 
 int main(int argc, char ** argv)
 {
-    
     // 使用 SVF lib 的程序都这么写
     std::vector<std::string> moduleNameVec;
     moduleNameVec = OptionBase::parseOptions(
@@ -37,16 +37,18 @@ int main(int argc, char ** argv)
         perror("getcwd() ");
     }
 
-    // 使用 SVF 解析 LLVM IR
-    SVFModule* svfModule = LLVMModuleSet::buildSVFModule(moduleNameVec);
-    SVFIRBuilder builder(svfModule);
-    SVFIR* pag = builder.build();
+    HandleApiSettingManager::getInstance().printConfig();   // 初始化配置单例
+
+    // // 使用 SVF 解析 LLVM IR
+    // SVFModule* svfModule = LLVMModuleSet::buildSVFModule(moduleNameVec);
+    // SVFIRBuilder builder(svfModule);
+    // SVFIR* pag = builder.build();
     
-    // 拉起入参分析器
-    std::shared_ptr<ResourcesOpenArgumentAnalyzer> resourcesOpenArgumentAnalyzer = std::make_shared<ResourcesOpenArgumentAnalyzer>();
-    resourcesOpenArgumentAnalyzer->analyze(pag->getModule());    // 开始分析
-    // 运行结束释放资源
-    LLVMModuleSet::releaseLLVMModuleSet();
+    // // 拉起入参分析器
+    // std::shared_ptr<ResourcesOpenArgumentAnalyzer> resourcesOpenArgumentAnalyzer = std::make_shared<ResourcesOpenArgumentAnalyzer>();
+    // resourcesOpenArgumentAnalyzer->analyze(pag->getModule());    // 开始分析
+    // // 运行结束释放资源
+    // LLVMModuleSet::releaseLLVMModuleSet();
     return 0;
 
 }

@@ -12,9 +12,11 @@ std::unordered_set<const ICFGEdge*> CyclicBackoff::allBackEdges = {nullptr};
 bool CyclicBackoff::isCanWalk(const ICFGEdge* wellWalkEdge) const {
     // 递归循环退避
     if (wellWalkEdge->isRetCFGEdge()){
+        // 求函数调用语句对应的 CFG Node ID
         const RetCFGEdge* dirRet = SVFUtil::dyn_cast<RetCFGEdge>(wellWalkEdge);
         const RetICFGNode* ret = SVFUtil::dyn_cast<RetICFGNode>(dirRet->getDstNode());
         NodeID srcNodeId = ret->getCallICFGNode()->getId();
+        
         auto it = callNodeWalkCount.find(srcNodeId);
         if (it != callNodeWalkCount.end()) {
             if (it->second >= 1) {
@@ -48,17 +50,6 @@ void CyclicBackoff::walk(const ICFGEdge* wellWalkEdge){
         NodeID srcNodeId = ret->getCallICFGNode()->getId();
         callNodeWalkCount[srcNodeId]++; // 增加调用节点遍历次数
     }
-    // else if (wellWalkEdge->isCallCFGEdge())
-    // {
-    //     const CallCFGEdge* dirCall = SVFUtil::dyn_cast<CallCFGEdge>(wellWalkEdge);
-    //     NodeID srcNodeId = dirCall->getSrcNode()->getId();
-    //     auto it = callNodeWalkCount.find(srcNodeId);
-    //     if (it != callNodeWalkCount.end()) {
-    //         it->second++; // 增加调用节点遍历次数
-    //     } else {
-    //         callNodeWalkCount[srcNodeId] = 1; // 初始化调用节点遍历次数
-    //     }
-    // }
 
     // for while 循环退避
     if (wellWalkEdge->isRetCFGEdge()){

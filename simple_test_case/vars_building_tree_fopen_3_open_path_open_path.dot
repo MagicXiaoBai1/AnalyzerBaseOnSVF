@@ -1,0 +1,37 @@
+digraph VarsBuildingTree {
+  rankdir=TB;
+  node [shape=box, style=filled, fontsize=9, margin=0.1];
+  edge [color=black, fontsize=8];
+  graph [fontsize=12, labelloc="t", label="VarsBuildingTree Visualization"];
+  // 设置节点间距和图形布局
+  nodesep=0.8;
+  ranksep=1.2;
+  // 允许节点自动调整大小
+  node [fixedsize=false];
+
+  var_94850432010080 [label="Ptr\nPointedVarNode: ValVar ID: 898\n   %24 = getelementptr inbounds [20 x i8], ptr %5, i32 0, i32 0, !dbg !3297  \"ln\": 69, \"cl\": 26, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  stmt_94850431892640 [label="Stmt[1005]\nIntraICFGNode1005 fun: _Z27innerTureIllegalInforFlow_ci \"ln\": 68, \"cl\": 38, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nStoreStmt: [Var894 <-- Var135]\t\nValVar ID: 895\n   store i8 0, ptr %23, align 1, !dbg !3294  \"ln\": 68, \"cl\": 38, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightcoral, shape=box, fontsize=9, style="filled,rounded", width=0, height=0];
+  var_94850425776512 [label="Ptr\nPointedVarNode: ValVar ID: 894\n   %23 = getelementptr inbounds [20 x i8], ptr %5, i32 0, i32 19, !dbg !3293  \"ln\": 68, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  stmt_94850432009280 [label="Stmt[1002]\nCallICFGNode1002 fun: _Z27innerTureIllegalInforFlow_ci \"ln\": 67, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nGepStmt: [Var6913 <-- Var887]\t\nValVar ID: 893\n   %22 = call ptr @strncpy(ptr noundef %16, ptr noundef %17, i32 noundef %21), !dbg !3292  \"ln\": 67, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nGepStmt: [Var6914 <-- Var888]\t\nValVar ID: 893\n   %22 = call ptr @strncpy(ptr noundef %16, ptr noundef %17, i32 noundef %21), !dbg !3292  \"ln\": 67, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nLoadStmt: [Var6915 <-- Var6914]\t\nValVar ID: 893\n   %22 = call ptr @strncpy(ptr noundef %16, ptr noundef %17, i32 noundef %21), !dbg !3292  \"ln\": 67, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nStoreStmt: [Var6913 <-- Var6915]\t\nValVar ID: 893\n   %22 = call ptr @strncpy(ptr noundef %16, ptr noundef %17, i32 noundef %21), !dbg !3292  \"ln\": 67, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nCopyStmt: [Var893 <-- Var887]\t\nValVar ID: 893\n   %22 = call ptr @strncpy(ptr noundef %16, ptr noundef %17, i32 noundef %21), !dbg !3292  \"ln\": 67, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightcoral, shape=box, fontsize=9, style="filled,rounded", width=0, height=0];
+  var_94850432009456 [label="Ptr\nPointedVarNode: ValVar ID: 887\n   %16 = getelementptr inbounds i8, ptr %13, i32 %15, !dbg !3286  \"ln\": 67, \"cl\": 23, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  stmt_94850431903472 [label="Stmt[990]\nIntraICFGNode990 fun: _Z27innerTureIllegalInforFlow_ci \"ln\": 64, \"cl\": 38, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nStoreStmt: [Var880 <-- Var135]\t\nValVar ID: 881\n   store i8 0, ptr %12, align 1, !dbg !3282  \"ln\": 64, \"cl\": 38, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightcoral, shape=box, fontsize=9, style="filled,rounded", width=0, height=0];
+  var_94850431903216 [label="Ptr\nPointedVarNode: ValVar ID: 880\n   %12 = getelementptr inbounds [20 x i8], ptr %5, i32 0, i32 19, !dbg !3281  \"ln\": 64, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  stmt_94850431897792 [label="Stmt[987]\nCallICFGNode987 fun: _Z27innerTureIllegalInforFlow_ci \"ln\": 63, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nGepStmt: [Var6910 <-- Var874]\t\nValVar ID: 876\n   %11 = call ptr @strncpy(ptr noundef %9, ptr noundef %10, i32 noundef 19), !dbg !3280  \"ln\": 63, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nGepStmt: [Var6911 <-- Var875]\t\nValVar ID: 876\n   %11 = call ptr @strncpy(ptr noundef %9, ptr noundef %10, i32 noundef 19), !dbg !3280  \"ln\": 63, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nLoadStmt: [Var6912 <-- Var6911]\t\nValVar ID: 876\n   %11 = call ptr @strncpy(ptr noundef %9, ptr noundef %10, i32 noundef 19), !dbg !3280  \"ln\": 63, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nStoreStmt: [Var6910 <-- Var6912]\t\nValVar ID: 876\n   %11 = call ptr @strncpy(ptr noundef %9, ptr noundef %10, i32 noundef 19), !dbg !3280  \"ln\": 63, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" \nCopyStmt: [Var876 <-- Var874]\t\nValVar ID: 876\n   %11 = call ptr @strncpy(ptr noundef %9, ptr noundef %10, i32 noundef 19), !dbg !3280  \"ln\": 63, \"cl\": 5, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightcoral, shape=box, fontsize=9, style="filled,rounded", width=0, height=0];
+  var_94850431897936 [label="Ptr\nPointedVarNode: ValVar ID: 874\n   %9 = getelementptr inbounds [20 x i8], ptr %5, i32 0, i32 0, !dbg !3278  \"ln\": 63, \"cl\": 13, \"fl\": \"../../sdemoservice/src/i_sdemo_service.cpp\" ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  var_94850431897936 -> stmt_94850431897792 [color=red, label="input"];
+  var_94850431898256 [label="Ptr\nPointedVarNode: ConstVarNode(Str: /etc/\\00)", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  var_94850431898256 -> stmt_94850431897792 [color=red, label="input"];
+  stmt_94850431897792 -> var_94850431903216 [color=blue, label="defines"];
+  var_94850431903216 -> stmt_94850431903472 [color=red, label="input"];
+  var_94850431903328 [label="Ptr\nPointedVarNode: ConstantIntValNode ID: 135\n i8 0  constant data ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  var_94850431903328 -> stmt_94850431903472 [color=red, label="input"];
+  stmt_94850431903472 -> var_94850432009456 [color=blue, label="defines"];
+  var_94850432009456 -> stmt_94850432009280 [color=red, label="input"];
+  var_94850432009536 [label="Ptr\nPointedVarNode: ConstVarNode(Str: shadow\\00)", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  var_94850432009536 -> stmt_94850432009280 [color=red, label="input"];
+  stmt_94850432009280 -> var_94850425776512 [color=blue, label="defines"];
+  var_94850425776512 -> stmt_94850431892640 [color=red, label="input"];
+  var_94850386223216 [label="Ptr\nPointedVarNode: ConstantIntValNode ID: 135\n i8 0  constant data ", fillcolor=lightblue, shape=diamond, fontsize=9, style="filled,bold", width=0, height=0];
+  var_94850386223216 -> stmt_94850431892640 [color=red, label="input"];
+  stmt_94850431892640 -> var_94850432010080 [color=blue, label="defines"];
+}

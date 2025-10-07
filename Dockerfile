@@ -49,3 +49,6 @@ ENV SVF_DIR=${HOME}/SVF
 ENV LLVM_DIR=${HOME}/SVF/llvm-$llvm_version.obj
 ENV Z3_DIR=${HOME}/SVF/z3.obj
 RUN ln -s ${Z3_DIR}/bin/libz3.so ${Z3_DIR}/bin/libz3.so.4
+
+# 安装 信息流冲突和弃用组件分析工具 的依赖
+RUN apt install -y setools

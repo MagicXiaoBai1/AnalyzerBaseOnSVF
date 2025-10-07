@@ -1,7 +1,7 @@
 #ifndef VARSBUILDINGTREEGENERATOR_POINTEDVARNODE_H
 #define VARSBUILDINGTREEGENERATOR_POINTEDVARNODE_H
 
-#include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
+#include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"

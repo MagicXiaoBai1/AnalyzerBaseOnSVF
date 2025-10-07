@@ -1,0 +1,5 @@
+find_package(yaml-cpp REQUIRED)
+find_package(nlohmann_json REQUIRED)
+
+add_llvm_executable(MapHandleManipulationToAcquisition MapHandleManipulationToAcquisition.cpp)
+target_link_libraries(MapHandleManipulationToAcquisition PUBLIC ${llvm_libs} SvfLLVM yaml-cpp nlohmann_json)

@@ -25,6 +25,22 @@ using namespace SVFUtil;
 6. 判断defVarNodes是否为叶子节点
 7. 如果是叶子节点，将该节点加入 构建树
 */
+/*
+获取PointedVarParser的定义-使用关系
+处理逻辑如下：
+1. 按ICFGNode类型分开处理
+2. 处理CallICFGNode
+    1. 判断是否为需关注函数
+    2. 通过别名判断其是否定义了构建树的叶子节点
+    3. 取其中的VFGNode，求其对应的PAGNode
+    4. 将语句和PointedNode加入构建树
+3. 处理IntraICFGNode类型
+    1. 判断其是否为 Store
+    2. 通过别名判断其是否定义了构建树的叶子节点
+    3. 如果是 Store，则将该语句与其def的PAGNode加入构建树
+4. 处理其他Node类型
+    1. 这种节点基本为控制流相关节点，不太用处理
+*/
 bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
 {
     
@@ -45,9 +61,9 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
     for (VarNode* node : nodesToErase) {
         walker.getCurLeafNodes().erase(node);
     }
-    // 如果所有叶子节点都已经分析过，返回 false
+    // 如果所有叶子节点都已经分析过，不需要继续分析，返回 false
     if (walker.getCurLeafNodes().empty()) {
-        return false;
+        return false;   
     }
     // 将当前状态中的叶子节点标记为已分析
     for (VarNode* leafNode : walker.getCurLeafNodes()) {
@@ -71,12 +87,11 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
         std::cout << useVarNode->toString() << std::endl;
     }
 
-
+    // 判断defVarNodes是否为叶子节点
     bool needInsert = false;
     std::vector<VarNode*> varsDefByThisNode;
     for(VarNode* leafNode : walker.getCurLeafNodes()) {
         for(auto& defVarNode : defVarNodes) {
-            // 检查 defVarNode 是否为叶子节点
             if(leafNode->operator==(*defVarNode)) {
                 varsDefByThisNode.push_back(leafNode);
                 needInsert = true;
@@ -84,17 +99,18 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
         }
     }
 
+    // 将该节点加入 构建树
     if(needInsert) {
         std::cout << "————————当前节点 " << node->toString() << " 需要插入构建树" << std::endl;
-        // 1. 获取该语句对应的构建树中语句节点
+        // 7.1. 获取该语句对应的构建树中语句节点
         StmtNode& nowStmtNode = varsBuildingTree.getStmtNode(walker.getId());
         nowStmtNode.setICFGNode(const_cast<ICFGNode*>(node)); // 设置当前语句节点的ICFG节点
-        // 2. 连接语句节点和varsDefByThisNode
+        // 7.2. 连接语句节点和varsDefByThisNode
         for (VarNode* varNode : varsDefByThisNode) {
             varNode->addStmtNodeDefThisVar(&nowStmtNode);
             walker.getCurLeafNodes().erase(varNode); // 从当前叶子节点中删除已处理的节点
         }
-        // 3. 将语句入参加入构建树，加入叶子节点
+        // 7.3. 将语句入参加入构建树，加入叶子节点
         for (auto& useVarNode : useVarNodes) {
             if ( ! useVarNode->isHoldConstVar()){
                 walker.getCurLeafNodes().insert(useVarNode.get()); // 将 useVarNode 添加到当前叶子节点中
@@ -104,6 +120,6 @@ bool StateTransitionHandler::operator()(NeedAnalysisState& walker)
     }
 
 
-    return true; // 临时返回 true，请根据实际需求修改
+    return true; // 需要继续分析
 }
 

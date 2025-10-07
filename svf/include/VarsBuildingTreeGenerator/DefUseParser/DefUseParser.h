@@ -11,7 +11,9 @@ namespace SVF
 {
 
 class VarNode; // 前向声明
-
+/**
+ * @brief DefUse分析器的接口定义
+ */
 class DefUseParser{
 public:
     DefUseParser() {

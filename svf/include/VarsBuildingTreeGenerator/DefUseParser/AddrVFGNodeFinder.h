@@ -9,7 +9,7 @@
 #include "Graphs/SVFGOPT.h"
 #include "Util/GraphReachSolver.h"
 #include "Util/Options.h"
-#include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
+#include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
 #include <vector>
 
@@ -17,6 +17,12 @@ namespace SVF
 {
 typedef GraphReachSolver<SVFG*,CxtDPItem> CFLSrcSnkSolver;
 
+
+/**
+ * @brief 分析指针变量具体指向那些 addrNode
+ * 核心算法：以指针变量对应的节点为起点，在直流图上做上下文敏感的 反向DFS，找到所有其可能指向的 addrNode
+ * DFS框架由 SVF提供
+ */
 class AddrVFGNodeFinder : CFLSrcSnkSolver{
 public:
     typedef Map<const SVFGNode*, Set<CxtDPItem>> SVFGNodeToDPItemsMap;  

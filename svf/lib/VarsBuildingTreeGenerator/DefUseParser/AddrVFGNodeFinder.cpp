@@ -31,11 +31,11 @@ void AddrVFGNodeFinder::backwardTraverseCtx(const VFGNode& inputNode, std::vecto
         for (; EI != EE; ++EI)
         {
             child_no++;
-            BWProcessIncomingEdge(item,*(EI.getCurrent()) );  // 共用visitedSet
+            BWProcessIncomingEdge(item,*(EI.getCurrent()) );
         }
         if (child_no == 0) {
             const SVFGNode* node = AnalysisGraphManager::getInstance().getSVFG()->getSVFGNode(v->getId());
-            if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 这里排除const
+            if(const auto* addr_node = SVFUtil::dyn_cast<AddrVFGNode>(node)) { // 是否是const
                 if(addr_node->getPAGDstNode()->getValue()->holdConstant()) {
                     ans.push_back(std::make_pair(addr_node, 0));
                 }
@@ -93,10 +93,6 @@ void AddrVFGNodeFinder::BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* e
     }
     else if (StoreVFGNode::classof(dstNode))
     {
-        // if(edge->isIndirectVFGEdge()){    // 不考虑虚边
-        //     return;
-        // }
-        // store node
         const StoreVFGNode* storeNode = SVFUtil::dyn_cast<StoreVFGNode>(dstNode);
         if (!storeNode)
         {
@@ -126,7 +122,12 @@ void AddrVFGNodeFinder::BWProcessIncomingEdge(const CxtDPItem& item, SVFGEdge* e
     pushIntoWorklist(newItem);
 }
 
-
+/**
+ * @brief 求指针变量指向的内存变量（该模块的唯一对外接口）
+ * @param inputNode 指针变量对应的 VFG Node
+ * @return 被指针指向的变量的 VFG Node 和偏移
+ * TODO 目前无法求偏移
+ */
 std::vector<std::pair<const AddrVFGNode*, int>> AddrVFGNodeFinder::getPointAddrVFGNode(const SVFGNode* inputNode){
     std::cout << "AddrVFGNodeFinder::getPointAddrVFGNode++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
     std::cout << "Pointed VFG Node FROM ICFG: " << inputNode->toString() << std::endl;
@@ -141,6 +142,8 @@ std::vector<std::pair<const AddrVFGNode*, int>> AddrVFGNodeFinder::getPointAddrV
     } else {
         assert(false && "Unsupported VFGNode type for AddrVFGNodeFinder");
     }
+
+    // 开始 逆向 DFS
     std::vector<std::pair<const AddrVFGNode*, int>> ans;
     backwardTraverseCtx(*stmtNode, ans);
     return ans;

@@ -1,0 +1,53 @@
+#ifndef VARSBUILDINGTREEGENERATOR_FUNCPARAMMAPS_H
+#define VARSBUILDINGTREEGENERATOR_FUNCPARAMMAPS_H
+
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+
+namespace SVF {
+
+/*
+*/
+inline const std::unordered_map<std::string, std::unordered_set<int>> FUNC_NAME_TO_USE_PARAM = {
+    // 字符串拷贝函数
+    {"strcat", {0, 1}},
+    {"strcpy", {0, 1}},
+    // ……
+    // 格式化输出函数
+    {"sprintf", {1, 2, 3, 4, 6, 7, 8}},
+    // ……
+    // 内存操作函数
+    {"llvm.memcpy.p0.p0.i64", {0, 1}},
+    {"memcpy", {0, 1}},
+    // ……
+    // 字符串分割函数
+    {"strtok", {0, 1}},
+};
+inline const std::unordered_map<std::string, std::unordered_set<int>> FUNC_NAME_TO_DEF_PARAM = {
+    // 字符串拷拼接贝函数（修改目标）
+    {"strcat", {0}},
+    // 格式化输出函数（修改目标缓冲区）
+    {"sprintf", {0}},
+    // ……
+};
+inline const std::unordered_map<std::string, std::unordered_set<int>> OPEN_FUNC_NAME_TO_PATH_PARAM = {
+    {"fopen", {0}},
+    {"open", {0}},
+    {
+        "_ZNSt3__h14basic_ifstreamIcNS_11char_traitsIcEEEC1ERKNS_12basic_stringIcS2_NS_9allocatorIcEEEEj",
+        {1}
+    },
+    // ……
+};
+inline const std::unordered_map<std::string, std::unordered_set<int>> OPEN_FUNC_NAME_TO_MODE_PARAM = {
+    {"fopen", {1}},
+    {"open", {1}},
+    // ……
+};
+
+
+} // namespace SVF
+
+#endif // VARSBUILDINGTREEGENERATOR_FUNCPARAMMAPS_H
+

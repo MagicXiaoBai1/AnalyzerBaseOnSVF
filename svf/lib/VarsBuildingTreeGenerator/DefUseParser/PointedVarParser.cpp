@@ -5,7 +5,7 @@
 
 #include "VarsBuildingTreeGenerator/DefUseParser/PointedVarParser.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/PointedVarNode.h"
-#include "VarsBuildingTreeGenerator/AnalysisGraphManager.h"
+#include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
 using namespace SVF;
 using namespace SVFUtil;
@@ -17,15 +17,12 @@ using namespace SVFUtil;
 1. 按ICFGNode类型分开处理
 2. 处理CallICFGNode
     1. 判断是否为需关注函数
-    2. 通过别名判断其是否定义了构建树的叶子节点
-    3. 取其中的VFGNode，求其对应的PAGNode
-    4. 将语句和PointedNode加入构建树
+    2. 如果是，则获取其实际参数，创建一个 PointedVarNode 加入结果
 3. 处理IntraICFGNode类型
     1. 判断其是否为 Store
-    2. 通过别名判断其是否定义了构建树的叶子节点
-    3. 如果是 Store，则将该语句与其def的PAGNode加入构建树
+    2. 如果是 Store，则获取其左值变量，创建一个 PointedVarNode 加入结果
 4. 处理其他Node类型
-    1. 仅传递状态，不做其他处理
+    1. 这种节点基本为控制流相关节点，不太用处理
 */
 std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* node) {
     std::vector<std::unique_ptr<VarNode>> result;
@@ -43,10 +40,12 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* no
             // 检查函数名是否在 funcNameToDefParam 中
             auto it = funcNameToDefParam.find(funcName);
             if (it != funcNameToDefParam.end()) {
+                // 函数名在 funcNameToDefParam 中
+                // 遍历函数的每个入参
                 int paramIndex = 0;
                 const ICFGNode::VFGNodeList& vfgNodes = node->getVFGNodes();
                 for (const VFGNode* vfgNode : vfgNodes) {
-                    // 遍历函数的每个入参
+                    // 依次检查每个入参
                     if(isa<ActualParmVFGNode>(vfgNode)){
                         if(it->second.find(paramIndex) != it->second.end()) {
                             const ActualParmVFGNode* actualParmNode = static_cast<const ActualParmVFGNode*>(vfgNode);
@@ -58,6 +57,16 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseDefVar(ICFGNode* no
                         
                         paramIndex++;
                     }
+                }
+                // 判断当前函数是否def了返回值
+                if(it->second.find(-1) != it->second.end()) {
+                    // 当前函数def了其返回值
+                    const RetICFGNode* retICFGNode = static_cast<const CallICFGNode*>(node)->getRetICFGNode();
+                    const SVFVar* retVar = retICFGNode->getActualRet();
+                     const ActualRetVFGNode* retVFGNode = AnalysisGraphManager::getInstance().getSVFG()->getActualRetVFGNode(retVar);
+                    // 创建一个新的 PointedVarNode 加入result
+                    auto varNode = std::make_unique<PointedVarNode>(retVar, retVFGNode);
+                    result.push_back(std::move(varNode));
                 }
                 break; // TODO 目前：找到一个匹配的函数名后跳出循环，后面可处理函数指针的情况
             }

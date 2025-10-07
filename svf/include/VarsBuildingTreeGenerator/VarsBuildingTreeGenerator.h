@@ -11,7 +11,6 @@ class VarNode;
 class VarsBuildingTreeGenerator
 {
 private:
-    SaberSVFGBuilder memSSA;
     SVFG* svfg;
     ICFG* icfg;
     PTACallGraph* callgraph;

@@ -150,7 +150,7 @@ std::vector<std::unique_ptr<VarNode>> PointedVarParser::parseUseVar(ICFGNode* no
                             if(const StmtVFGNode* stmtNode = SVFUtil::dyn_cast<StmtVFGNode>(vfgNode)){
                                 if(stmtNode->getPAGSrcNodeID() == pointedNodeId){
                                 // 创建一个新的 PointedVarNode 加入 newResult
-                                auto newVarNode = std::make_unique<PointedVarNode>(pointedVarNode->getPointer(), vfgNode);
+                                auto newVarNode = std::make_unique<PointedVarNode>(pointedVarNode->getPointer(), vfgNode, true);
                                 newResult.push_back(std::move(newVarNode));
                                 break;
                             }

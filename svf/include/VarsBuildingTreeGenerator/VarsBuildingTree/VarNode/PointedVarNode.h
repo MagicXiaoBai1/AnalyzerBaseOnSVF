@@ -7,6 +7,7 @@
 #include "Graphs/ICFGNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/VarNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/ConstVarNode.h"
+#include "VarsBuildingTreeGenerator/DefUseParser/AddrVFGNodeFinder.h"
 #include "SVFIR/SVFVariables.h"
 
 namespace SVF
@@ -21,15 +22,16 @@ private:
     const SVFVar* pointer;
     const VFGNode* pointedVFGNode; // 用于存储指向的VFG节点，如果有的话
     bool isConstant = false; // 是否是常量指针
+    bool canNotDDA = false; // 是否是常量指针
     std::unique_ptr<ConstVarNode> constNode; // 如果是常量指针，存储对应的常量节点
 
 public:
 
 
-    PointedVarNode(const SVFVar* var, const VFGNode* pointedNode = nullptr) 
-        : VarNode(PointedVar), pointer(var), pointedVFGNode(pointedNode) {
+    PointedVarNode(const SVFVar* var, const VFGNode* pointedNode = nullptr, bool isCanNotDDA = false) 
+        : VarNode(PointedVar), pointer(var), pointedVFGNode(pointedNode), canNotDDA(isCanNotDDA) {
         // 初始化状态
-        isConstant = false;
+        isConstant = false; 
     }
 
     ~PointedVarNode() {
@@ -48,16 +50,7 @@ public:
         
     }
 
-    bool operator==(const VarNode& other) const override {
-        if (other.isPointedVarNode()) {
-            const PointedVarNode* otherPointed = static_cast<const PointedVarNode*>(&other);
-            BVDataPTAImpl* pta = AnalysisGraphManager::getInstance().getPTA();
-            // 使用PTA来比较指针是否相同
-            AliasResult result = pta->alias(this->pointer->getId(), otherPointed->pointer->getId());
-            return result != AliasResult::NoAlias;
-        }
-        return false;
-    }
+    bool operator==(const VarNode& other) const override;
 
     const SVFVar* getPointer() const {
         return pointer;

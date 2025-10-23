@@ -363,7 +363,7 @@ protected:
     virtual void finalize()
     {
         normalizePointsTo();
-        PointerAnalysis::finalize();
+        // PointerAnalysis::finalize();
     }
     /// Union/add points-to, and add the reverse points-to for node collapse purpose
     /// To be noted that adding reverse pts might incur 10% total overhead during solving

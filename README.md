@@ -13,7 +13,8 @@
 # 编译构建 SVF 源码
 rm -rf ./Debug-build
 mkdir Debug-build
-./build.sh
+./build.sh Release
+./build.sh Debug
 # 使用入参分析器
 ${workspaceFolder}/Debug-build/bin/VarsBuildingTreeGenerator <待分析的IR的文件名>
 ${workspaceFolder}/Debug-build/bin/VarsBuildingTreeGenerator libhilog.so.ll

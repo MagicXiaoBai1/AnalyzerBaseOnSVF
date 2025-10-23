@@ -24,7 +24,9 @@
       "request": "launch",
       "program": "${workspaceFolder}/Debug-build/bin/VarsBuildingTreeGenerator",
       "args": [
-        "i_sdemo_service.ll"
+        "i_sdemo_service.ll",
+        "-param-analysis-result-path",
+        "params_analysis_result666.json"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/simple_test_case",

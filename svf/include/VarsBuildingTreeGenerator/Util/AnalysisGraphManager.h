@@ -5,6 +5,8 @@
 #include "Graphs/SVFG.h"
 #include "WPA/FlowSensitive.h"
 #include "WPA/Andersen.h"
+#include "DDA/ContextDDA.h"
+#include "DDA/DDAClient.h"
 #include "SABER/SaberSVFGBuilder.h"
 #include "VarsBuildingTreeGenerator/OpenReadWriteFuncInfo.h"
 
@@ -35,6 +37,8 @@ public:
 
     void setPTA(BVDataPTAImpl* pta) { this->pta = pta; }
     BVDataPTAImpl* getPTA() const { return pta; }
+
+    PointerAnalysis* getDemandDrivenAnalysisPTA() { return dda_pta.get(); }
 
     void setCallGraph(PTACallGraph* callgraph) { this->callgraph = callgraph; }
     PTACallGraph* getCallGraph() const { return callgraph; }
@@ -105,9 +109,6 @@ private:
     }
 
     AnalysisGraphManager() : pag(nullptr), icfg(nullptr), svfg(nullptr), pta(nullptr), callgraph(nullptr) {
-
-
-
         pag = PAG::getPAG();
         pta = nullptr;
         // AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
@@ -115,11 +116,13 @@ private:
             FlowSensitive* fs_pta = new FlowSensitive(pag);
             fs_pta->analyze();
             pta = fs_pta;
+            dda_pta = std::make_unique<ContextDDA>(pag, new DDAClient(pag->getModule()));
+            dda_pta->initialize();
         } else {
             AndersenWaveDiff* ander = AndersenWaveDiff::createAndersenWaveDiff(pag);
             pta = ander;
         }
-        //memSSA.setSaberCondAllocator(getSaberCondAllocator());
+
         svfg = memSSA.buildFullSVFG((BVDataPTAImpl*)pta);
         callgraph = pta->getCallGraph();
         icfg = pag->getICFG();
@@ -145,6 +148,7 @@ private:
     ICFG* icfg;
     SVFG* svfg;
     BVDataPTAImpl* pta;
+    std::unique_ptr<PointerAnalysis> dda_pta;
     PTACallGraph* callgraph;
     
 };

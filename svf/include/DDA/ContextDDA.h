@@ -74,7 +74,7 @@ public:
     virtual void analyze() override {}
 
     /// Compute points-to set for an unconditional pointer
-    virtual void computeDDAPts(NodeID id) override;
+    virtual void computeDDAPts(NodeID id) override;   // PAGNode* node-getID()
 
     /// Compute points-to set for a context-sensitive pointer
     virtual const CxtPtSet& computeDDAPts(const CxtVar& cxtVar);

@@ -96,12 +96,17 @@ int main(int argc, char ** argv)
     }
     // 打印结果
     for (const auto& [handleManipulationAPICall, handleAcquisitionAPICalls] : handleManipulation2Acquisition) {
-        std::cout << "Handle Manipulation API Call: " << handleManipulationAPICall->calledFunction->getName() << std::endl;
+        std::cout << "Handle Manipulation API Call: " << handleManipulationAPICall->calledFunction->getName() << " | ";
+        std::cout << "location: " << handleManipulationAPICall->correspondingICFGNode->getSourceLoc() << std::endl;
+
         std::cout << "  Corresponding Handle Acquisition API Calls: " << std::endl;
         for (const auto& handleAcquisitionAPICall : handleAcquisitionAPICalls) {
-            std::cout << "    - " << handleAcquisitionAPICall->calledFunction->getName() << std::endl;
+            std::cout << "    - " << handleAcquisitionAPICall->calledFunction->getName() << " | ";
+            std::cout << "location: " << handleManipulationAPICall->correspondingICFGNode->getSourceLoc() << std::endl;
+
         }
     }
+
 
     // 运行结束释放资源
     LLVMModuleSet::releaseLLVMModuleSet();

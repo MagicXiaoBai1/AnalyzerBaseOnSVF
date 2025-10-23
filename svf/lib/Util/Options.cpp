@@ -461,6 +461,13 @@ const Option<std::string> Options::HandleApiConfig(
     ""
 );
 
+const Option<std::string> Options::ParamAnalysisResult(
+    "param-analysis-result-path",
+    "parameter analysis result",
+    ""
+);
+
+
 
 const Option<bool> Options::IntraLock(
     "intra-lock-td-edge",

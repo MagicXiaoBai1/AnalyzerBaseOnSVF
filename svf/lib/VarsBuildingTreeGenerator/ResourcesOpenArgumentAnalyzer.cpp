@@ -5,6 +5,9 @@
 #include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 #include "VarsBuildingTreeGenerator/Util/getStrFromAddrVFGNode.h"
 
+#include "Util/Options.h"
+
+
 #include <vector>
 #include <string>
 #include<fstream>
@@ -19,7 +22,12 @@ void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
     std::vector<FileOpenCite> opens = initFileOpens();    // 找所有资源打开函数的调用点
     // 输出所有资源打开函数的调用点
     std::fstream f;
-    f.open("true_result.txt",std::ios::out|std::ios::app);
+
+    std::string resultPath = Options::ParamAnalysisResult();
+    if (resultPath.empty()) {
+        resultPath = "params_analysis_result.txt";
+    }
+    f.open(resultPath, std::ios::out | std::ios::app);
     std::cout << "Total Open Function Calls: " << opens.size() << std::endl;
     for(const FileOpenCite& result : opens) {
         f << "Open Function: " << result.functionName << ", location: " << result.pathParam.callCite->getSourceLoc() 

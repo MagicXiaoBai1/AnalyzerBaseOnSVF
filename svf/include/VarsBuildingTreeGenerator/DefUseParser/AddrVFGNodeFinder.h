@@ -17,7 +17,6 @@ namespace SVF
 {
 typedef GraphReachSolver<SVFG*,CxtDPItem> CFLSrcSnkSolver;
 
-
 /**
  * @brief 分析指针变量具体指向那些 addrNode
  * 核心算法：以指针变量对应的节点为起点，在直流图上做上下文敏感的 反向DFS，找到所有其可能指向的 addrNode
@@ -57,7 +56,6 @@ public:
         nodeToDPItemsMap[node].insert(item);
     }
 };
-
 
 } // namespace SVF
 

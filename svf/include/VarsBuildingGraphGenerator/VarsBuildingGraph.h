@@ -17,11 +17,12 @@ class PointerVar{
 public:
     const SVFVar* var;
     const VFGNode* vfgNode;
+    const APINode* locateApiNode; // 该指针变量所属的API节点
 
     std::vector<BaseObjectNode*> pointedBaseObjects;
 
-    PointerVar(const SVFVar* var, const VFGNode* vfgNode)
-        : var(var), vfgNode(vfgNode) {}
+    PointerVar(const SVFVar* var, const VFGNode* vfgNode, const APINode* locateApiNode)
+        : var(var), vfgNode(vfgNode), locateApiNode(locateApiNode) {}
     
 };
 
@@ -48,16 +49,23 @@ public:
 
     // 节点自身属性
     NodeID id;
-    NodeID* baseObjectID;
+    NodeID baseObjectID;
     const SVFVar* baseObject;
     // 节点的边
-    std::vector<APINode*> apiDefThis;
-    std::vector<APINode*> apiUseThis;
+    std::vector<PointerVar*> pointersApiDefThisBy;
+    std::vector<PointerVar*> pointersApiUseThisBy;
     
     BaseObjectNode(const SVFVar* var)
         : baseObject(var)
     {
         id = globalAtomicCounter.fetch_add(1);
+    }
+
+    BaseObjectNode(NodeID SVFVarID)
+        : baseObjectID(SVFVarID)
+    {
+        id = globalAtomicCounter.fetch_add(1);
+        baseObject = AnalysisGraphManager::getInstance().getPAG()->getGNode(baseObjectID);
     }
 };
 
@@ -66,12 +74,13 @@ class APINode{
 public:
     // 节点自身属性
     NodeID id;
-    std::unique_ptr<APIDefUseInfo> defUseInfo;
+    APIDefUseInfo defUseInfo;
+    bool mayExecuteMultipleTimes = false;
 
 
-    APINode(std::unique_ptr<APIDefUseInfo> info)
-        : defUseInfo(std::move(info)) {
-            id = this->defUseInfo->node->getId();
+    APINode(APIDefUseInfo info)
+        : defUseInfo(info) {
+            id = this->defUseInfo.node->getId();
         }
 };
 
@@ -82,13 +91,23 @@ class VarsBuildingGraph
 
 public:
     // 所有节点
-    std::unordered_map<NodeID, std::unique_ptr<BaseObjectNode>> baseObjectNodes;
-    std::unordered_map<NodeID, std::unique_ptr<APINode>> apiNodes;
+    typedef std::vector<PointerVar*> LayerFooting;
+    typedef std::vector<APINode*> APINodesInOneLayer;
+    typedef std::vector<std::unique_ptr<BaseObjectNode>> BaseObjectNodesInOneLayer;
+    typedef std::pair<BaseObjectNodesInOneLayer, APINodesInOneLayer> VarsBuildingGraphLayer;
+    std::vector<VarsBuildingGraphLayer> allLayers;
     std::unique_ptr<PointerVar> rootNode;
 
-    VarsBuildingGraph(std::unique_ptr<PointerVar> rootNode) {
+    std::unordered_set<NodeID> apiNodesAlreadyInGraph;
+
+    
+
+    VarsBuildingGraph(std::unique_ptr<PointerVar> rootNode) 
+        : allLayers(),
+          rootNode(std::move(rootNode)),
+          apiNodesAlreadyInGraph()
+    {
         BaseObjectNode::globalAtomicCounter = 0;
-        this->rootNode = std::move(rootNode);
     }
     ~VarsBuildingGraph() {}
 
@@ -96,9 +115,10 @@ public:
         return rootNode.get();
     }
 
-    void addAPINode(std::unique_ptr<APINode> apiNode) {
-        apiNodes[apiNode->id] = std::move(apiNode);
+    PointerVar* getRootNodeCanWrite() {
+        return rootNode.get();
     }
+    
 };
 
 

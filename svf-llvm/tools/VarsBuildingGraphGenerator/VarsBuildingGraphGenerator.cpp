@@ -3,8 +3,7 @@
 #include "SVF-LLVM/SVFIRBuilder.h"
 
 
-#include "VarsBuildingTreeGenerator/VarsBuildingTreeGenerator.h"
-#include "VarsBuildingTreeGenerator/ResourcesOpenArgumentAnalyzer.h"
+#include "VarsBuildingGraphGenerator/ResourcesOpenArgumentAnalyzer.h"
 
 #include "Util/CommandLine.h"
 #include "Util/Options.h"

@@ -21,7 +21,7 @@ public:
 
     std::vector<BaseObjectNode*> pointedBaseObjects;
 
-    PointerVar(const SVFVar* var, const VFGNode* vfgNode, const APINode* locateApiNode)
+    PointerVar(const SVFVar* var, const VFGNode* vfgNode, const APINode* locateApiNode=nullptr)
         : var(var), vfgNode(vfgNode), locateApiNode(locateApiNode) {}
     
 };
@@ -52,7 +52,7 @@ public:
     NodeID baseObjectID;
     const SVFVar* baseObject;
     // 节点的边
-    std::vector<PointerVar*> pointersApiDefThisBy;
+    std::vector<APINode*> apiDefThis;
     std::vector<PointerVar*> pointersApiUseThisBy;
     
     BaseObjectNode(const SVFVar* var)
@@ -117,6 +117,10 @@ public:
 
     PointerVar* getRootNodeCanWrite() {
         return rootNode.get();
+    }
+
+    void addLayer(VarsBuildingGraphLayer layer) {
+        allLayers.push_back(std::move(layer));
     }
     
 };

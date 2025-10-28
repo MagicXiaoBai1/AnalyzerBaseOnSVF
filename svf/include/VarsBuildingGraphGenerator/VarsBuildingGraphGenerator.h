@@ -51,9 +51,14 @@ private:
 
     // 不动点算法关键步骤
     VarsBuildingGraph::VarsBuildingGraphLayer buildOneLayer(VarsBuildingGraph::LayerFooting layerFooting);
-    VarsBuildingGraph::BaseObjectNodesInOneLayer buildBaseObjectNodesInLayer(VarsBuildingGraph::LayerFooting pointerInPostLayer);
-    VarsBuildingGraph::APINodesInOneLayer buildAPINodeSubLayer(VarsBuildingGraph::BaseObjectNodesInOneLayer baseObjInLayer);
+    VarsBuildingGraph::BaseObjectNodesInOneLayer buildBaseObjectNodesInLayer(VarsBuildingGraph::LayerFooting& pointerInPostLayer);
+    VarsBuildingGraph::APINodesInOneLayer buildAPINodeSubLayer(VarsBuildingGraph::BaseObjectNodesInOneLayer& baseObjInLayer);
+    VarsBuildingGraph::LayerFooting generateNextLayerFooter(const VarsBuildingGraph::APINodesInOneLayer& LayerTop);
 
+    // 关键步骤依赖的底层算法
+
+    std::vector<NodeID> filterByDomRelation(std::vector<NodeID> APINodes);
+    
 
     APINode* getAPINodeByID(NodeID id) {
         auto it = allApiNodes.find(id);

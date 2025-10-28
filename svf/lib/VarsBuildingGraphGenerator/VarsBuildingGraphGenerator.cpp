@@ -114,123 +114,36 @@ std::unique_ptr<VarsBuildingGraph> VarsBuildingGraphGenerator::analyze_one_var(
     varsBuildingGraph = std::make_unique<VarsBuildingGraph>(
         std::make_unique<PointerVar>(targetParam, targetParamNode)
     );
-    // 清空之前的指针指向信息
-
-
-    // 4.输入待求入参的指针Pinput，通过查pointer2obj计算其指向的信息pointedList:list[O]
-    // 5.将pointedList复制到objlnVarBuildProcess，将objlnVarBuildProcess中的O做节点逐个加入VBG
-    std::vector<BaseObjectNode*> objInVarBuildProcess;
-    std::vector<std::unique_ptr<BaseObjectNode>> newBaseObjectNodes = PointerAnalyzer::getInstance().newBaseObjectNodes(*varsBuildingGraph->getRootNode());
-    for(auto& baseObjectNodePtr : newBaseObjectNodes){
-        objInVarBuildProcess.push_back(baseObjectNodePtr.get());
-        varsBuildingGraph->getRootNodeCanWrite()->pointedBaseObjects.push_back(baseObjectNodePtr.get());
-        varsBuildingGraph->addBaseObjectNode(std::move(baseObjectNodePtr));
+    // 清空之前的APInode中的Pointer的指针指向信息和mayExecuteMultipleTimes
+    for (auto& [id, apiNode] : allApiNodes) {
+        apiNode->mayExecuteMultipleTimes = false;
+        for (auto& pointerVar : apiNode->defUseInfo.defPointerVarIDs) {
+            pointerVar.pointedBaseObjects.clear();
+        }
+        for (auto& pointerVar : apiNode->defUseInfo.usePointerVarIDs) {
+            pointerVar.pointedBaseObjects.clear();
+        }
     }
 
+    VarsBuildingGraph::LayerFooting postLayerFooting;
+    postLayerFooting.push_back(varsBuildingGraph->getRootNodeCanWrite());
 
-    // 后面要用到的（后面用不到我为啥要定义它）
-    auto filterByDomRelation = [this](std::unordered_set<NodeID> APINodes) -> std::vector<NodeID> {
-       std::vector<ICFGNode*> allCandidate;
-        for (NodeID apiNodeID : APINodes) {
-            APINode* apiNode = this->getAPINodeByID(apiNodeID);
-            allCandidate.push_back(apiNode->defUseInfo.node);
-        }
-
-        std::vector<NodeID> highestDomNodes;
-        for (ICFGNode* candidate : allCandidate) {
-            bool dominated = false;
-            for (ICFGNode* other : allCandidate) {
-                if (candidate != other && this->domAnalyzer.aIsDomOfB(other, candidate)) {
-                    dominated = true;
-                    break;
-                }
-            }
-            if (!dominated) {
-                highestDomNodes.push_back(candidate->getId());
-            }
-        }
-        return highestDomNodes;
-    };
-    
     // 不同点算法
     bool continueAnalyze = true;
     do {
         continueAnalyze = false;
-        // 6．查obj2pointer找到找到指向objlnVarBuildProcess的指针记为pointerlnVarBuildProcess
-        // 7. 查 pointerDefUseInfo，找到所有def了 pointerInVarBuildProcess 中指针函数，记为apiInVarBuildProcess
-        // std::vector<PointerVar*> pointingInVarBuildProcess;  // 67步优化成一步了
-        std::unordered_map<NodeID, std::unordered_set<NodeID>> apiInVarBuildProcess;
-        for(BaseObjectNode* baseObjectNode : objInVarBuildProcess) {
-            NodeID objPAGNodeID = baseObjectNode->baseObject->getId();
-            apiInVarBuildProcess[objPAGNodeID].insert(obj2defAPINodes[objPAGNodeID].begin(), obj2defAPINodes[objPAGNodeID].end());
-        }
-        // 8. 使用控制流分析得到的支配信息筛选 apiInVarBuildProcess：
-        //    如果两个API节点同时def了一个变量，进行分类讨论：
-        //      ⅰ. 这两个API没有支配关系：保留二者
-        //  ⅱ. 两个API有明确的支配关系：删掉被支配的API（因为支配API一定会在其后面执行并覆盖掉其结果）
-        std::unordered_map<NodeID, std::vector<NodeID>>apiNodeNeedInVBG;
-        for (const auto& [objID, apiNodeSet] : apiInVarBuildProcess) {
-            std::vector<NodeID> filteredAPINodes = filterByDomRelation(apiNodeSet);
-            apiNodeNeedInVBG[objID] = filteredAPINodes;
-        }
-        // 9. 检查 apiNodeNeedInVBG 如果其中的某个节点已加入VBG的函数且函数指向的O一样，就将这个节点标为可能执行N次，并将该节点从apiNodeNeedInVBG中删去
-        for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
-            std::vector<NodeID> newAPINodeList;
-            for (NodeID apiNodeID : apiNodeList) {
-                if (varsBuildingGraph->apiNodesAlreadyInGraph.find(apiNodeID) != varsBuildingGraph->apiNodesAlreadyInGraph.end()) {
-                    this->getAPINodeByID(apiNodeID)->mayExecuteMultipleTimes = true;
-                    continue;
-                } else {
-                    newAPINodeList.push_back(apiNodeID);
-                    varsBuildingGraph->apiNodesAlreadyInGraph.insert(apiNodeID);
-                }
-            }
-            apiNodeList = newAPINodeList;
-        }
-        // 10. 将 apiNodeNeedInVBG 做节点逐个加入VBG，再让 apiNodeNeedInVBG 指向对应的objInVarBuildProcess
-        for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
-            BaseObjectNode* dstNode = varsBuildingGraph->getBaseObjectNodeByID(objID); 
-
-            for (NodeID apiNodeID : apiNodeList) {
-                APINode* srcNode = this->getAPINodeByID(apiNodeID);
-                // dstNode->apiDefThis.push_back(srcNode);
-            }
-        }
-
-        // 11. 清空 objInVarBuildProcess
-        objInVarBuildProcess.clear();
-
-        // 12. 求 apiInVarBuildProcess 中函数use的指针变量，求这些指针变量的指向信息,存入 objInVarBuildProcess
-        // 13. 将 objInVarBuildProcess 中的O做节点逐个加入VBG，让 objInVarBuildProcess 指向对应的apiInVarBuildProcess
-        for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
-            for (NodeID apiNodeID : apiNodeList) {
-                APINode* apiNode = this->getAPINodeByID(apiNodeID);
-                for (PointerVar& pointerVar : apiNode->defUseInfo.usePointerVarIDs) {
-                    std::vector<std::unique_ptr<BaseObjectNode>> baseObjectNodesNeedIn = PointerAnalyzer::getInstance().newBaseObjectNodes(pointerVar);
-                    for (auto& baseObjectNodePtr : baseObjectNodesNeedIn) {
-                        baseObjectNodePtr->apiUseThis.push_back(apiNode);
-                        pointerVar.pointedBaseObjects.push_back(baseObjectNodePtr.get());
-                        objInVarBuildProcess.push_back(baseObjectNodePtr.get());
-                        varsBuildingGraph->addBaseObjectNode(std::move(baseObjectNodePtr));
-                    }
-                    
-                }
-                
-            }
-        }
-        if (!apiNodeNeedInVBG.empty()) {
-            continueAnalyze = true;
-        }
         
+        VarsBuildingGraph::VarsBuildingGraphLayer nowLayer = buildOneLayer(postLayerFooting);
+        postLayerFooting = generateNextLayerFooter(nowLayer.second);
+        varsBuildingGraph->addLayer(std::move(nowLayer));
+
+        continueAnalyze = !postLayerFooting.empty();
+
     } while (continueAnalyze);
     
     return std::move(varsBuildingGraph);
 }
 
-
-void VarsBuildingGraphGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
-    
-}
 
 VarsBuildingGraph::VarsBuildingGraphLayer VarsBuildingGraphGenerator::buildOneLayer(VarsBuildingGraph::LayerFooting layerFooting) {
     // 去除空指针
@@ -243,7 +156,7 @@ VarsBuildingGraph::VarsBuildingGraphLayer VarsBuildingGraphGenerator::buildOneLa
     return std::make_pair(std::move(baseObjectNodes), std::move(apiNodes));
 }
 
-VarsBuildingGraph::BaseObjectNodesInOneLayer VarsBuildingGraphGenerator::buildBaseObjectNodesInLayer(VarsBuildingGraph::LayerFooting pointerInPostLayer) {
+VarsBuildingGraph::BaseObjectNodesInOneLayer VarsBuildingGraphGenerator::buildBaseObjectNodesInLayer(VarsBuildingGraph::LayerFooting& pointerInPostLayer) {
     VarsBuildingGraph::BaseObjectNodesInOneLayer res;
     for (PointerVar* now_pointer : pointerInPostLayer) {
         SVF::PointsTo baseObjPointByIt = PointerAnalyzer::getInstance().getPts(*now_pointer);
@@ -264,8 +177,123 @@ VarsBuildingGraph::BaseObjectNodesInOneLayer VarsBuildingGraphGenerator::buildBa
     return res;
 }
 
-VarsBuildingGraph::APINodesInOneLayer VarsBuildingGraphGenerator::buildAPINodeSubLayer(VarsBuildingGraph::BaseObjectNodesInOneLayer baseObjInLayer) {
-    // TODO: implement buildAPINodeSubLayer logic here
-    return VarsBuildingGraph::APINodesInOneLayer();
+VarsBuildingGraph::APINodesInOneLayer VarsBuildingGraphGenerator::buildAPINodeSubLayer(VarsBuildingGraph::BaseObjectNodesInOneLayer& baseObjInLayer) {
+    std::unordered_map<NodeID, BaseObjectNode*> baseObjID2Node;
+    for (const auto& baseObjectNode : baseObjInLayer) {
+        // 检查baseObjectNode有效性
+        // if (!baseObjectNode.get()) continue;
+        baseObjID2Node[baseObjectNode->id] = baseObjectNode.get();
+    }
+    // 6．查obj2pointer找到找到指向objlnVarBuildProcess的指针记为pointerlnVarBuildProcess
+    // 7. 查 pointerDefUseInfo，找到所有def了 pointerInVarBuildProcess 中指针函数，记为 baseObj2ApiNodeDefIt
+    std::unordered_map<NodeID, std::unordered_set<NodeID>> baseObj2ApiNodeDefIt;
+    for(const auto& baseObjectNode : baseObjInLayer) {
+        NodeID objPAGNodeID = baseObjectNode->baseObject->getId();
+        baseObj2ApiNodeDefIt[baseObjectNode->id].insert(obj2defAPINodes[objPAGNodeID].begin(), obj2defAPINodes[objPAGNodeID].end());
+    }
+
+
+    std::unordered_map<NodeID, std::vector<NodeID>>apiNodeNeedInVBG;
+    for (auto& [objID, apiNodeList] : baseObj2ApiNodeDefIt) {
+        apiNodeNeedInVBG[objID] = std::vector<NodeID>(apiNodeList.begin(), apiNodeList.end());
+    }
+
+    // 8. 检查 apiNodeNeedInVBG 如果其中的某个节点已加入VBG的函数且函数指向的O一样，就将这个节点标为可能执行N次，并将该节点从apiNodeNeedInVBG中删去
+    for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
+        std::vector<NodeID> newAPINodeList;
+        for (NodeID apiNodeID : apiNodeList) {
+            if (varsBuildingGraph->apiNodesAlreadyInGraph.find(apiNodeID) != varsBuildingGraph->apiNodesAlreadyInGraph.end()) {
+                this->getAPINodeByID(apiNodeID)->mayExecuteMultipleTimes = true;
+                continue;
+            } else {
+                newAPINodeList.push_back(apiNodeID);
+            }
+        }
+        apiNodeList = newAPINodeList;
+    }
+        
+    // 9. 使用控制流分析得到的支配信息筛选 apiInVarBuildProcess：
+    //    如果两个API节点同时def了一个变量，进行分类讨论：
+    //      ⅰ. 这两个API没有支配关系：保留二者
+    //  ⅱ. 两个API有明确的支配关系：删掉被支配的API（因为支配API一定会在其后面执行并覆盖掉其结果）
+    for (const auto& [objID, apiNodeSet] : apiNodeNeedInVBG) {
+        std::vector<NodeID> filteredAPINodes = filterByDomRelation(apiNodeSet);
+        apiNodeNeedInVBG[objID] = filteredAPINodes;
+    }
+
+    // 10. 将 apiNodeNeedInVBG 做节点逐个加入VBG，再让 apiNodeNeedInVBG 指向对应的objInVarBuildProcess
+    for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
+        BaseObjectNode* dstNode = baseObjID2Node[objID]; 
+
+        for (NodeID apiNodeID : apiNodeList) {
+            APINode* srcNode = this->getAPINodeByID(apiNodeID);
+            dstNode->apiDefThis.push_back(srcNode);
+        }
+    }
+    VarsBuildingGraph::APINodesInOneLayer res;
+    for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
+        for (NodeID apiNodeID : apiNodeList) {
+            APINode* srcNode = this->getAPINodeByID(apiNodeID);
+            res.push_back(srcNode);
+            varsBuildingGraph->apiNodesAlreadyInGraph.insert(apiNodeID);
+        }
+    }
+    // res 去重
+    std::sort(res.begin(), res.end());
+    res.erase(std::unique(res.begin(), res.end()), res.end());
+
+    return res;
 }
+
+
+VarsBuildingGraph::LayerFooting VarsBuildingGraphGenerator::generateNextLayerFooter(const VarsBuildingGraph::APINodesInOneLayer& LayerTop){
+    VarsBuildingGraph::LayerFooting nextLayerFooter;
+    for(APINode* apiNode : LayerTop){
+        for (PointerVar& pointerVar : apiNode->defUseInfo.usePointerVarIDs) {
+            // 加入下一层的footer
+            // 注意去重
+            bool alreadyIn = false;
+            for (const PointerVar* existingPointerVar : nextLayerFooter) {
+                if (existingPointerVar->var->getId() == pointerVar.var->getId()) {
+                    alreadyIn = true;
+                    break;
+                }
+            }
+            if (!alreadyIn) {
+                nextLayerFooter.push_back(&pointerVar);
+            }
+        }
+    }
+    return nextLayerFooter;
+}
+
+
+std::vector<NodeID> VarsBuildingGraphGenerator::filterByDomRelation(std::vector<NodeID> APINodes){
+   std::vector<ICFGNode*> allCandidate;
+    for (NodeID apiNodeID : APINodes) {
+        APINode* apiNode = this->getAPINodeByID(apiNodeID);
+        allCandidate.push_back(apiNode->defUseInfo.node);
+    }
+    std::vector<NodeID> highestDomNodes;
+    for (ICFGNode* candidate : allCandidate) {
+        bool dominated = false;
+        for (ICFGNode* other : allCandidate) {
+            if (candidate != other && this->domAnalyzer.aIsDomOfB(other, candidate)) {
+                dominated = true;
+                break;
+            }
+        }
+        if (!dominated) {
+            highestDomNodes.push_back(candidate->getId());
+        }
+    }
+    return highestDomNodes;
+}
+
+
+void VarsBuildingGraphGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
+    
+}
+
+
 

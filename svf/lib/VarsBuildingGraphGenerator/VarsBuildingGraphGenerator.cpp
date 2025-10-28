@@ -3,6 +3,9 @@
 
 #include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
+#include "VarsBuildingTreeGenerator/DefUseParser/AddrVFGNodeFinder.h"
+
+
 #include "Util/Options.h"
 #include "Graphs/ICFG.h"
 #include "Util/Options.h"
@@ -292,8 +295,46 @@ std::vector<NodeID> VarsBuildingGraphGenerator::filterByDomRelation(std::vector<
 
 
 void VarsBuildingGraphGenerator::linkLeafNodeToConstVar(PointedVarNode* leafNode){
-    
+}
+
+std::string __getStrFromAddrVFGNode(const AddrVFGNode* addrVFGNode) {
+    if (!addrVFGNode) {
+        return "null";
+    }
+    std::string str =  addrVFGNode->toString();
+    // 倒着遍历字符串
+    std::string result = "";
+    // 查找最后一对双引号之间的内容
+    size_t last_quote_end = str.rfind('\"');
+    if (last_quote_end == std::string::npos || last_quote_end == 0)
+        return result;
+    size_t last_quote_start = str.rfind('\"', last_quote_end - 1);
+    if (last_quote_start == std::string::npos)
+        return result;
+    result = str.substr(last_quote_start + 1, last_quote_end - last_quote_start - 1);
+    return result;
 }
 
 
+/** 
+ * @brief 最终处理VFG
+ * 1. 解析VFG的最后一层的API节点 use的指针变量，判断该变量是否指向常量
+ */
+void VarsBuildingGraphGenerator::finalProcessingVFG(){
 
+    AddrVFGNodeFinder addrVFGNodeFinder;
+
+    VarsBuildingGraph::APINodesInOneLayer& apiNodeInlastLayer = varsBuildingGraph->allLayers.back().second;
+    VarsBuildingGraph::LayerFooting usedPointerInlastLayer = generateNextLayerFooter(apiNodeInlastLayer);
+    
+    for (PointerVar* usedPointer : usedPointerInlastLayer) {
+        std::vector<std::pair<const AddrVFGNode*, int>> addrVFGNodes = addrVFGNodeFinder.getPointAddrVFGNode(usedPointer->vfgNode);
+        for (const auto& addrVFGNodePair : addrVFGNodes) {
+            const AddrVFGNode* addrVFGNode = addrVFGNodePair.first;
+            // int offset = addrVFGNodePair.second;
+            std::string addrStr = __getStrFromAddrVFGNode(addrVFGNode);
+            ConstValueNode constNode = ConstValueNode(addrStr);
+            varsBuildingGraph->lastLayerPointer2constVarNodes[usedPointer].push_back(constNode);
+        }
+    }
+}

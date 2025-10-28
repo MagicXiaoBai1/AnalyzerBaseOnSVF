@@ -3,15 +3,16 @@
 #ifndef VARSBUILDINGTREEGENERATOR_ADDRVFGNODEFINDER_H
 #define VARSBUILDINGTREEGENERATOR_ADDRVFGNODEFINDER_H
 
+#include <vector>
 #include "Graphs/ICFGNode.h"
 #include "Graphs/SVFG.h"
 #include "Graphs/VFG.h"
 #include "Graphs/SVFGOPT.h"
 #include "Util/GraphReachSolver.h"
 #include "Util/Options.h"
+
 #include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
-#include <vector>
 
 namespace SVF
 {

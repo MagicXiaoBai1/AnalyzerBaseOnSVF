@@ -85,22 +85,75 @@ public:
 };
 
 
+class ConstValueNode
+{
+public:
+    enum class ConstType {
+        Integer,
+        String,
+        Unknown
+    };
+
+private:
+    ConstType type;
+    std::string constantValue; // 存储常量值（字符串或整型的字符串表示）
+    int constantIntValue;      // 存储整数常量值（如果适用）
+
+public:
+    // 整型常量构造函数
+    ConstValueNode(int intValue)
+        : type(ConstType::Integer), constantValue(std::to_string(intValue)), constantIntValue(intValue) {}
+
+    // 字符串常量构造函数
+    ConstValueNode(const std::string& strValue)
+        : type(ConstType::String), constantValue(strValue), constantIntValue(0) {}
+
+    // 可选：默认构造函数
+    ConstValueNode()
+        : type(ConstType::Unknown), constantValue(""), constantIntValue(0) {}
+
+    std::string toString() const {
+        if (type == ConstType::Integer)
+            return "ConstValueNode(Int: " + std::to_string(constantIntValue) + ")";
+        else if (type == ConstType::String)
+            return "ConstValueNode(Str: " + constantValue + ")";
+        else
+            return "ConstValueNode(Unknown)";
+    }
+
+    bool isIntegerConstant() const {
+        return type == ConstType::Integer;
+    }
+
+    bool isStringConstant() const {
+        return type == ConstType::String;
+    }
+
+    int getIntValue() const {
+        return constantIntValue;
+    }
+
+    const std::string& getStringValue() const {
+        return constantValue;
+    }
+};
+
+
 class VarsBuildingGraph
 {
-
-
 public:
     // 所有节点
     typedef std::vector<PointerVar*> LayerFooting;
     typedef std::vector<APINode*> APINodesInOneLayer;
     typedef std::vector<std::unique_ptr<BaseObjectNode>> BaseObjectNodesInOneLayer;
     typedef std::pair<BaseObjectNodesInOneLayer, APINodesInOneLayer> VarsBuildingGraphLayer;
-    std::vector<VarsBuildingGraphLayer> allLayers;
+
     std::unique_ptr<PointerVar> rootNode;
+    std::vector<VarsBuildingGraphLayer> allLayers;
+    std::unordered_map<PointerVar*, std::vector<ConstValueNode>> lastLayerPointer2constVarNodes;
 
     std::unordered_set<NodeID> apiNodesAlreadyInGraph;
 
-    
 
     VarsBuildingGraph(std::unique_ptr<PointerVar> rootNode) 
         : allLayers(),

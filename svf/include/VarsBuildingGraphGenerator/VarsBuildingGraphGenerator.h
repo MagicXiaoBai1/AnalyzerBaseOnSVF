@@ -49,11 +49,13 @@ private:
     // 便于计算的数据结构
     std::unordered_map<NodeID, std::vector<NodeID>> obj2defAPINodes;
 
-    // 不动点算法关键步骤
+    // （不同点）算法关键步骤
     VarsBuildingGraph::VarsBuildingGraphLayer buildOneLayer(VarsBuildingGraph::LayerFooting layerFooting);
     VarsBuildingGraph::BaseObjectNodesInOneLayer buildBaseObjectNodesInLayer(VarsBuildingGraph::LayerFooting& pointerInPostLayer);
     VarsBuildingGraph::APINodesInOneLayer buildAPINodeSubLayer(VarsBuildingGraph::BaseObjectNodesInOneLayer& baseObjInLayer);
     VarsBuildingGraph::LayerFooting generateNextLayerFooter(const VarsBuildingGraph::APINodesInOneLayer& LayerTop);
+
+    void finalProcessingVFG();
 
     // 关键步骤依赖的底层算法
 

@@ -74,12 +74,7 @@ public:
         baseObject = AnalysisGraphManager::getInstance().getPAG()->getGNode(baseObjectID);
     }
 
-    std::string toString() const {
-        if (!baseObject) {
-            return "BaseObjectNode: null baseObject";
-        }
-        return "BaseObjectNode id: " + std::to_string(id) + " " + baseObject->toString();
-    }
+    std::string toString() const;
 };
 
 

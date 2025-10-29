@@ -72,11 +72,11 @@ std::string ResourcesOpenArgumentAnalyzer::analyzeStrVar(const ParamInCallCite& 
         return __getStrFromPAGNode(targetCite.ParamPAGNode);
 
     } else {
-        varsBuildingGraphGenerator.analyze_one_var(targetCite.callCite, 
+        std::unique_ptr<VarsBuildingGraph> res = varsBuildingGraphGenerator.analyze_one_var(targetCite.callCite, 
                                           targetCite.ParamPAGNode, 
                                           targetCite.ParamVFGNode
                                           );
-        return ""; // TODO
+        return res->toString();
 
     }
 }

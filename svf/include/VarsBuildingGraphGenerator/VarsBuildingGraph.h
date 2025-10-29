@@ -7,11 +7,13 @@
 #include "Graphs/VFG.h"
 #include "Graphs/ICFGNode.h"
 #include "VarsBuildingTreeGenerator/VarsBuildingTree/VarNode/ConstVarNode.h"
+#include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 
 namespace SVF
 {
 class BaseObjectNode;
 class APINode;
+class ConstValueNode;
 
 class PointerVar{
 public:
@@ -19,11 +21,15 @@ public:
     const VFGNode* vfgNode;
     const APINode* locateApiNode; // 该指针变量所属的API节点
 
+    std::vector<ConstValueNode> pointedConstValues;
+
     std::vector<BaseObjectNode*> pointedBaseObjects;
 
     PointerVar(const SVFVar* var, const VFGNode* vfgNode, const APINode* locateApiNode=nullptr)
         : var(var), vfgNode(vfgNode), locateApiNode(locateApiNode) {}
     
+    std::string toString() const;
+   
 };
 
 
@@ -67,6 +73,13 @@ public:
         id = globalAtomicCounter.fetch_add(1);
         baseObject = AnalysisGraphManager::getInstance().getPAG()->getGNode(baseObjectID);
     }
+
+    std::string toString() const {
+        if (!baseObject) {
+            return "BaseObjectNode: null baseObject";
+        }
+        return "BaseObjectNode id: " + std::to_string(id) + " " + baseObject->toString();
+    }
 };
 
 
@@ -82,6 +95,7 @@ public:
         : defUseInfo(info) {
             id = this->defUseInfo.node->getId();
         }
+    std::string toString() const ;
 };
 
 
@@ -156,8 +170,8 @@ public:
 
 
     VarsBuildingGraph(std::unique_ptr<PointerVar> rootNode) 
-        : allLayers(),
-          rootNode(std::move(rootNode)),
+        : rootNode(std::move(rootNode)),
+          allLayers(),
           apiNodesAlreadyInGraph()
     {
         BaseObjectNode::globalAtomicCounter = 0;
@@ -174,6 +188,25 @@ public:
 
     void addLayer(VarsBuildingGraphLayer layer) {
         allLayers.push_back(std::move(layer));
+    }
+
+    std::string toString() const {
+        std::string result = "VarsBuildingGraph:\n";
+        result += "Root Node: " + rootNode->toString() + "\n";
+        for (size_t i = 0; i < allLayers.size(); ++i) {
+            result += "Layer " + std::to_string(i) + ":\n";
+            const auto& layer = allLayers[i];
+            result += "  BaseObjectNodes:\n";
+            for (const auto& baseObjNodePtr : layer.first) {
+                result += "    " + baseObjNodePtr->toString() + "\n";
+            }
+            result += "  APINodes:\n";
+            for (const auto& apiNodePtr : layer.second) {
+                result += "    " + apiNodePtr->toString() + "\n";
+            }
+        }
+        
+        return result;
     }
     
 };

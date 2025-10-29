@@ -2,6 +2,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "build and Debug VarsBuildingGraph",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Debug-build/bin/VarsBuildingGraphGenerator",
+      "args": [
+        "i_sdemo_service.ll",
+        "-param-analysis-result-path",
+        "params_analysis_result666.json"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/simple_test_case",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "CMake Build"
+    },
+    {
       "name": "build and Debug MapHandleManipulationToAcquisition",
       "type": "cppdbg",
       "request": "launch",

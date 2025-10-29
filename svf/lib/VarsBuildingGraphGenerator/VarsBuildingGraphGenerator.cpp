@@ -138,11 +138,15 @@ std::unique_ptr<VarsBuildingGraph> VarsBuildingGraphGenerator::analyze_one_var(
         
         VarsBuildingGraph::VarsBuildingGraphLayer nowLayer = buildOneLayer(postLayerFooting);
         postLayerFooting = generateNextLayerFooter(nowLayer.second);
-        varsBuildingGraph->addLayer(std::move(nowLayer));
 
+        if(! nowLayer.second.empty()){
+            varsBuildingGraph->addLayer(std::move(nowLayer));
+            continueAnalyze = true;
+        }
         continueAnalyze = !postLayerFooting.empty();
 
     } while (continueAnalyze);
+    finalProcessingVFG();
     
     return std::move(varsBuildingGraph);
 }
@@ -318,7 +322,7 @@ std::string __getStrFromAddrVFGNode(const AddrVFGNode* addrVFGNode) {
 
 /** 
  * @brief 最终处理VFG
- * 1. 解析VFG的最后一层的API节点 use的指针变量，判断该变量是否指向常量
+ * 1. 解析VFG的所有的API节点 use的指针变量，判断该变量是否指向常量
  */
 void VarsBuildingGraphGenerator::finalProcessingVFG(){
 
@@ -328,13 +332,17 @@ void VarsBuildingGraphGenerator::finalProcessingVFG(){
     VarsBuildingGraph::LayerFooting usedPointerInlastLayer = generateNextLayerFooter(apiNodeInlastLayer);
     
     for (PointerVar* usedPointer : usedPointerInlastLayer) {
+        if(! usedPointer->pointedConstValues.empty()){
+            continue;
+        }
+
         std::vector<std::pair<const AddrVFGNode*, int>> addrVFGNodes = addrVFGNodeFinder.getPointAddrVFGNode(usedPointer->vfgNode);
         for (const auto& addrVFGNodePair : addrVFGNodes) {
             const AddrVFGNode* addrVFGNode = addrVFGNodePair.first;
             // int offset = addrVFGNodePair.second;
             std::string addrStr = __getStrFromAddrVFGNode(addrVFGNode);
             ConstValueNode constNode = ConstValueNode(addrStr);
-            varsBuildingGraph->lastLayerPointer2constVarNodes[usedPointer].push_back(constNode);
+            usedPointer->pointedConstValues.push_back(constNode);
         }
     }
 }

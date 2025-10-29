@@ -323,26 +323,43 @@ std::string __getStrFromAddrVFGNode(const AddrVFGNode* addrVFGNode) {
 /** 
  * @brief 最终处理VFG
  * 1. 解析VFG的所有的API节点 use的指针变量，判断该变量是否指向常量
+ * 2. 剪枝：删掉BVG中多余的BaseObjectNode(没有被def的node)
  */
 void VarsBuildingGraphGenerator::finalProcessingVFG(){
-
+    // 1. 解析VFG的所有的API节点 use的指针变量，判断该变量是否指向常量
     AddrVFGNodeFinder addrVFGNodeFinder;
 
-    VarsBuildingGraph::APINodesInOneLayer& apiNodeInlastLayer = varsBuildingGraph->allLayers.back().second;
-    VarsBuildingGraph::LayerFooting usedPointerInlastLayer = generateNextLayerFooter(apiNodeInlastLayer);
-    
-    for (PointerVar* usedPointer : usedPointerInlastLayer) {
-        if(! usedPointer->pointedConstValues.empty()){
-            continue;
-        }
+    for( VarsBuildingGraph::VarsBuildingGraphLayer& layer : varsBuildingGraph->allLayers){
+        VarsBuildingGraph::LayerFooting usedPointerInLayer = generateNextLayerFooter(layer.second);
+        for (PointerVar* usedPointer : usedPointerInLayer) {
+            if(! usedPointer->pointedConstValues.empty()){
+                continue;
+            }
 
-        std::vector<std::pair<const AddrVFGNode*, int>> addrVFGNodes = addrVFGNodeFinder.getPointAddrVFGNode(usedPointer->vfgNode);
-        for (const auto& addrVFGNodePair : addrVFGNodes) {
-            const AddrVFGNode* addrVFGNode = addrVFGNodePair.first;
-            // int offset = addrVFGNodePair.second;
-            std::string addrStr = __getStrFromAddrVFGNode(addrVFGNode);
-            ConstValueNode constNode = ConstValueNode(addrStr);
-            usedPointer->pointedConstValues.push_back(constNode);
+            std::vector<std::pair<const AddrVFGNode*, int>> addrVFGNodes = addrVFGNodeFinder.getPointAddrVFGNode(usedPointer->vfgNode);
+            for (const auto& addrVFGNodePair : addrVFGNodes) {
+                const AddrVFGNode* addrVFGNode = addrVFGNodePair.first;
+                // int offset = addrVFGNodePair.second;
+                std::string addrStr = __getStrFromAddrVFGNode(addrVFGNode);
+                ConstValueNode constNode = ConstValueNode(addrStr);
+                usedPointer->pointedConstValues.push_back(constNode);
+            }
         }
     }
+    
+
+    // 2. 剪枝：删掉BVG中多余的BaseObjectNode
+    for( VarsBuildingGraph::VarsBuildingGraphLayer& layer : varsBuildingGraph->allLayers){
+        VarsBuildingGraph::BaseObjectNodesInOneLayer & baseObjNodes = layer.first;
+        for (auto it = baseObjNodes.begin(); it != baseObjNodes.end(); ) {
+            BaseObjectNode* baseObjNode = it->get();
+            if (baseObjNode->apiDefThis.empty()) {
+                it = baseObjNodes.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
+
 }

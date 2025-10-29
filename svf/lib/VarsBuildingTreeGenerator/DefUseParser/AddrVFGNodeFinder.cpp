@@ -140,7 +140,9 @@ std::vector<std::pair<const AddrVFGNode*, int>> AddrVFGNodeFinder::getPointAddrV
         const ActualParmVFGNode* actualParmNode = SVFUtil::cast<ActualParmVFGNode>(inputNode);
         stmtNode = AnalysisGraphManager::getInstance().getSVFG()->getActualParmVFGNode(actualParmNode->getParam(), actualParmNode->getCallSite());
     } else {
-        assert(false && "Unsupported VFGNode type for AddrVFGNodeFinder");
+        // assert(false && "Unsupported VFGNode type for AddrVFGNodeFinder");
+        std::cout << "Unsupported VFGNode type for AddrVFGNodeFinder: " << inputNode->toString() << std::endl;
+        return {};
     }
 
     // 开始 逆向 DFS

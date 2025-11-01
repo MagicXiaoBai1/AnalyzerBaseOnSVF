@@ -31,7 +31,7 @@ struct FileOpenCite{
     std::string mode;
 };
 
-class ResourcesOpenArgumentAnalyzer
+class ResourcesOpenArgumentAnalyzerNew
 {
 private:
     VarsBuildingGraphGenerator varsBuildingGraphGenerator;
@@ -44,10 +44,10 @@ private:
     // TODO int analyzeIntVar(const ParamInCallCite& openCite, std::string outputFilePath);
 
 public:
-    ResourcesOpenArgumentAnalyzer(/* args */){
+    ResourcesOpenArgumentAnalyzerNew(/* args */){
 
     }
-    virtual ~ResourcesOpenArgumentAnalyzer(){
+    virtual ~ResourcesOpenArgumentAnalyzerNew(){
 
     }
 

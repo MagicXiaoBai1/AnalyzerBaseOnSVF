@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
     SVFIR* pag = builder.build();
     
     // 拉起入参分析器
-    std::shared_ptr<ResourcesOpenArgumentAnalyzer> resourcesOpenArgumentAnalyzer = std::make_shared<ResourcesOpenArgumentAnalyzer>();
+    std::shared_ptr<ResourcesOpenArgumentAnalyzerNew> resourcesOpenArgumentAnalyzer = std::make_shared<ResourcesOpenArgumentAnalyzerNew>();
     resourcesOpenArgumentAnalyzer->analyze(pag->getModule());    // 开始分析
     // 运行结束释放资源
     LLVMModuleSet::releaseLLVMModuleSet();

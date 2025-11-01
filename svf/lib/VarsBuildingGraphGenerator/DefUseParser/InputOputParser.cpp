@@ -176,23 +176,38 @@ std::vector<InputOputParser::PointerVar> InputOputParser::parseInputPointerVarIn
         }
     }
     if(!isConvertedFun) return result;
-    
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
     // 是被预处理的函数
     std::vector<InputOputParser::PointerVar> newResult;
+    for (const VFGNode* vfgNode : vfgNodes) {
+        std::cout << std::endl;
+        std::cout << "vfg node: " << vfgNode->toString() << std::endl;
+        
+    }
 
     // 遍历result
     for (InputOputParser::PointerVar& varNode : result) {
         // 如果是 PointedVarNode，则需要将其指向的 VFGNode 也加入到 result 中
+        NodeID pointedNodeId = varNode.first->getId();
         for(const VFGNode* vfgNode : vfgNodes){
+
             const StmtVFGNode* stmtNode = SVFUtil::dyn_cast<StmtVFGNode>(vfgNode);
             if (!stmtNode) continue;
-            if(stmtNode->getPAGSrcNodeID() == varNode.first->getId()){
+            if(stmtNode->getPAGSrcNodeID() == pointedNodeId){
                 // 创建一个新的 PointedVarNode 加入 newResult
+                std::cout << std::endl;
+
+                std::cout << "find converted vfg node: " << vfgNode->toString() << std::endl;
                 newResult.push_back({varNode.first, vfgNode});
                 break;
             }
         }
     }
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
     return newResult;
 }
 

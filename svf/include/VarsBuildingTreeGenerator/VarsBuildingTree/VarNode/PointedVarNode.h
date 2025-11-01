@@ -43,7 +43,7 @@ public:
             return "PointedVarNode: null pointer";
         }
         if (isConstantPointer()) {
-            return "PointedVarNode: " + constNode->toString();
+            return "PointedVarNode: " + pointedVFGNode->toString() + "\n" + "PointedVarNode: " + constNode->toString();
         }else{
             return "PointedVarNode: " + pointer->toString() ; 
         }

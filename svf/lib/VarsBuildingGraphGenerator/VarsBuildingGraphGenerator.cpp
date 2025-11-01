@@ -55,11 +55,17 @@ void VarsBuildingGraphGenerator::initialize(SVFModule* module)
 
         APIDefUseInfo defUseInfo =APIDefUseInfo(
             it->second,
-            inputPointerVars,
-            outputPointerVars
+            outputPointerVars,
+            inputPointerVars
         );
 
         std::unique_ptr<APINode> apiNode = std::make_unique<APINode>(defUseInfo);
+        for (auto& pointerVar : apiNode->defUseInfo.defPointerVarIDs) {
+            pointerVar.locateApiNode = apiNode.get();
+        }
+        for (auto& pointerVar : apiNode->defUseInfo.usePointerVarIDs) {
+            pointerVar.locateApiNode = apiNode.get();
+        }
         NodeID key = defUseInfo.node->getId();
         allApiNodes[key] = std::move(apiNode);
     }
@@ -114,8 +120,14 @@ std::unique_ptr<VarsBuildingGraph> VarsBuildingGraphGenerator::analyze_one_var(
     const VFGNode* targetParamNode = nullptr)
 {
     // 清空之前的图，以待求节点为根节点建图
+    APIDefUseInfo defUseInfo = APIDefUseInfo(
+            targetCallCite,
+            {},
+            {}
+    );
+    static APINode targetAPInode(defUseInfo);
     varsBuildingGraph = std::make_unique<VarsBuildingGraph>(
-        std::make_unique<PointerVar>(targetParam, targetParamNode)
+        std::make_unique<PointerVar>(targetParam, targetParamNode, &targetAPInode)
     );
     // 清空之前的APInode中的Pointer的指针指向信息和mayExecuteMultipleTimes
     for (auto& [id, apiNode] : allApiNodes) {
@@ -205,7 +217,30 @@ VarsBuildingGraph::APINodesInOneLayer VarsBuildingGraphGenerator::buildAPINodeSu
         apiNodeNeedInVBG[objID] = std::vector<NodeID>(apiNodeList.begin(), apiNodeList.end());
     }
 
-    // 8. 检查 apiNodeNeedInVBG 如果其中的某个节点已加入VBG的函数且函数指向的O一样，就将这个节点标为可能执行N次，并将该节点从apiNodeNeedInVBG中删去
+        
+    // 8. 使用控制流分析得到的支配信息筛选 apiInVarBuildProcess：
+    //    如果两个API节点同时def了一个变量，进行分类讨论：
+    //      ⅰ. 这两个API没有支配关系：保留二者
+    //  ⅱ. 两个API有明确的支配关系：删掉被支配的API（因为支配API一定会在其后面执行并覆盖掉其结果）
+    for (const auto& [objID, apiNodeSet] : apiNodeNeedInVBG) {
+        
+        BaseObjectNode* defedNode = baseObjID2Node[objID]; 
+        std::vector<const APINode*> apiNodesUseDefedNode;
+        for (PointerVar* pointerApiUseThisBy : defedNode->pointersApiUseThisBy) {
+            apiNodesUseDefedNode.push_back(pointerApiUseThisBy->locateApiNode);
+        }
+        
+        std::vector<const APINode*> candidate;
+        for (NodeID apiNodeID : apiNodeSet) {
+            APINode* apiNode = this->getAPINodeByID(apiNodeID);
+            candidate.push_back(apiNode);
+        }
+
+        std::vector<NodeID> filteredAPINodes = filterByDomRelation(apiNodesUseDefedNode, candidate);
+        apiNodeNeedInVBG[objID] = filteredAPINodes;
+    }
+
+    // 9. 检查 apiNodeNeedInVBG 如果其中的某个节点已加入VBG的函数且函数指向的O一样，就将这个节点标为可能执行N次，并将该节点从apiNodeNeedInVBG中删去
     for (auto& [objID, apiNodeList] : apiNodeNeedInVBG) {
         std::vector<NodeID> newAPINodeList;
         for (NodeID apiNodeID : apiNodeList) {
@@ -217,15 +252,6 @@ VarsBuildingGraph::APINodesInOneLayer VarsBuildingGraphGenerator::buildAPINodeSu
             }
         }
         apiNodeList = newAPINodeList;
-    }
-        
-    // 9. 使用控制流分析得到的支配信息筛选 apiInVarBuildProcess：
-    //    如果两个API节点同时def了一个变量，进行分类讨论：
-    //      ⅰ. 这两个API没有支配关系：保留二者
-    //  ⅱ. 两个API有明确的支配关系：删掉被支配的API（因为支配API一定会在其后面执行并覆盖掉其结果）
-    for (const auto& [objID, apiNodeSet] : apiNodeNeedInVBG) {
-        std::vector<NodeID> filteredAPINodes = filterByDomRelation(apiNodeSet);
-        apiNodeNeedInVBG[objID] = filteredAPINodes;
     }
 
     // 10. 将 apiNodeNeedInVBG 做节点逐个加入VBG，再让 apiNodeNeedInVBG 指向对应的objInVarBuildProcess
@@ -275,26 +301,46 @@ VarsBuildingGraph::LayerFooting VarsBuildingGraphGenerator::generateNextLayerFoo
 }
 
 
-std::vector<NodeID> VarsBuildingGraphGenerator::filterByDomRelation(std::vector<NodeID> APINodes){
-   std::vector<ICFGNode*> allCandidate;
-    for (NodeID apiNodeID : APINodes) {
-        APINode* apiNode = this->getAPINodeByID(apiNodeID);
-        allCandidate.push_back(apiNode->defUseInfo.node);
+std::vector<NodeID> VarsBuildingGraphGenerator::filterByDomRelation(const std::vector<const APINode*>& apiNodesUseDefedNode, const std::vector<const APINode*>& candidates){
+
+    std::vector<const ICFGNode*> icfgNodesUseDefedNode;
+    for (const APINode* apiNode : apiNodesUseDefedNode) {
+        icfgNodesUseDefedNode.push_back(apiNode->defUseInfo.node);
     }
-    std::vector<NodeID> highestDomNodes;
-    for (ICFGNode* candidate : allCandidate) {
-        bool dominated = false;
-        for (ICFGNode* other : allCandidate) {
-            if (candidate != other && this->domAnalyzer.aIsDomOfB(other, candidate)) {
-                dominated = true;
-                break;
-            }
-        }
-        if (!dominated) {
-            highestDomNodes.push_back(candidate->getId());
-        }
+    std::vector<const ICFGNode*> candidateICFGNodes;
+    std::unordered_map<NodeID, NodeID> iCFGNodeID2APINodeID;
+    for (const APINode* apiNode : candidates) {
+        NodeID icfgNodeID = apiNode->defUseInfo.node->getId();
+        candidateICFGNodes.push_back(apiNode->defUseInfo.node);
+        iCFGNodeID2APINodeID[icfgNodeID] = apiNode->id;
     }
-    return highestDomNodes;
+    
+    std::vector<NodeID> res;
+    std::vector<NodeID> resICFGNodes = this->domAnalyzer.filterNearestSuccessorNode(icfgNodesUseDefedNode, candidateICFGNodes);
+    for (NodeID icfgNodeID : resICFGNodes) {
+        res.push_back(iCFGNodeID2APINodeID[icfgNodeID]);
+    }
+
+    return res;
+    // std::vector<ICFGNode*> allCandidate;
+    // for (NodeID apiNodeID : APINodes) {
+    //     APINode* apiNode = this->getAPINodeByID(apiNodeID);
+    //     allCandidate.push_back(apiNode->defUseInfo.node);
+    // }
+    // std::vector<NodeID> highestDomNodes;
+    // for (ICFGNode* candidate : allCandidate) {
+    //     bool dominated = false;
+    //     for (ICFGNode* other : allCandidate) {
+    //         if (candidate != other && this->domAnalyzer.aIsDomOfB(other, candidate)) {
+    //             dominated = true;
+    //             break;
+    //         }
+    //     }
+    //     if (!dominated) {
+    //         highestDomNodes.push_back(candidate->getId());
+    //     }
+    // }
+    // return highestDomNodes;
 }
 
 

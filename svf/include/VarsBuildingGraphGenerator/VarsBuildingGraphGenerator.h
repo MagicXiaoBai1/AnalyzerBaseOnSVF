@@ -59,7 +59,8 @@ private:
 
     // 关键步骤依赖的底层算法
 
-    std::vector<NodeID> filterByDomRelation(std::vector<NodeID> APINodes);
+    std::vector<NodeID> filterByDomRelation(const std::vector<const APINode*>& apiNodesUseDefedNode, 
+        const std::vector<const APINode*>& candidates);
     
 
     APINode* getAPINodeByID(NodeID id) {

@@ -35,12 +35,12 @@ public:
 
 class APIDefUseInfo{
 public:
-    ICFGNode* node;
+    const ICFGNode* node;
     std::vector<PointerVar> defPointerVarIDs;
     std::vector<PointerVar> usePointerVarIDs;
 
     APIDefUseInfo(
-        ICFGNode* node,
+        const ICFGNode* node,
         const std::vector<PointerVar>& defPointerVarIDs,
         const std::vector<PointerVar>& usePointerVarIDs)
         : node(node),

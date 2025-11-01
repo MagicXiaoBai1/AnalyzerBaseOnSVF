@@ -36,7 +36,8 @@ std::string BaseObjectNode::toString() const {
 std::string PointerVar::toString() const{
     std::string str;
     std::stringstream rawstr(str);
-    rawstr <<  "PointerVar: " + (var ? var->toString() : "nullptr");
+    // rawstr <<  "PointerVar: " + (var ? var->toString() : "nullptr");
+    rawstr <<  "PointerVar: " + (var ? std::to_string(var->getId()) : "nullptr");
     for (const ConstValueNode& constVal : pointedConstValues){
         rawstr << "\n  pointsTo ConstValue: " << constVal.toString();
     }
@@ -53,15 +54,18 @@ std::string APINode::toString() const {
     std::string str;
     std::stringstream rawstr(str);
 
-    ICFGNode* node = defUseInfo.node;
+    const ICFGNode* node = defUseInfo.node;
 
     if (isa<CallICFGNode>(node)){
-        rawstr << "APINode: CallICFGNode" << node->getId();
+        rawstr << "APINode: CallICFGNode " << node->getId();
+        rawstr << "  callees: ";
+        PTACallGraph::FunctionSet callees;
+        AnalysisGraphManager::getInstance().getPTA()->getCallGraph()->getCallees(static_cast<const CallICFGNode*>(node), callees);
+        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
+        {
+            rawstr << (*cit)->getName() <<", ";
+        }
         rawstr << " {fun: " << node->getFun()->getName() << node->ICFGNode::getSourceLoc() << "}";
-        // for (const SVFStmt *stmt : getSVFStmts())
-        //     rawstr << "\n" << stmt->toString();
-        // if(getSVFStmts().empty())
-        //     rawstr << "\n" << valueOnlyToString();
     } else {
         rawstr << "APINode: " + std::to_string(id) + " " + defUseInfo.node->toString();
     }

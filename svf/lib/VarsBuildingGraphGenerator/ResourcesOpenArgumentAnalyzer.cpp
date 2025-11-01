@@ -15,7 +15,7 @@ using namespace SVFUtil;
 
 
 
-void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
+void ResourcesOpenArgumentAnalyzerNew::analyze(SVFModule* module)
 {
     varsBuildingGraphGenerator.initialize(module);
     // 找所有资源打开函数的调用点
@@ -66,7 +66,7 @@ void ResourcesOpenArgumentAnalyzer::analyze(SVFModule* module)
 }
 
 
-std::string ResourcesOpenArgumentAnalyzer::analyzeStrVar(const ParamInCallCite& targetCite, std::string outputFilePath){
+std::string ResourcesOpenArgumentAnalyzerNew::analyzeStrVar(const ParamInCallCite& targetCite, std::string outputFilePath){
     // 检查是否为常量
     if (targetCite.ParamPAGNode->getValue()->holdConstant()) {
         return __getStrFromPAGNode(targetCite.ParamPAGNode);
@@ -82,7 +82,7 @@ std::string ResourcesOpenArgumentAnalyzer::analyzeStrVar(const ParamInCallCite& 
 }
 
 
-FileOpenCite ResourcesOpenArgumentAnalyzer::analyzeFileOpenSite(const FileOpenCite& openCite, std::string outputFilePath)
+FileOpenCite ResourcesOpenArgumentAnalyzerNew::analyzeFileOpenSite(const FileOpenCite& openCite, std::string outputFilePath)
 {
     FileOpenCite result = openCite;
     // 检查是否为常量
@@ -100,7 +100,7 @@ FileOpenCite ResourcesOpenArgumentAnalyzer::analyzeFileOpenSite(const FileOpenCi
  * @brief 找到所有FileOpen类函数调用点
  *
  */
-std::vector<FileOpenCite> ResourcesOpenArgumentAnalyzer::initFileOpens() {
+std::vector<FileOpenCite> ResourcesOpenArgumentAnalyzerNew::initFileOpens() {
 
     std::vector<FileOpenCite> fopenCallSites;
 

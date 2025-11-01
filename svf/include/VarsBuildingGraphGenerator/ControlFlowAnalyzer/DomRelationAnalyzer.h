@@ -3,6 +3,7 @@
 
 #include "Util/Options.h"
 #include "Graphs/ICFGNode.h"
+#include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
 #include "VarsBuildingTreeGenerator/OpenReadWriteFuncInfo.h"
 #include <unordered_map>
 #include <vector>
@@ -32,6 +33,18 @@ public:
         // todo
         return false;
     }
+
+    std::vector<NodeID> filterNearestSuccessorNode(std::vector<const ICFGNode*>& predecessors, std::vector<const ICFGNode*>& candidates);
+
+    private:
+    typedef SVF::GenericGraphTraits<SVF::Inverse<ICFGNode *> > InvGTraits;
+    typedef typename InvGTraits::ChildIteratorType inv_child_iterator;
+
+    inline ICFGNode* getNode(NodeID id) const
+    {
+        return AnalysisGraphManager::getInstance().getICFG()->getGNode(id);
+    }
+
 };
 
 } // namespace SVF

@@ -185,25 +185,7 @@ public:
         allLayers.push_back(std::move(layer));
     }
 
-    std::string toString() const {
-        std::string result = "VarsBuildingGraph:\n";
-        result += "Root Node: " + rootNode->toString() + "\n";
-        for (size_t i = 0; i < allLayers.size(); ++i) {
-            result += "Layer " + std::to_string(i) + ":\n";
-            const auto& layer = allLayers[i];
-            result += "  BaseObjectNodes:\n";
-            for (const auto& baseObjNodePtr : layer.first) {
-                result += "    " + baseObjNodePtr->toString() + "\n";
-            }
-            result += "  APINodes:\n";
-            for (const auto& apiNodePtr : layer.second) {
-                result += "    " + apiNodePtr->toString() + "\n";
-            }
-        }
-        
-        return result;
-    }
-    
+    std::string toString() const;
 };
 
 

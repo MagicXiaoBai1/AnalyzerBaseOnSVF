@@ -16,62 +16,129 @@ using namespace SVFUtil;
 
 
 std::string BaseObjectNode::toString() const {
-    std::string res;
-    
+    std::stringstream ss;
+    ss << "{";
+    ss << "\"id\": " << id << ", ";
+    ss << "\"baseObject\": ";
     if (!baseObject) {
-        res =  "BaseObjectNode: null baseObject";
+        ss << "null";
     } else {
-        // res = "BaseObjectNode id: " + std::to_string(id) + " " + baseObject->toString();
-        res = "BaseObjectNode id: " + std::to_string(id);
+        ss << "\"BaseObjectNode id: " << id << "\"";
     }
-    if (!apiDefThis.empty()) {
-        res += "\n  defined by APINodes:";
-        for (const APINode* apiNode : apiDefThis) {
-            res += "\n    " + std::to_string(apiNode->id);
-        }
+    ss << ", \"apiDefThis\": [";
+    for (size_t i = 0; i < apiDefThis.size(); ++i) {
+        if (i > 0) ss << ", ";
+        ss << apiDefThis[i]->id;
     }
-    return res;
+    ss << "]";
+    ss << "}";
+    return ss.str();
 }
 
 std::string PointerVar::toString() const{
-    std::string str;
-    std::stringstream rawstr(str);
-    // rawstr <<  "PointerVar: " + (var ? var->toString() : "nullptr");
-    rawstr <<  "PointerVar: " + (var ? std::to_string(var->getId()) : "nullptr");
-    for (const ConstValueNode& constVal : pointedConstValues){
-        rawstr << "\n  pointsTo ConstValue: " << constVal.toString();
+    std::stringstream ss;
+    ss << "{";
+    ss << "\"id\": " << (var ? std::to_string(var->getId()) : "null") << ", ";
+    ss << "\"pointsToConstValues\": [";
+    for (size_t i = 0; i < pointedConstValues.size(); ++i) {
+        if (i > 0) ss << ", ";
+        ss << "\"" << pointedConstValues[i].toString() << "\"";
     }
-
+    ss << "], ";
+    ss << "\"pointsToBaseObjects\": [";
+    bool first = true;
     for (const BaseObjectNode* baseObj : pointedBaseObjects){
-        if (! baseObj) continue;
-        rawstr << "\n  pointsTo BaseObject: " << std::to_string(baseObj->id);
+        if (!baseObj) continue;
+        if (!first) ss << ", ";
+        ss << baseObj->id;
+        first = false;
     }
-
-    return rawstr.str();
+    ss << "]";
+    ss << "}";
+    return ss.str();
 }
 
+
 std::string APINode::toString() const {
-    std::string str;
-    std::stringstream rawstr(str);
-
+    std::stringstream ss;
     const ICFGNode* node = defUseInfo.node;
-
-    if (isa<CallICFGNode>(node)){
-        rawstr << "APINode: CallICFGNode " << node->getId();
-        rawstr << "  callees: ";
+    ss << "{";
+    ss << "\"id\": " << id << ", ";
+    ss << "\"type\": \"";
+    if (isa<CallICFGNode>(node)) {
+        ss << "CallICFGNode\", ";
+        ss << "\"nodeId\": " << node->getId() << ", ";
+        ss << "\"callees\": [";
         PTACallGraph::FunctionSet callees;
         AnalysisGraphManager::getInstance().getPTA()->getCallGraph()->getCallees(static_cast<const CallICFGNode*>(node), callees);
-        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++)
-        {
-            rawstr << (*cit)->getName() <<", ";
+        bool first = true;
+        for(PTACallGraph::FunctionSet::const_iterator cit = callees.begin(), ecit = callees.end(); cit!=ecit; cit++) {
+            if (!first) ss << ", ";
+            ss << "\"" << (*cit)->getName() << "\"";
+            first = false;
         }
-        rawstr << " {fun: " << node->getFun()->getName() << node->ICFGNode::getSourceLoc() << "}";
+        ss << "], ";
+        // 解析 getSourceLoc()
+        std::string srcLoc = node->ICFGNode::getSourceLoc();
+        size_t bracePos = srcLoc.find('{');
+        std::string funName = node->getFun()->getName();
+        ss << "\"loc\": { ";
+        ss << "\"fun\": \"" << funName << "\",";
+        if (bracePos != std::string::npos) {
+            std::string locJson = srcLoc.substr(bracePos + 1);
+            if (!locJson.empty() && locJson.back() == '}') locJson.pop_back();
+            ss << locJson;
+        }
+        ss << " }";
     } else {
-        rawstr << "APINode: " + std::to_string(id) + " " + defUseInfo.node->toString();
+        ss << "Other\", ";
+        std::string srcLoc = defUseInfo.node->ICFGNode::getSourceLoc();
+        size_t bracePos = srcLoc.find('{');
+        ss << "\"loc\": { ";
+        ss << "\"fun\": \"" << defUseInfo.node->getFun()->getName() << "\",";
+        if (bracePos != std::string::npos) {
+            std::string locJson = srcLoc.substr(bracePos + 1);
+            if (!locJson.empty() && locJson.back() == '}') locJson.pop_back();
+            ss << locJson;
+        }
+        ss << " }";
     }
-    for(const PointerVar& useVar : defUseInfo.usePointerVarIDs){
-        rawstr << "\n  usePointerVar: " << useVar.toString();
+    ss << ", \"usePointerVars\": [";
+    for (size_t i = 0; i < defUseInfo.usePointerVarIDs.size(); ++i) {
+        if (i > 0) ss << ", ";
+        ss << "\"" << defUseInfo.usePointerVarIDs[i].toString() << "\"";
     }
-    return rawstr.str();
+    ss << "]";
+    ss << "}";
+    return ss.str();
+}
 
+
+std::string VarsBuildingGraph::toString() const {
+    std::stringstream ss;
+    ss << "{";
+    ss << "\"RootNode\": " << "\"" << rootNode->toString() << "\",";
+    ss << "\"Layers\": [";
+    for (size_t i = 0; i < allLayers.size(); ++i) {
+        if (i > 0) ss << ", ";
+        ss << "{";
+        ss << "\"Layer\": " << i << ", ";
+        const auto& layer = allLayers[i];
+        ss << "\"BaseObjectNodes\": [";
+        for (size_t j = 0; j < layer.first.size(); ++j) {
+            if (j > 0) ss << ", ";
+            ss << layer.first[j]->toString();
+        }
+        ss << "], ";
+        ss << "\"APINodes\": [";
+        for (size_t k = 0; k < layer.second.size(); ++k) {
+            if (k > 0) ss << ", ";
+            ss << layer.second[k]->toString();
+        }
+        ss << "]";
+        ss << "}";
+    }
+    ss << "]";
+    ss << "}";
+    return ss.str();
 }

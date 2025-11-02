@@ -467,6 +467,13 @@ const Option<std::string> Options::ParamAnalysisResult(
     ""
 );
 
+const Option<std::string> Options::OpenHarmonyRootPath(
+    "openharmony-compile-root",
+    "OpenHarmony root path",
+    ""
+);
+
+
 
 
 const Option<bool> Options::IntraLock(

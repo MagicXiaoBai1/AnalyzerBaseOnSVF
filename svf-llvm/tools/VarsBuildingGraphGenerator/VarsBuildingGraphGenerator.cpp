@@ -3,7 +3,7 @@
 #include "SVF-LLVM/SVFIRBuilder.h"
 
 
-#include "VarsBuildingGraphGenerator/ResourcesOpenArgumentAnalyzer.h"
+#include "VarsBuildingGraphGenerator/ResourcesOpenArgumentAnalyzerNew.h"
 
 #include "Util/CommandLine.h"
 #include "Util/Options.h"

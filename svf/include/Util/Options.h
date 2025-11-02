@@ -153,6 +153,7 @@ public:
     static const Option<std::string> ReadTaintConfig;
     static const Option<std::string> HandleApiConfig;
     static const Option<std::string> ParamAnalysisResult;
+    static const Option<std::string> OpenHarmonyRootPath;
 
     // LockAnalysis.cpp
     static const Option<bool> IntraLock;

@@ -14,6 +14,80 @@
 using namespace SVF;
 using namespace SVFUtil;
 
+#include <filesystem>
+#include <fstream>
+
+std::string getSourceCode(const std::string& relativePath, int startLine, int startCol) {
+    std::string openHarmonyRootPath = Options::OpenHarmonyRootPath();
+    std::filesystem::path rootPath(openHarmonyRootPath);
+    std::filesystem::path relPath(relativePath);
+    std::filesystem::path fullPath = rootPath / relPath;
+    std::ifstream file(fullPath);
+    if (!file.is_open()) {
+        return "";
+    }
+
+    std::string line;
+    int currentLine = 1;
+    while (std::getline(file, line)) {
+        if (currentLine == startLine) {
+            if (startCol > 0 && startCol <= static_cast<int>(line.size())) {
+                file.close();
+                return line.substr(startCol - 1); // 返回从startCol开始的内容
+            } else {
+                file.close();
+                return line; // 返回整行
+            }
+        }
+        currentLine++;
+    }
+
+    file.close();
+    return ""; // 如果没有找到指定行，返回空字符串
+}
+
+std::string generateSourceInfo(const ICFGNode* node){
+    std::stringstream ss;
+    std::string srcLoc = node->ICFGNode::getSourceLoc();
+    size_t bracePos = srcLoc.find('{');
+    std::string funName = node->getFun()->getName();
+    int line = -1, col = -1;
+    std::string filePath;
+    ss << "{ ";
+    ss << "\"fun\": \"" << funName << "\",";
+    if (bracePos != std::string::npos) {
+        std::string locJson = srcLoc.substr(bracePos + 1);
+        if (!locJson.empty() && locJson.back() == '}') locJson.pop_back();
+        ss << locJson;
+
+        // 解析行号、列号和文件路径
+        size_t lnPos = locJson.find("\"ln\":");
+        size_t clPos = locJson.find("\"cl\":");
+        size_t flPos = locJson.find("\"fl\":");
+        if (lnPos != std::string::npos) {
+            line = std::stoi(locJson.substr(lnPos + 5, locJson.find(',', lnPos) - (lnPos + 5)));
+        }
+        if (clPos != std::string::npos) {
+            col = std::stoi(locJson.substr(clPos + 5, locJson.find(',', clPos) - (clPos + 5)));
+        }
+        if (flPos != std::string::npos) {
+            size_t start = locJson.find('"', flPos + 5);
+            size_t end = locJson.find('"', start + 1);
+            if (start != std::string::npos && end != std::string::npos) {
+                filePath = locJson.substr(start + 1, end - start - 1);
+            }
+        }
+    }
+    // 获取源码
+    std::string rawCode;
+    if (!filePath.empty() && line > 0 && col > 0) {
+        rawCode = getSourceCode(filePath, line, col);
+    }
+    ss << ", \"rawCode\": \"" << rawCode << "\"";
+    ss << " }";
+    return ss.str();
+}
+
 
 std::string BaseObjectNode::toString() const {
     std::stringstream ss;
@@ -78,23 +152,15 @@ std::string APINode::toString() const {
             first = false;
         }
         ss << "], ";
-        // 解析 getSourceLoc()
-        std::string srcLoc = node->ICFGNode::getSourceLoc();
-        size_t bracePos = srcLoc.find('{');
-        std::string funName = node->getFun()->getName();
-        ss << "\"loc\": { ";
-        ss << "\"fun\": \"" << funName << "\",";
-        if (bracePos != std::string::npos) {
-            std::string locJson = srcLoc.substr(bracePos + 1);
-            if (!locJson.empty() && locJson.back() == '}') locJson.pop_back();
-            ss << locJson;
-        }
+        ss << "\"loc\" : ";
+        ss << generateSourceInfo(node);
         ss << " }";
     } else {
         ss << "Other\", ";
         std::string srcLoc = defUseInfo.node->ICFGNode::getSourceLoc();
         size_t bracePos = srcLoc.find('{');
         ss << "\"loc\": { ";
+
         ss << "\"fun\": \"" << defUseInfo.node->getFun()->getName() << "\",";
         if (bracePos != std::string::npos) {
             std::string locJson = srcLoc.substr(bracePos + 1);

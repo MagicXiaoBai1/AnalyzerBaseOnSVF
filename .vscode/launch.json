@@ -8,8 +8,10 @@
       "program": "${workspaceFolder}/Debug-build/bin/VarsBuildingGraphGenerator",
       "args": [
         "i_sdemo_service.ll",
+        "-openharmony-compile-root",
+        "/home/OpenHarmony/out/rk3568",
         "-param-analysis-result-path",
-        "params_analysis_result666.json"
+        "params_analysis_result_new.json"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}/simple_test_case",

@@ -1,4 +1,4 @@
-#include "VarsBuildingGraphGenerator/ResourcesOpenArgumentAnalyzer.h"
+#include "VarsBuildingGraphGenerator/ResourcesOpenArgumentAnalyzerNew.h"
 
 #include "VarsBuildingTreeGenerator/OpenReadWriteFuncInfo.h"
 #include "VarsBuildingTreeGenerator/Util/AnalysisGraphManager.h"
@@ -43,9 +43,9 @@ void ResourcesOpenArgumentAnalyzerNew::analyze(SVFModule* module)
         allResults.push_back(result);
         // 保存分析结果
         f << i << "th Open Function: " << result.functionName << ", location: " << result.pathParam.callCite->getSourceLoc() << ", Path Param: " 
-          << (result.openPathRex.size() > 0 ? result.openPathRex : "null")
+          << (result.openPathRex.size() > 0 ?  "\"\"\"" + result.openPathRex + "\"\"\"" : "null")
           << ", Mode Param: " 
-          << (result.mode.size() > 0 ? result.mode : "null")
+          << (result.mode.size() > 0 ? "\"\"\"" + result.mode + "\"\"\"" : "null")
           << std::endl;
         ++i;
     }
@@ -53,9 +53,9 @@ void ResourcesOpenArgumentAnalyzerNew::analyze(SVFModule* module)
     i = 1;
     for(const FileOpenCite& result : allResults) {
         std::cout << i << "th Open Function: " << result.functionName << ", location: " << result.pathParam.callCite->getSourceLoc() << ", Path Param: " 
-                  << (result.openPathRex.size() > 0 ? result.openPathRex : "null")
+                  << (result.openPathRex.size() > 0 ? "\"\"\"" + result.openPathRex + "\"\"\"" : "null")
                   << ", Mode Param: " 
-                  << (result.mode.size() > 0 ? result.mode : "null")
+                  << (result.mode.size() > 0 ? "\"\"\"" + result.mode + "\"\"\"": "null")
                   << std::endl;
 
         i++;

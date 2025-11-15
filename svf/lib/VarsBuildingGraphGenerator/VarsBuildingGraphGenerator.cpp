@@ -396,6 +396,19 @@ void VarsBuildingGraphGenerator::finalProcessingVFG(){
     
 
     // 2. 剪枝：删掉BVG中多余的BaseObjectNode
+    if (varsBuildingGraph->allLayers.size() > 1){
+        VarsBuildingGraph::VarsBuildingGraphLayer& firstLayer = varsBuildingGraph->allLayers[0];
+        VarsBuildingGraph::BaseObjectNodesInOneLayer & baseObjNodes = firstLayer.first;
+
+        for (auto it = baseObjNodes.begin(); it != baseObjNodes.end(); ) {
+            BaseObjectNode* baseObjNode = it->get();
+            if (baseObjNode->apiDefThis.empty()) {
+                it = baseObjNodes.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
 
     for (size_t i = 0; i + 1 < varsBuildingGraph->allLayers.size(); ++i) {
         VarsBuildingGraph::VarsBuildingGraphLayer& currentLayer = varsBuildingGraph->allLayers[i];

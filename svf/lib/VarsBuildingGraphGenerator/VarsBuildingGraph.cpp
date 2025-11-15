@@ -154,9 +154,8 @@ std::string APINode::toString() const {
         ss << "], ";
         ss << "\"loc\" : ";
         ss << generateSourceInfo(node);
-        ss << " }";
     } else {
-        ss << "Other\", ";
+        ss << "Store\", ";
         std::string srcLoc = defUseInfo.node->ICFGNode::getSourceLoc();
         size_t bracePos = srcLoc.find('{');
         ss << "\"loc\": { ";
@@ -167,12 +166,12 @@ std::string APINode::toString() const {
             if (!locJson.empty() && locJson.back() == '}') locJson.pop_back();
             ss << locJson;
         }
-        ss << " }";
+        ss << "  }";
     }
     ss << ", \"usePointerVars\": [";
     for (size_t i = 0; i < defUseInfo.usePointerVarIDs.size(); ++i) {
         if (i > 0) ss << ", ";
-        ss << "\"" << defUseInfo.usePointerVarIDs[i].toString() << "\"";
+        ss << "" << defUseInfo.usePointerVarIDs[i].toString() << "";
     }
     ss << "]";
     ss << "}";
@@ -183,7 +182,7 @@ std::string APINode::toString() const {
 std::string VarsBuildingGraph::toString() const {
     std::stringstream ss;
     ss << "{";
-    ss << "\"RootNode\": " << "\"" << rootNode->toString() << "\",";
+    ss << "\"RootNode\": " << rootNode->toString() << ",";
     ss << "\"Layers\": [";
     for (size_t i = 0; i < allLayers.size(); ++i) {
         if (i > 0) ss << ", ";

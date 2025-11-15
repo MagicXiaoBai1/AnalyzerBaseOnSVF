@@ -80,10 +80,11 @@ void VarsBuildingGraphGenerator::initialize(SVFModule* module)
             varsNeedCalculate.push_back(pointerVar.var);
         }
     }
+    
     // 去重
     std::sort(varsNeedCalculate.begin(), varsNeedCalculate.end());
     varsNeedCalculate.erase(std::unique(varsNeedCalculate.begin(), varsNeedCalculate.end()), varsNeedCalculate.end());
-    // 计算
+    
     BVDataPTAImpl* pta = AnalysisGraphManager::getInstance().getPTA();
     for (const SVFVar* var : varsNeedCalculate) {
         PointsTo pts = pta->getPts(var->getId());
@@ -395,8 +396,31 @@ void VarsBuildingGraphGenerator::finalProcessingVFG(){
     
 
     // 2. 剪枝：删掉BVG中多余的BaseObjectNode
-    for( VarsBuildingGraph::VarsBuildingGraphLayer& layer : varsBuildingGraph->allLayers){
-        VarsBuildingGraph::BaseObjectNodesInOneLayer & baseObjNodes = layer.first;
+
+    for (size_t i = 0; i + 1 < varsBuildingGraph->allLayers.size(); ++i) {
+        VarsBuildingGraph::VarsBuildingGraphLayer& currentLayer = varsBuildingGraph->allLayers[i];
+        VarsBuildingGraph::VarsBuildingGraphLayer& nextLayer = varsBuildingGraph->allLayers[i + 1];
+
+        std::unordered_set<NodeID> baseObjNodesToDelete;
+
+        VarsBuildingGraph::BaseObjectNodesInOneLayer & baseObjNodes = nextLayer.first;
+        for (auto it = baseObjNodes.begin(); it != baseObjNodes.end(); ++it) {
+            BaseObjectNode* baseObjNode = it->get();
+            if (baseObjNode->apiDefThis.empty()) {
+                baseObjNodesToDelete.insert(baseObjNode->id);
+            }
+        }
+        // 删掉 pointerVar.pointedBaseObjects中需要删除的BaseObjectNode
+        for (APINode* apiNode : currentLayer.second) {
+            for (PointerVar& pointerVar : apiNode->defUseInfo.usePointerVarIDs) {
+                pointerVar.pointedBaseObjects.erase(
+                    std::remove_if(pointerVar.pointedBaseObjects.begin(), pointerVar.pointedBaseObjects.end(),
+                                   [&baseObjNodesToDelete](BaseObjectNode* baseObjNode) {
+                                       return baseObjNodesToDelete.find(baseObjNode->id) != baseObjNodesToDelete.end();
+                                   }),
+                    pointerVar.pointedBaseObjects.end());
+            }
+        }
         for (auto it = baseObjNodes.begin(); it != baseObjNodes.end(); ) {
             BaseObjectNode* baseObjNode = it->get();
             if (baseObjNode->apiDefThis.empty()) {
@@ -406,6 +430,5 @@ void VarsBuildingGraphGenerator::finalProcessingVFG(){
             }
         }
     }
-
-
 }
+

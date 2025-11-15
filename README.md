@@ -40,4 +40,5 @@ nohup bash ${workspaceFolder}/real_example/result/run.sh <ll_dir> > run.log 2>&1
 ./build.sh debug
 # 增量编译
 cmake --build ./Debug-build -j 8
+cmake --build ./Release-build -j 8
 ```

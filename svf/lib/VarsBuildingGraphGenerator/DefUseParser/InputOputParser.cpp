@@ -1,4 +1,5 @@
 #include <iostream>
+#include <regex>
 
 #include "Graphs/VFGNode.h"
 #include "SVFIR/SVFStatements.h"
@@ -10,6 +11,19 @@
 using namespace SVF;
 using namespace SVFUtil;
 
+
+bool isNeedSkip(ICFGNode* node) {
+    /* 执行剪枝 */
+    /*
+    "fl": "../../prebuilts/clang/ohos/linux-x86_64/llvm/bin/../include/libcxx-ohos/include/c++/v1/__hash_table"
+    */
+    std::string srcLoc = node->ICFGNode::getSourceLoc();
+    std::regex pattern("\"fl\": \".*include/libcxx-ohos/include/c++.*\"");
+    if (isa<IntraICFGNode>(node) && std::regex_search(srcLoc, pattern)) {
+        return true;
+    }
+    return false;
+}
 
 /*
 获取PointedVarParser的定义-使用关系
@@ -25,6 +39,7 @@ using namespace SVFUtil;
     1. 这种节点基本为控制流相关节点，不太用处理
 */
 std::vector<InputOputParser::PointerVar> InputOputParser::parseOutputPointerVar(ICFGNode* node) {
+    if(isNeedSkip(node)) return {};
     std::vector<PointerVar> result;
 
     if (isa<CallICFGNode>(node)) 
@@ -44,6 +59,7 @@ std::vector<InputOputParser::PointerVar> InputOputParser::parseOutputPointerVar(
         // 处理 IntraICFGNode 类型
         for (const SVFStmt* stmt : node->getSVFStmts()){
             if(isa<StoreStmt>(stmt)){
+
                 InputOputParser::PointerVar subRes = parseOutputPointerVarInStoreStmt(node, stmt);
                 result.push_back(subRes);
             }
@@ -107,6 +123,8 @@ std::vector<InputOputParser::PointerVar> InputOputParser::parseOutputPointerVarI
 
 
 std::vector<InputOputParser::PointerVar> InputOputParser::parseInputPointerVar(ICFGNode* node) {
+    if(isNeedSkip(node)) return {};
+    
     std::vector<InputOputParser::PointerVar> result;
 
     if (isa<CallICFGNode>(node)) {

@@ -125,7 +125,7 @@ public:
         if (type == ConstType::Integer)
             return "ConstValueNode(Int: " + std::to_string(constantIntValue) + ")";
         else if (type == ConstType::String)
-            return "ConstValueNode(Str: " + constantValue + ")";
+            return "ConstValueNode(Str: \'" + constantValue + "\')";
         else
             return "ConstValueNode(Unknown)";
     }
